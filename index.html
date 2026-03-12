@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pattern Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #F4F0E8;
+    --ink: #1a1714;
+    --ink-mid: #2e2a25;
+    --ink-faint: rgba(26,23,20,0.38);
+    --ink-very-faint: rgba(26,23,20,0.18);
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--cream);
+    overflow: hidden;
+  }
+
+  /* === Canvas texture layer === */
+  canvas#texture {
+    position: fixed;
+    inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* === Main layout === */
+  .page {
+    position: relative;
+    z-index: 1;
+    width: 100%; height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem;
+  }
+
+  /* === Domain label === */
+  .domain {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* === Center block === */
+  .center {
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .label {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 2.2rem;
+    animation: fadeUp 1.4s ease both;
+  }
+
+  .rule {
+    width: 40px;
+    height: 1px;
+    background: var(--ink-very-faint);
+    margin-bottom: 2.4rem;
+    animation: fadeUp 1.4s 0.1s ease both;
+  }
+
+  /* === Quote === */
+  .quote-wrap {
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2.4rem;
+  }
+
+  .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 3.8vw, 27px);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--ink-mid);
+    letter-spacing: 0.01em;
+    transition: opacity 0.8s ease;
+  }
+
+  .quote.hidden { opacity: 0; }
+  .quote.visible { opacity: 1; }
+
+  .rule2 {
+    width: 40px;
+    height: 1px;
+    background: var(--ink-very-faint);
+    margin-bottom: 2.2rem;
+    animation: fadeUp 1.4s 0.3s ease both;
+  }
+
+  .tagline {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    animation: fadeUp 1.4s 0.4s ease both;
+  }
+
+  /* === Footer === */
+  .footer {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-very-faint);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="texture"></canvas>
+
+<div class="page">
+  <div class="domain">patterntest.xyz</div>
+
+  <div class="center">
+    <div class="label">Pattern Test</div>
+    <div class="rule"></div>
+    <div class="quote-wrap">
+      <p class="quote visible" id="quote-el"></p>
+    </div>
+    <div class="rule2"></div>
+    <div class="tagline">Quizzes that help you see yourself clearly</div>
+  </div>
+
+  <div class="footer">© 2025 Pattern Test</div>
+</div>
+
+<script>
+/* === Painterly canvas texture === */
+(function() {
+  const canvas = document.getElementById('texture');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    draw();
+  }
+
+  function draw() {
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    /* --- broad, loose brush strokes (dark ink, very low alpha) --- */
+    const strokes = [
+      { x: W * 0.05, y: H * 0.08, w: W * 0.38, h: H * 0.22, a: -0.04 },
+      { x: W * 0.62, y: H * 0.04, w: W * 0.42, h: H * 0.18, a:  0.03 },
+      { x: W * 0.0,  y: H * 0.52, w: W * 0.30, h: H * 0.28, a: -0.06 },
+      { x: W * 0.70, y: H * 0.60, w: W * 0.35, h: H * 0.32, a:  0.05 },
+      { x: W * 0.28, y: H * 0.78, w: W * 0.50, h: H * 0.16, a: -0.02 },
+      { x: W * 0.55, y: H * 0.30, w: W * 0.20, h: H * 0.40, a:  0.08 },
+      { x: W * 0.10, y: H * 0.35, w: W * 0.18, h: H * 0.30, a: -0.05 },
+    ];
+
+    strokes.forEach(s => {
+      ctx.save();
+      ctx.translate(s.x + s.w / 2, s.y + s.h / 2);
+      ctx.rotate(s.a);
+
+      /* layered semi-transparent fills for a painterly bleed */
+      for (let i = 0; i < 6; i++) {
+        const alpha = 0.018 + Math.random() * 0.022;
+        ctx.fillStyle = `rgba(18,14,10,${alpha})`;
+        const dx = (Math.random() - 0.5) * 12;
+        const dy = (Math.random() - 0.5) * 8;
+        const rw = s.w * (0.85 + Math.random() * 0.3);
+        const rh = s.h * (0.7  + Math.random() * 0.4);
+        ctx.beginPath();
+        ctx.ellipse(dx, dy, rw / 2, rh / 2, Math.random() * 0.3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    });
+
+    /* --- grain overlay --- */
+    const imageData = ctx.getImageData(0, 0, W, H);
+    const data = imageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+      const noise = (Math.random() - 0.5) * 18;
+      data[i]   = Math.max(0, Math.min(255, data[i]   + noise));
+      data[i+1] = Math.max(0, Math.min(255, data[i+1] + noise));
+      data[i+2] = Math.max(0, Math.min(255, data[i+2] + noise));
+    }
+    ctx.putImageData(imageData, 0, 0);
+
+    /* --- edge vignette --- */
+    const vignette = ctx.createRadialGradient(W/2, H/2, H*0.2, W/2, H/2, H*0.85);
+    vignette.addColorStop(0, 'rgba(18,14,10,0)');
+    vignette.addColorStop(1, 'rgba(18,14,10,0.13)');
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, W, H);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+})();
+
+/* === Rotating quotes === */
+(function() {
+  const quotes = [
+    "The patterns you repeat are the ones you haven't named yet.",
+    "You can't outrun a loop you haven't noticed.",
+    "Most decisions feel new. Most aren't.",
+    "Awareness is the first interruption.",
+    "What you avoid reveals more than what you choose.",
+    "The self you perform eventually becomes the self you live.",
+    "Recognition is not the same as change — but it is the beginning.",
+    "Every habit is a question waiting to be asked.",
+    "What you call instinct is often just repetition.",
+    "The exit is usually where you stopped looking.",
+  ];
+
+  const el = document.getElementById('quote-el');
+  let current = Math.floor(Math.random() * quotes.length);
+
+  function showQuote(index) {
+    el.classList.remove('visible');
+    el.classList.add('hidden');
+    setTimeout(() => {
+      el.textContent = '\u201C' + quotes[index] + '\u201D';
+      el.classList.remove('hidden');
+      el.classList.add('visible');
+    }, 820);
+  }
+
+  /* initial quote after page load animation */
+  setTimeout(() => showQuote(current), 600);
+
+  /* rotate every 7 seconds */
+  setInterval(() => {
+    current = (current + 1) % quotes.length;
+    showQuote(current);
+  }, 7000);
+})();
+</script>
+</body>
+</html>
