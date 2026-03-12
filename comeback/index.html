@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pelvic Floor Pattern Test — The Quiet Comeback</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #FFFDF9;
+    --sage: #8A9E8C;
+    --sage-light: #C4D4C6;
+    --sage-dark: #5C7A5E;
+    --clay: #C4856A;
+    --clay-light: #E8C4B4;
+    --charcoal: #2C2C2C;
+    --mid: #6B6B6B;
+    --light: #A8A8A8;
+    --border: #E8E2D9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 48px 20px 60px;
+  }
+
+  @media (min-height: 700px) and (max-content-height: 600px) {
+    body { align-items: center; }
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(138,158,140,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(196,133,106,0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 560px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* SCREENS */
+  .screen {
+    display: none;
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .screen.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    margin-bottom: 40px;
+    display: none;
+  }
+  .progress-wrap.visible { display: block; }
+
+  .progress-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .progress-track {
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sage), var(--clay));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  /* WELCOME SCREEN */
+  .welcome-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  .welcome-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 7vw, 48px);
+    line-height: 1.15;
+    color: var(--charcoal);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .welcome-title em {
+    font-style: italic;
+    color: var(--sage-dark);
+  }
+
+  .welcome-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--mid);
+    font-weight: 300;
+    margin-bottom: 12px;
+  }
+
+  .welcome-sub strong {
+    color: var(--charcoal);
+    font-weight: 500;
+  }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--sage-light);
+    margin: 28px 0;
+  }
+
+  .welcome-meta {
+    font-size: 13px;
+    color: var(--light);
+    font-weight: 300;
+    margin-bottom: 36px;
+    letter-spacing: 0.02em;
+  }
+
+  /* BUTTONS */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--charcoal);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 18px 36px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 52px;
+  }
+
+  .btn-primary:hover {
+    background: var(--sage-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary .arrow {
+    transition: transform 0.25s ease;
+  }
+
+  .btn-primary:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  .btn-cta {
+    display: block;
+    width: 100%;
+    background: var(--clay);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 18px 32px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 32px;
+  }
+
+  .btn-cta:hover {
+    background: #B3745A;
+    transform: translateY(-1px);
+  }
+
+  /* QUESTION SCREEN */
+  .q-number {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--light);
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  .q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 5vw, 30px);
+    line-height: 1.3;
+    color: var(--charcoal);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--warm-white);
+    border: 1.5px solid var(--border);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 15px;
+    color: var(--charcoal);
+    font-weight: 300;
+    text-align: left;
+    min-height: 56px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .option:hover {
+    border-color: var(--sage);
+    background: #F5FAF5;
+    transform: translateX(3px);
+  }
+
+  .option.selected {
+    border-color: var(--sage-dark);
+    background: #EDF3EE;
+    color: var(--sage-dark);
+    font-weight: 500;
+  }
+
+  .option-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .option.selected .option-dot {
+    border-color: var(--sage-dark);
+    background: var(--sage-dark);
+  }
+
+  .option.selected .option-dot::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+  }
+
+  .btn-next {
+    margin-top: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--charcoal);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid var(--charcoal);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .btn-next.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .btn-next:hover {
+    color: var(--sage-dark);
+    border-color: var(--sage-dark);
+    gap: 12px;
+  }
+
+  /* RESULT SCREEN */
+  .result-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--clay);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .result-pattern {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 6vw, 38px);
+    line-height: 1.2;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .result-pattern em {
+    font-style: italic;
+    color: var(--sage-dark);
+  }
+
+  .result-divider {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--sage), var(--clay));
+    margin: 24px 0;
+  }
+
+  .result-body {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--mid);
+    font-weight: 300;
+    margin-bottom: 8px;
+  }
+
+  .result-body strong {
+    color: var(--charcoal);
+    font-weight: 500;
+  }
+
+  .result-highlight {
+    background: linear-gradient(135deg, #EDF3EE, #F5F0EB);
+    border-left: 3px solid var(--sage);
+    padding: 20px 24px;
+    margin: 28px 0;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .result-highlight p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--charcoal);
+    font-weight: 400;
+  }
+
+  .result-transition {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--charcoal);
+    font-style: italic;
+    margin: 28px 0 4px;
+  }
+
+  .price-note {
+    font-size: 12px;
+    color: var(--light);
+    text-align: center;
+    margin-top: 12px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ANALYZING SCREEN */
+  .analyzing-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .analyzing-bar-wrap {
+    width: 180px;
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 40px;
+  }
+
+  .analyzing-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--sage), var(--clay));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .analyzing-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-style: italic;
+    color: var(--charcoal);
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+
+  .analyzing-dots {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .analyzing-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--sage-light);
+    animation: dotPulse 1.4s ease-in-out infinite;
+  }
+
+  .analyzing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .analyzing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dotPulse {
+    0%, 80%, 100% { background: var(--sage-light); transform: scale(1); }
+    40% { background: var(--sage-dark); transform: scale(1.3); }
+  }
+
+  .analyzing-sub {
+    font-size: 13px;
+    color: var(--light);
+    letter-spacing: 0.06em;
+    font-weight: 300;
+    min-height: 20px;
+    transition: opacity 0.4s ease;
+  }
+
+  /* DECORATIVE */
+  .leaf {
+    display: inline-block;
+    color: var(--sage-light);
+    font-size: 18px;
+    margin: 0 4px;
+  }
+
+  /* ANALYZING SCREEN */
+  .analyzing-wrap {
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .analyzing-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 5vw, 32px);
+    font-style: italic;
+    color: var(--charcoal);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeIn 0.6s ease 0.3s forwards;
+  }
+
+  .analyzing-sub {
+    font-size: 14px;
+    color: var(--mid);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: fadeIn 0.6s ease 0.7s forwards;
+    min-height: 22px;
+  }
+
+  .analyzing-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 32px 0;
+  }
+
+  .analyzing-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--sage);
+    opacity: 0;
+    animation: dotPulse 1.4s ease infinite;
+  }
+
+  .analyzing-dots span:nth-child(1) { animation-delay: 0.8s; }
+  .analyzing-dots span:nth-child(2) { animation-delay: 1.0s; }
+  .analyzing-dots span:nth-child(3) { animation-delay: 1.2s; }
+
+  .analyzing-bar-wrap {
+    width: 200px;
+    height: 1px;
+    background: var(--border);
+    margin: 0 auto 32px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeIn 0.4s ease 0.5s forwards;
+  }
+
+  .analyzing-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--sage), var(--clay));
+    animation: barFill 2.4s ease 0.8s forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  @keyframes barFill {
+    0% { width: 0%; }
+    30% { width: 35%; }
+    60% { width: 68%; }
+    85% { width: 89%; }
+    100% { width: 100%; }
+  }
+
+  .screen-footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--light);
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-label">Your pattern test — <span id="progressText">Question 1 of 5</span></div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 0: WELCOME -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome-eyebrow">The Quiet Comeback ✦ Pattern Test</div>
+    <h1 class="welcome-title">Why are you <em>still</em> leaking after pregnancy?</h1>
+    <p class="welcome-sub">Most moms get told one thing: <strong>"do your Kegels."</strong></p>
+    <p class="welcome-sub">But there are 3 distinct postpartum patterns — and the approach is different for each one.</p>
+    <div class="divider"></div>
+    <p class="welcome-meta">5 questions &nbsp;·&nbsp; 30 seconds &nbsp;·&nbsp; No email required</p>
+    <button class="btn-primary" onclick="startQuiz()">
+      Find My Pattern <span class="arrow">→</span>
+    </button>
+    <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
+  </div>
+
+  <!-- SCREEN 1: Q1 -->
+  <div class="screen" id="screen-q1">
+    <div class="q-number">Question 1 of 5</div>
+    <div class="q-text">When does leaking happen most?</div>
+    <div class="options">
+      <div class="option" onclick="selectOption(this, 'q1', 'pressure')">
+        <div class="option-dot"></div>Sneezing or coughing
+      </div>
+      <div class="option" onclick="selectOption(this, 'q1', 'pressure')">
+        <div class="option-dot"></div>Laughing
+      </div>
+      <div class="option" onclick="selectOption(this, 'q1', 'load')">
+        <div class="option-dot"></div>Exercise or running
+      </div>
+      <div class="option" onclick="selectOption(this, 'q1', 'load')">
+        <div class="option-dot"></div>Lifting my baby
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: Q2 -->
+  <div class="screen" id="screen-q2">
+    <div class="q-number">Question 2 of 5</div>
+    <div class="q-text">Have you tried Kegels before?</div>
+    <div class="options">
+      <div class="option" onclick="selectOption(this, 'q2', 'kegel_yes')">
+        <div class="option-dot"></div>Yes — and they didn't really help
+      </div>
+      <div class="option" onclick="selectOption(this, 'q2', 'kegel_yes')">
+        <div class="option-dot"></div>Yes — they helped a little
+      </div>
+      <div class="option" onclick="selectOption(this, 'q2', 'kegel_no')">
+        <div class="option-dot"></div>No — I never knew where to start
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: Q3 -->
+  <div class="screen" id="screen-q3">
+    <div class="q-number">Question 3 of 5</div>
+    <div class="q-text">Do you feel that tiny "brace" moment before a sneeze or laugh?</div>
+    <div class="options">
+      <div class="option" onclick="selectOption(this, 'q3', 'brace_yes')">
+        <div class="option-dot"></div>Yes — every single time
+      </div>
+      <div class="option" onclick="selectOption(this, 'q3', 'brace_yes')">
+        <div class="option-dot"></div>Sometimes
+      </div>
+      <div class="option" onclick="selectOption(this, 'q3', 'brace_no')">
+        <div class="option-dot"></div>Not really
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: Q4 -->
+  <div class="screen" id="screen-q4">
+    <div class="q-number">Question 4 of 5</div>
+    <div class="q-text">How long has this been happening?</div>
+    <div class="options">
+      <div class="option" onclick="selectOption(this, 'q4', 'recent')">
+        <div class="option-dot"></div>Less than 6 months after birth
+      </div>
+      <div class="option" onclick="selectOption(this, 'q4', 'recent')">
+        <div class="option-dot"></div>6–12 months
+      </div>
+      <div class="option" onclick="selectOption(this, 'q4', 'long')">
+        <div class="option-dot"></div>More than a year
+      </div>
+      <div class="option" onclick="selectOption(this, 'q4', 'long')">
+        <div class="option-dot"></div>Through multiple pregnancies
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: Q5 -->
+  <div class="screen" id="screen-q5">
+    <div class="q-number">Question 5 of 5</div>
+    <div class="q-text">What would feel like winning?</div>
+    <div class="options">
+      <div class="option" onclick="selectOption(this, 'q5', 'reflex')">
+        <div class="option-dot"></div>Sneezing without thinking about it
+      </div>
+      <div class="option" onclick="selectOption(this, 'q5', 'load')">
+        <div class="option-dot"></div>Exercising freely again
+      </div>
+      <div class="option" onclick="selectOption(this, 'q5', 'reflex')">
+        <div class="option-dot"></div>Laughing without bracing
+      </div>
+      <div class="option" onclick="selectOption(this, 'q5', 'reflex')">
+        <div class="option-dot"></div>Just feeling like myself again
+      </div>
+    </div>
+  </div>
+
+  <!-- ANALYZING SCREEN -->
+  <div class="screen" id="screen-analyzing">
+    <div class="analyzing-wrap">
+      <div class="analyzing-bar-wrap">
+        <div class="analyzing-bar-fill" id="analyzingBar"></div>
+      </div>
+      <div class="analyzing-title">Analyzing your pattern...</div>
+      <div class="analyzing-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="analyzing-sub" id="analyzingMsg">Mapping neuromuscular pathways.</div>
+    </div>
+  </div>
+
+  <!-- RESULT 1: DELAYED REFLEX -->
+  <div class="screen" id="result-1">
+    <div class="result-eyebrow">Your Pattern</div>
+    <h2 class="result-pattern">Delayed <em>Reflex</em> Response</h2>
+    <div class="result-divider"></div>
+    <p class="result-body">Your pelvic floor <strong>isn't weak.</strong><br>It's late.</p>
+    <p class="result-body" style="margin-top:16px;">When you sneeze or laugh, pressure spikes in a fraction of a second. Your pelvic floor is supposed to close <em>before</em> that spike hits.</p>
+    <p class="result-body" style="margin-top:16px;">After pregnancy, that half-second window shifts. The reflex still exists. It just needs retraining.</p>
+    <div class="result-highlight">
+      <p>This is the most common postpartum pattern — and the most responsive to the right 10-minute sequence. Strength training won't fix late timing. <strong>Reflex training will.</strong></p>
+    </div>
+    <p class="result-transition">The Quiet Comeback was built exactly for this pattern.</p>
+    <p class="result-body" style="margin-top:8px;">14 days. 10 minutes a day. No equipment. No one needs to know.</p>
+    <a href="https://zystd.gumroad.com/l/quietcomeback" class="btn-cta" target="_blank">
+      Start the 14-Day Reset — $27
+    </a>
+    <p class="price-note">Instant download &nbsp;·&nbsp; Start tonight</p>
+    <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
+  </div>
+
+  <!-- RESULT 2: PRESSURE LOAD -->
+  <div class="screen" id="result-2">
+    <div class="result-eyebrow">Your Pattern</div>
+    <h2 class="result-pattern">Pressure <em>Load</em> Mismatch</h2>
+    <div class="result-divider"></div>
+    <p class="result-body">Your leaks happen under load. Lifting your baby. Stepping down hard. Trying to run again.</p>
+    <p class="result-body" style="margin-top:16px;">This isn't a strength gap. <strong>It's a coordination gap.</strong></p>
+    <p class="result-body" style="margin-top:16px;">Your pelvic floor and your breathing lost their rhythm during pregnancy. When they're not coordinating, pressure wins every time.</p>
+    <div class="result-highlight">
+      <p>The fix isn't more squeezing. It's retraining the two systems to work together — starting with breath, not muscle. <strong>Coordination first. Strength second.</strong></p>
+    </div>
+    <p class="result-transition">The Quiet Comeback starts there. Day 1. 10 minutes.</p>
+    <p class="result-body" style="margin-top:8px;">14 days to coordination that holds under real life.</p>
+    <a href="https://zystd.gumroad.com/l/quietcomeback" class="btn-cta" target="_blank">
+      Start the 14-Day Reset — $27
+    </a>
+    <p class="price-note">Instant download &nbsp;·&nbsp; Start tonight</p>
+    <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
+  </div>
+
+  <!-- RESULT 3: CUMULATIVE LOAD -->
+  <div class="screen" id="result-3">
+    <div class="result-eyebrow">Your Pattern</div>
+    <h2 class="result-pattern">Cumulative <em>Load</em> Response</h2>
+    <div class="result-divider"></div>
+    <p class="result-body">You've been carrying this for a while. Maybe through more than one pregnancy. Maybe you tried something before and quietly stopped.</p>
+    <p class="result-body" style="margin-top:16px;">The leaks aren't persisting because you're broken. <strong>They're persisting because the retraining window keeps getting pushed back.</strong></p>
+    <div class="result-highlight">
+      <p>The neuromuscular pathways that need retraining <strong>don't have an expiry date.</strong> They respond at 3 years postpartum the same way they respond at 3 months. You haven't missed the window. You're in it right now.</p>
+    </div>
+    <p class="result-transition">The Quiet Comeback works at any stage after pregnancy.</p>
+    <p class="result-body" style="margin-top:8px;">10 minutes a day is all it asks.</p>
+    <a href="https://zystd.gumroad.com/l/quietcomeback" class="btn-cta" target="_blank">
+      Start the 14-Day Reset — $27
+    </a>
+    <p class="price-note">Instant download &nbsp;·&nbsp; Start tonight</p>
+    <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
+  </div>
+
+</div>
+
+<script>
+  // State
+  const answers = {};
+
+  function startQuiz() {
+    goTo('screen-q1', 1);
+    document.getElementById('progressWrap').classList.add('visible');
+  }
+
+  const autoAdvance = {
+    q1: () => goTo('screen-q2', 2),
+    q2: () => goTo('screen-q3', 3),
+    q3: () => goTo('screen-q4', 4),
+    q4: () => goTo('screen-q5', 5),
+    q5: () => showResult()
+  };
+
+  function selectOption(el, question, value) {
+    el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    answers[question] = value;
+    setTimeout(() => {
+      if (autoAdvance[question]) autoAdvance[question]();
+    }, 400);
+  }
+
+  function goTo(screenId, questionNum) {
+    // Hide all screens
+    document.querySelectorAll('.screen').forEach(s => {
+      s.classList.remove('active');
+    });
+    // Show target
+    const target = document.getElementById(screenId);
+    target.classList.add('active');
+    // Update progress
+    const pct = ((questionNum - 1) / 5) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = 'Question ' + questionNum + ' of 5';
+    // Scroll top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showResult() {
+    // Determine result
+    let resultId = 'result-2';
+    if (answers.q4 === 'long') {
+      resultId = 'result-3';
+    } else if (answers.q1 === 'pressure' && answers.q3 === 'brace_yes') {
+      resultId = 'result-1';
+    }
+
+    // Show analyzing screen first
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-analyzing').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Update progress label
+    document.getElementById('progressText').textContent = 'Analyzing your answers...';
+
+    // Animated messages sequence
+    const messages = [
+      'Mapping neuromuscular pathways.',
+      'Identifying pressure response pattern.',
+      'Matching your reflex profile.',
+      'Your result is ready.'
+    ];
+
+    const bar = document.getElementById('analyzingBar');
+    const msg = document.getElementById('analyzingMsg');
+
+    let step = 0;
+    const totalDuration = 3000; // 3 seconds total
+    const stepDuration = totalDuration / messages.length;
+
+    // Animate bar and messages
+    const interval = setInterval(() => {
+      step++;
+      const pct = (step / messages.length) * 100;
+      bar.style.width = pct + '%';
+
+      if (step < messages.length) {
+        msg.style.opacity = '0';
+        setTimeout(() => {
+          msg.textContent = messages[step];
+          msg.style.opacity = '1';
+        }, 200);
+      }
+
+      if (step >= messages.length) {
+        clearInterval(interval);
+        // Small pause then reveal result
+        setTimeout(() => {
+          document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+          document.getElementById(resultId).classList.add('active');
+          document.getElementById('progressFill').style.width = '100%';
+          document.getElementById('progressText').textContent = 'Your result is ready';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 400);
+      }
+    }, stepDuration);
+  }
+</script>
+
+</body>
+</html>
