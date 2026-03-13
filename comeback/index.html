@@ -390,12 +390,27 @@
     margin: 28px 0 4px;
   }
 
+  .secondary-cta {
+    display: block;
+    text-align: center;
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--mid);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.2s ease;
+  }
+  .secondary-cta:hover {
+    color: var(--charcoal);
+    text-decoration: underline;
+  }
   .price-note {
     font-size: 12px;
     color: var(--light);
     text-align: center;
     margin-top: 12px;
     letter-spacing: 0.04em;
+    line-height: 1.6;
   }
 
   /* ANALYZING SCREEN */
@@ -580,9 +595,8 @@
   <!-- SCREEN 0: WELCOME -->
   <div class="screen active" id="screen-welcome">
     <div class="welcome-eyebrow">The Quiet Comeback ✦ Pattern Test</div>
-    <h1 class="welcome-title">Why are you <em>still</em> leaking after pregnancy?</h1>
-    <p class="welcome-sub">Most moms get told one thing: <strong>"do your Kegels."</strong></p>
-    <p class="welcome-sub">But there are 3 distinct postpartum patterns — and the approach is different for each one.</p>
+    <h1 class="welcome-title">Most moms try Kegels. <br>Most moms are solving the <em>wrong problem.</em></h1>
+    <p class="welcome-sub">Take 5 questions to find your actual postpartum pattern — and what fixes it.</p>
     <div class="divider"></div>
     <p class="welcome-meta">5 questions &nbsp;·&nbsp; 30 seconds &nbsp;·&nbsp; No email required</p>
     <button class="btn-primary" onclick="startQuiz()">
@@ -596,16 +610,16 @@
     <div class="q-number">Question 1 of 5</div>
     <div class="q-text">When does leaking happen most?</div>
     <div class="options">
-      <div class="option" onclick="selectOption(this, 'q1', 'pressure')">
+      <div class="option" onclick="selectOption(this, 'q1', 'sneezing')">
         <div class="option-dot"></div>Sneezing or coughing
       </div>
-      <div class="option" onclick="selectOption(this, 'q1', 'pressure')">
+      <div class="option" onclick="selectOption(this, 'q1', 'laughing')">
         <div class="option-dot"></div>Laughing
       </div>
-      <div class="option" onclick="selectOption(this, 'q1', 'load')">
+      <div class="option" onclick="selectOption(this, 'q1', 'exercise')">
         <div class="option-dot"></div>Exercise or running
       </div>
-      <div class="option" onclick="selectOption(this, 'q1', 'load')">
+      <div class="option" onclick="selectOption(this, 'q1', 'lifting')">
         <div class="option-dot"></div>Lifting my baby
       </div>
     </div>
@@ -616,13 +630,13 @@
     <div class="q-number">Question 2 of 5</div>
     <div class="q-text">Have you tried Kegels before?</div>
     <div class="options">
-      <div class="option" onclick="selectOption(this, 'q2', 'kegel_yes')">
+      <div class="option" onclick="selectOption(this, 'q2', 'kegel_fail')">
         <div class="option-dot"></div>Yes — and they didn't really help
       </div>
-      <div class="option" onclick="selectOption(this, 'q2', 'kegel_yes')">
+      <div class="option" onclick="selectOption(this, 'q2', 'kegel_partial')">
         <div class="option-dot"></div>Yes — they helped a little
       </div>
-      <div class="option" onclick="selectOption(this, 'q2', 'kegel_no')">
+      <div class="option" onclick="selectOption(this, 'q2', 'kegel_none')">
         <div class="option-dot"></div>No — I never knew where to start
       </div>
     </div>
@@ -633,13 +647,13 @@
     <div class="q-number">Question 3 of 5</div>
     <div class="q-text">Do you feel that tiny "brace" moment before a sneeze or laugh?</div>
     <div class="options">
-      <div class="option" onclick="selectOption(this, 'q3', 'brace_yes')">
+      <div class="option" onclick="selectOption(this, 'q3', 'brace_always')">
         <div class="option-dot"></div>Yes — every single time
       </div>
-      <div class="option" onclick="selectOption(this, 'q3', 'brace_yes')">
+      <div class="option" onclick="selectOption(this, 'q3', 'brace_sometimes')">
         <div class="option-dot"></div>Sometimes
       </div>
-      <div class="option" onclick="selectOption(this, 'q3', 'brace_no')">
+      <div class="option" onclick="selectOption(this, 'q3', 'brace_never')">
         <div class="option-dot"></div>Not really
       </div>
     </div>
@@ -704,18 +718,21 @@
     <div class="result-eyebrow">Your Pattern</div>
     <h2 class="result-pattern">Delayed <em>Reflex</em> Response</h2>
     <div class="result-divider"></div>
-    <p class="result-body">Your pelvic floor <strong>isn't weak.</strong><br>It's late.</p>
+    <div class="result-highlight">
+      <p class="personalized-line"></p>
+    </div>
+    <p class="result-body">Your pelvic floor <strong>isn't weak.</strong> It's late.</p>
     <p class="result-body" style="margin-top:16px;">When you sneeze or laugh, pressure spikes in a fraction of a second. Your pelvic floor is supposed to close <em>before</em> that spike hits.</p>
     <p class="result-body" style="margin-top:16px;">After pregnancy, that half-second window shifts. The reflex still exists. It just needs retraining.</p>
     <div class="result-highlight">
       <p>This is the most common postpartum pattern — and the most responsive to the right 10-minute sequence. Strength training won't fix late timing. <strong>Reflex training will.</strong></p>
     </div>
     <p class="result-transition">The Quiet Comeback was built exactly for this pattern.</p>
-    <p class="result-body" style="margin-top:8px;">14 days. 10 minutes a day. No equipment. No one needs to know.</p>
     <a href="https://zystd.gumroad.com/l/quietcomeback" class="btn-cta" target="_blank">
-      Start the 14-Day Reset — $27
+      Get The Quiet Comeback — $27 &rarr;
     </a>
-    <p class="price-note">Instant download &nbsp;·&nbsp; Start tonight</p>
+    <p class="price-note">Instant download · Start tonight · No equipment needed</p>
+    <a href="https://medium.com/@aeshacutee/why-kegels-arent-enough-and-what-actually-works-2c34637f3503" class="secondary-cta" target="_blank">Not ready yet? Read the full guide to your pattern on Medium →</a>
     <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
   </div>
 
@@ -724,6 +741,9 @@
     <div class="result-eyebrow">Your Pattern</div>
     <h2 class="result-pattern">Pressure <em>Load</em> Mismatch</h2>
     <div class="result-divider"></div>
+    <div class="result-highlight">
+      <p class="personalized-line"></p>
+    </div>
     <p class="result-body">Your leaks happen under load. Lifting your baby. Stepping down hard. Trying to run again.</p>
     <p class="result-body" style="margin-top:16px;">This isn't a strength gap. <strong>It's a coordination gap.</strong></p>
     <p class="result-body" style="margin-top:16px;">Your pelvic floor and your breathing lost their rhythm during pregnancy. When they're not coordinating, pressure wins every time.</p>
@@ -731,11 +751,11 @@
       <p>The fix isn't more squeezing. It's retraining the two systems to work together — starting with breath, not muscle. <strong>Coordination first. Strength second.</strong></p>
     </div>
     <p class="result-transition">The Quiet Comeback starts there. Day 1. 10 minutes.</p>
-    <p class="result-body" style="margin-top:8px;">14 days to coordination that holds under real life.</p>
     <a href="https://zystd.gumroad.com/l/quietcomeback" class="btn-cta" target="_blank">
-      Start the 14-Day Reset — $27
+      Get The Quiet Comeback — $27 &rarr;
     </a>
-    <p class="price-note">Instant download &nbsp;·&nbsp; Start tonight</p>
+    <p class="price-note">Instant download · Start tonight · No equipment needed</p>
+    <a href="https://medium.com/@aeshacutee/why-kegels-arent-enough-and-what-actually-works-2c34637f3503" class="secondary-cta" target="_blank">Not ready yet? Read the full guide to your pattern on Medium →</a>
     <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
   </div>
 
@@ -744,17 +764,20 @@
     <div class="result-eyebrow">Your Pattern</div>
     <h2 class="result-pattern">Cumulative <em>Load</em> Response</h2>
     <div class="result-divider"></div>
+    <div class="result-highlight">
+      <p class="personalized-line"></p>
+    </div>
     <p class="result-body">You've been carrying this for a while. Maybe through more than one pregnancy. Maybe you tried something before and quietly stopped.</p>
     <p class="result-body" style="margin-top:16px;">The leaks aren't persisting because you're broken. <strong>They're persisting because the retraining window keeps getting pushed back.</strong></p>
     <div class="result-highlight">
       <p>The neuromuscular pathways that need retraining <strong>don't have an expiry date.</strong> They respond at 3 years postpartum the same way they respond at 3 months. You haven't missed the window. You're in it right now.</p>
     </div>
     <p class="result-transition">The Quiet Comeback works at any stage after pregnancy.</p>
-    <p class="result-body" style="margin-top:8px;">10 minutes a day is all it asks.</p>
     <a href="https://zystd.gumroad.com/l/quietcomeback" class="btn-cta" target="_blank">
-      Start the 14-Day Reset — $27
+      Get The Quiet Comeback — $27 &rarr;
     </a>
-    <p class="price-note">Instant download &nbsp;·&nbsp; Start tonight</p>
+    <p class="price-note">Instant download · Start tonight · No equipment needed</p>
+    <a href="https://medium.com/@aeshacutee/why-kegels-arent-enough-and-what-actually-works-2c34637f3503" class="secondary-cta" target="_blank">Not ready yet? Read the full guide to your pattern on Medium →</a>
     <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
   </div>
 
@@ -807,9 +830,34 @@
     let resultId = 'result-2';
     if (answers.q4 === 'long') {
       resultId = 'result-3';
-    } else if (answers.q1 === 'pressure' && answers.q3 === 'brace_yes') {
+    } else if ((answers.q1 === 'sneezing' || answers.q1 === 'laughing') && (answers.q3 === 'brace_always' || answers.q3 === 'brace_sometimes')) {
       resultId = 'result-1';
     }
+
+    // Generate personalized diagnostic line
+    const diagnosticMap = {
+      q1: {
+        'sneezing': 'leaking during sneezing',
+        'laughing': 'leaking during laughing',
+        'exercise': 'leaking during exercise',
+        'lifting': 'leaking while lifting'
+      },
+      q2: {
+        'kegel_fail': "Kegels that didn't land",
+        'kegel_partial': "Kegels that only helped a little",
+        'kegel_none': "untested Kegels"
+      },
+      q3: {
+        'brace_always': 'a reflex that fires late',
+        'brace_sometimes': 'a reflex that fires inconsistently',
+        'brace_never': "a reflex that isn't responding yet"
+      }
+    };
+
+    const personalizedText = `Based on your answers — ${diagnosticMap.q1[answers.q1]}, ${diagnosticMap.q2[answers.q2]}, and ${diagnosticMap.q3[answers.q3]} — your pattern is:`;
+    document.querySelectorAll('.personalized-line').forEach(el => {
+      el.textContent = personalizedText;
+    });
 
     // Show analyzing screen first
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -821,17 +869,16 @@
 
     // Animated messages sequence
     const messages = [
-      'Mapping neuromuscular pathways.',
-      'Identifying pressure response pattern.',
-      'Matching your reflex profile.',
-      'Your result is ready.'
+      'Mapping neuromuscular response type...',
+      'Cross-referencing with 3 postpartum pattern profiles...',
+      'Your pattern is ready.'
     ];
 
     const bar = document.getElementById('analyzingBar');
     const msg = document.getElementById('analyzingMsg');
 
     let step = 0;
-    const totalDuration = 3000; // 3 seconds total
+    const totalDuration = 2400; // Faster sequence
     const stepDuration = totalDuration / messages.length;
 
     // Animate bar and messages
@@ -840,10 +887,10 @@
       const pct = (step / messages.length) * 100;
       bar.style.width = pct + '%';
 
-      if (step < messages.length) {
+      if (step <= messages.length) {
         msg.style.opacity = '0';
         setTimeout(() => {
-          msg.textContent = messages[step];
+          msg.textContent = messages[step-1];
           msg.style.opacity = '1';
         }, 200);
       }
@@ -857,7 +904,7 @@
           document.getElementById('progressFill').style.width = '100%';
           document.getElementById('progressText').textContent = 'Your result is ready';
           window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 400);
+        }, 600);
       }
     }, stepDuration);
   }
