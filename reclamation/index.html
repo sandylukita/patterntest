@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Pattern Test — The 14-Day Reclamation</title>
+<meta property="og:title" content="Every quit attempt that didn't stick had the same design flaw.">
+<meta property="og:description" content="60-second pattern test. Identifies the regulation function nicotine was serving — and what replaces it precisely.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #EEEAE2;
+    --stone: #E2DDD5;
+    --ink: #3A4A44;
+    --ink-dark: #2B3830;
+    --ink-muted: #6B7B74;
+    --ink-faint: #A8B4AD;
+    --accent: #4A6B5C;
+    --accent-light: #E6EDEA;
+    --border: rgba(58,74,68,0.13);
+    --border-strong: rgba(58,74,68,0.28);
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .wordmark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 3rem;
+    padding-top: 0.5rem;
+  }
+
+  .quiz-container {
+    width: 100%;
+    max-width: 540px;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeUp 0.4s ease both; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .progress-track {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 2.5rem;
+  }
+
+  .progress-pip {
+    height: 2px;
+    flex: 1;
+    background: var(--border);
+    border-radius: 2px;
+    transition: background 0.4s ease;
+  }
+
+  .progress-pip.done { background: var(--accent); }
+  .progress-pip.active { background: var(--ink-muted); }
+
+  .q-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+
+  .q-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+
+  .q-sub {
+    font-size: 13.5px;
+    color: var(--ink-muted);
+    line-height: 1.65;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.75rem; }
+
+  .opt {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    padding: 13px 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: rgba(255,255,255,0.55);
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.5;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s;
+    letter-spacing: 0.01em;
+  }
+
+  .opt:hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .opt.selected {
+    border-color: var(--accent);
+    border-width: 1.5px;
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  .btn {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    display: block;
+    width: 100%;
+    padding: 13px 20px;
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13.5px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #F0EDE6;
+    border: 1px solid var(--accent);
+  }
+
+  .btn-primary:hover { background: var(--ink-dark); border-color: var(--ink-dark); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-muted);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover { border-color: var(--border-strong); background: var(--stone); }
+
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 2rem 0;
+  }
+
+  /* Intro screen */
+  .intro-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1.25rem;
+  }
+
+  .intro-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink-dark);
+    margin-bottom: 1rem;
+  }
+
+  .intro-body {
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.75;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .intro-meta {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Result screen */
+  .result-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 12px;
+    border-radius: 30px;
+    margin-bottom: 1.25rem;
+  }
+
+  .result-type {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.5rem;
+  }
+
+  .result-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--ink-dark);
+    margin-bottom: 1.25rem;
+  }
+
+  .result-body {
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.75;
+    font-weight: 300;
+    margin-bottom: 1.25rem;
+  }
+
+  .insight-block {
+    border-left: 2px solid var(--accent);
+    padding: 14px 16px;
+    background: var(--accent-light);
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 1.5rem;
+    font-size: 13.5px;
+    color: var(--accent);
+    line-height: 1.65;
+    font-weight: 400;
+  }
+
+  .cta-note {
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.65;
+    font-weight: 300;
+    margin-bottom: 1.75rem;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+  }
+
+  .offer-card {
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    padding: 1.5rem;
+    background: rgba(255,255,255,0.6);
+    margin-bottom: 0.75rem;
+  }
+
+  .offer-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink-dark);
+    margin-bottom: 0.35rem;
+    font-style: italic;
+  }
+
+  .offer-sub {
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 1.25rem;
+  }
+
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 1.1rem;
+  }
+
+  .price {
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .price-note {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+  }
+
+  .features {
+    list-style: none;
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.9;
+    font-weight: 300;
+    margin-bottom: 1.25rem;
+  }
+
+  .features li { display: flex; align-items: flex-start; gap: 8px; }
+  .features li::before {
+    content: "—";
+    color: var(--ink-faint);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .disclaimer {
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-align: center;
+    line-height: 1.6;
+    margin-top: 1rem;
+  }
+
+  .btn-offer {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    background: var(--accent);
+    color: #EEF2EF;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.15s;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .btn-offer:hover { background: var(--ink-dark); }
+
+  .retake {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-top: 1.25rem;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    background: none;
+    border: none;
+  }
+
+  .retake:hover { color: var(--ink-muted); }
+
+  /* Loading screen */
+  .loading-wrap {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    text-align: center;
+  }
+
+  .loading-orb {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 2.5rem;
+  }
+
+  .orb-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    border-top-color: var(--accent);
+    border-right-color: var(--accent);
+    animation: spin 1.4s cubic-bezier(0.68,-0.55,0.27,1.55) infinite;
+  }
+
+  .orb-ring-2 {
+    inset: 10px;
+    border-top-color: var(--ink-faint);
+    border-right-color: transparent;
+    border-bottom-color: var(--ink-faint);
+    animation: spin 1.8s cubic-bezier(0.68,-0.55,0.27,1.55) infinite reverse;
+  }
+
+  .orb-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: translate(-50%,-50%) scale(0.8); }
+    50% { opacity: 1; transform: translate(-50%,-50%) scale(1.2); }
+  }
+
+  .loading-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink-dark);
+    margin-bottom: 0.5rem;
+    animation: fadeIn 0.5s ease both;
+    min-height: 1.4em;
+  }
+
+  .loading-sub {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.5s ease 0.1s both;
+    min-height: 1.4em;
+  }
+
+  .loading-bar-track {
+    width: 180px;
+    height: 1.5px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .loading-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .medium-cta {
+    display: block;
+    text-align: center;
+    font-family: 'Jost', sans-serif;
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.85;
+  }
+
+  .medium-cta:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
+
+  @media (max-width: 480px) {
+    .quiz-container { max-width: 100%; }
+    .intro-title { font-size: 26px; line-height: 1.25; }
+    .q-text { font-size: 20px; }
+    .result-name { font-size: 22px; }
+    .opt {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; padding: 15px 16px; font-size: 14px; }
+    .btn {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; padding: 15px 20px; font-size: 13px; }
+    .btn-offer {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; padding: 15px 20px; font-size: 13px; }
+    .price { font-size: 24px; }
+    .offer-card { padding: 1.25rem; }
+    .loading-wrap { min-height: 50vh; }
+    .loading-orb { width: 52px; height: 52px; }
+    .loading-text { font-size: 19px; }
+    .loading-sub { font-size: 11px; }
+    body { padding: 1.5rem 1rem 3rem; }
+    .intro-title { font-size: 28px; }
+    .q-text { font-size: 22px; }
+    .result-name { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<p class="wordmark">The 14-Day Reclamation</p>
+
+<div class="quiz-container">
+
+  <!-- Intro -->
+  <div id="s0" class="screen active">
+    <p class="intro-eyebrow">Pattern test</p>
+    <h1 class="intro-title">Every quit attempt that didn't stick had the same design flaw.</h1>
+    <p class="intro-body">Willpower removes the tool. It doesn't address what the tool was doing. This 60-second test identifies the specific regulation function nicotine was serving — and what replaces it precisely.</p>
+    <div class="divider"></div>
+    <p class="intro-meta">5 questions · 60 seconds · No signup required</p>
+    <button class="btn btn-primary" onclick="go('s1')">Find my pattern</button>
+  </div>
+
+  <!-- Q1 -->
+  <div id="s1" class="screen">
+    <div class="progress-track" id="pt1"></div>
+    <p class="q-label">Question 1 of 5</p>
+    <p class="q-text">When does the craving arrive most reliably?</p>
+    <p class="q-sub">Not when it's strongest — when it's most predictable.</p>
+    <div class="options">
+      <button class="opt" onclick="answer(this,'a1','morning','s2')">First hour after waking</button>
+      <button class="opt" onclick="answer(this,'a1','transition','s2')">Between tasks or meetings</button>
+      <button class="opt" onclick="answer(this,'a1','stress','s2')">When pressure spikes — a deadline, a conflict, a difficult call</button>
+      <button class="opt" onclick="answer(this,'a1','evening','s2')">Late afternoon or evening wind-down</button>
+      <button class="opt" onclick="answer(this,'a1','boredom','s2')">During slow or unstructured time</button>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div id="s2" class="screen">
+    <div class="progress-track" id="pt2"></div>
+    <p class="q-label">Question 2 of 5</p>
+    <p class="q-text">What does the craving feel like in the body?</p>
+    <p class="q-sub">Before the thought "I want a cigarette" — what is the physical signal?</p>
+    <div class="options">
+      <button class="opt" onclick="answer(this,'a2','physical','s3')">A tightness in the chest or throat</button>
+      <button class="opt" onclick="answer(this,'a2','hands','s3')">Restlessness in the hands — a reaching, fidgeting quality</button>
+      <button class="opt" onclick="answer(this,'a2','cognitive','s3')">A persistent intrusive thought, more mental than physical</button>
+      <button class="opt" onclick="answer(this,'a2','emotional','s3')">A flat or irritable mood with no obvious cause</button>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div id="s3" class="screen">
+    <div class="progress-track" id="pt3"></div>
+    <p class="q-label">Question 3 of 5</p>
+    <p class="q-text">What did the habit give you that nothing else did?</p>
+    <p class="q-sub">Set aside the nicotine itself. What was the actual function?</p>
+    <div class="options">
+      <button class="opt" onclick="answer(this,'a3','pause','s4')">A pause that belonged entirely to me — unchosen by anyone else</button>
+      <button class="opt" onclick="answer(this,'a3','edge','s4')">Something that smoothed the edge off a difficult internal state</button>
+      <button class="opt" onclick="answer(this,'a3','transition','s4')">A clear signal that one thing had ended and another was beginning</button>
+      <button class="opt" onclick="answer(this,'a3','social','s4')">A reason to exit a social situation without requiring explanation</button>
+      <button class="opt" onclick="answer(this,'a3','identity','s4')">A private ritual that was entirely my own and required no justification</button>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div id="s4" class="screen">
+    <div class="progress-track" id="pt4"></div>
+    <p class="q-label">Question 4 of 5</p>
+    <p class="q-text">What happened the last time you tried to stop?</p>
+    <p class="q-sub">If this is your first attempt, choose the outcome that feels most likely.</p>
+    <div class="options">
+      <button class="opt" onclick="answer(this,'a4','willpower','s5')">I held on through willpower until a high-stress event ended it</button>
+      <button class="opt" onclick="answer(this,'a4','social','s5')">A social moment made declining feel impossible</button>
+      <button class="opt" onclick="answer(this,'a4','boredom','s5')">I lasted until the boredom became genuinely unbearable</button>
+      <button class="opt" onclick="answer(this,'a4','identity','s5')">Something felt missing — not cravings exactly, just a gap in the day</button>
+      <button class="opt" onclick="answer(this,'a4','first','s5')">This is my first serious attempt</button>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div id="s5" class="screen">
+    <div class="progress-track" id="pt5"></div>
+    <p class="q-label">Question 5 of 5</p>
+    <p class="q-text">What would a successful outcome actually feel like?</p>
+    <p class="q-sub">Not the goal — the internal experience of having arrived at it.</p>
+    <div class="options">
+      <button class="opt" onclick="answer(this,'a5','calm','result')">A calmer baseline — less reactive, more even throughout the day</button>
+      <button class="opt" onclick="answer(this,'a5','control','result')">A sense of operating entirely on my own terms</button>
+      <button class="opt" onclick="answer(this,'a5','precision','result')">Better tools for difficult moments — not just fewer cigarettes</button>
+      <button class="opt" onclick="answer(this,'a5','identity','result')">Still feeling like myself — without the dependency attached to it</button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div id="s6" class="screen">
+    <div class="loading-wrap">
+      <div class="loading-orb">
+        <div class="orb-ring"></div>
+        <div class="orb-ring orb-ring-2"></div>
+        <div class="orb-dot"></div>
+      </div>
+      <p class="loading-text" id="loadingText">Reading your pattern</p>
+      <p class="loading-sub" id="loadingSub">Mapping the regulation architecture</p>
+      <div class="loading-bar-track"><div class="loading-bar-fill" id="loadingBar"></div></div>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div id="s7" class="screen">
+    <div id="resultContent"></div>
+  </div>
+
+</div>
+
+<script>
+  var answers = {};
+
+  var results = {
+    stress: {
+      type: "Stress modulator",
+      name: "Your nervous system has been using nicotine as a cortisol valve.",
+      body: "The pattern is clear: your cravings arrive when pressure spikes, not randomly. This means nicotine wasn't a habit in the ordinary sense — it was a rapid physiological intervention your nervous system learned to call for whenever stress rose above a threshold it couldn't manage otherwise. Willpower-based approaches fail this pattern consistently because they remove the valve without addressing the pressure. The pressure remains, unsatisfied, and eventually calls loudly enough that the tool is reinstated.",
+      insight: "The 14-Day Reclamation introduces temperature contrast and breathwork as direct physiological replacements — tools that operate on the same autonomic pathways, at comparable speed, without the dependency loop. These are not coping strategies. They are direct physiological inputs.",
+      cta: "Day 2 maps your specific craving clusters. Day 3 installs the temperature ritual before your peak window. By Day 7, the full architecture is in place."
+    },
+    boundary: {
+      type: "Boundary marker",
+      name: "Your cravings are task transition signals — not addiction in the conventional sense.",
+      body: "The timing tells the story: your habit was performing a cognitive function, not just a chemical one. The cigarette break created a reliable neurological signal that one context had ended and another was beginning. Without it, cognitive residue from previous tasks bleeds into the next one — reducing performance on both. Most cessation approaches never address this because they don't map what the habit was actually doing.",
+      insight: "The 14-Day Reclamation builds designed intervals with deliberate sensory markers — transition rituals that perform the same boundary function with more precision and no dependency. Day 6 installs these as owned, unconditional pauses.",
+      cta: "Day 6 installs designed intervals as owned pauses. Day 9 addresses the hand-loop — the manual component of the transition ritual that most frameworks overlook entirely."
+    },
+    identity: {
+      type: "Private ritualist",
+      name: "The gap you feel isn't withdrawal. It's the absence of a private practice that belonged entirely to you.",
+      body: "This is the pattern most cessation frameworks miss entirely — and one of the most common drivers of long-term relapse after successful abstinence. The biochemical dependency diminishes within two weeks. The identity layer doesn't, unless it's addressed directly. The private ritual, the deliberate pause, the sense of operating by your own rules: none of these were properties of the cigarette. They were yours. The tool simply carried them.",
+      insight: "The 14-Day Reclamation doesn't ask you to close that gap by abandoning the identity. It maps which elements were genuinely yours and reinstalls them through more precise tools — tools that belong to no one else and require no explanation.",
+      cta: "Day 8 is built specifically for this pattern. Day 11 reclaims the unoccupied quiet — the permission the cigarette granted for three minutes of purposeless stillness."
+    },
+    social: {
+      type: "Social synchronizer",
+      name: "Your habit was doing social work that had nothing to do with nicotine.",
+      body: "The social layer of this pattern is the most underestimated in cessation frameworks. The cigarette provided a legible exit from situations that had become exhausting, informal connection with people you wouldn't otherwise pause with, and a membership of sorts. Removing the habit without preparing for these specific social moments is why the first party, the first work event, the first offer from a close colleague tends to be where the pattern reinstates.",
+      insight: "The 14-Day Reclamation includes a complete Graceful Deflection Index — seven scripts for specific social contexts, built on the principle that a clean statement followed by silence carries more authority than any explanation you could offer.",
+      cta: "Day 7 installs the social scripts. The index covers direct offers, follow-up questions, close colleagues, and social smoking contexts where participation was previously expected."
+    },
+    default: {
+      type: "Compound regulator",
+      name: "Your pattern involves multiple regulation functions — which is why single-tool approaches haven't held.",
+      body: "The most common reason intelligent people fail at cessation isn't willpower — it's that their habit was performing several distinct regulatory functions simultaneously. Stress modulation, task boundary marking, identity reinforcement, social synchronization. Willpower removes the tool. It doesn't address the underlying needs. They persist, unsatisfied, and eventually call loudly enough that the tool is reinstated.",
+      insight: "The 14-Day Reclamation maps all six regulatory functions and introduces a higher-precision replacement for each. The architecture addresses the full pattern — not a single craving type applied to all six at once.",
+      cta: "The Regulation Map in Part I identifies which of the six functions your pattern is primarily serving. Each of the fourteen days targets a specific layer of the architecture."
+    }
+  };
+
+  function getResult() {
+    var a1 = answers.a1 || '';
+    var a3 = answers.a3 || '';
+    var a4 = answers.a4 || '';
+    if (a3 === 'social' || a4 === 'social') return results.social;
+    if (a3 === 'identity' || a4 === 'identity') return results.identity;
+    if (a3 === 'transition' || a4 === 'boredom' || a1 === 'transition') return results.boundary;
+    if (a3 === 'edge' || a4 === 'willpower' || a1 === 'stress') return results.stress;
+    return results.default;
+  }
+
+  function answer(el, key, val, next) {
+    var opts = el.parentElement.querySelectorAll('.opt');
+    opts.forEach(function(o) { o.classList.remove('selected'); });
+    el.classList.add('selected');
+    answers[key] = val;
+    setTimeout(function() {
+      if (next === 'result') { showResult(); }
+      else { go(next); }
+    }, 280);
+  }
+
+  function updateProgress(activeQ) {
+    for (var i = 1; i <= 5; i++) {
+      var pt = document.getElementById('pt' + i);
+      if (!pt) continue;
+      pt.innerHTML = '';
+      for (var j = 1; j <= 5; j++) {
+        var pip = document.createElement('div');
+        pip.className = 'progress-pip';
+        if (j < i) pip.classList.add('done');
+        else if (j === i) pip.classList.add('active');
+        pt.appendChild(pip);
+      }
+    }
+  }
+
+  function go(id) {
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    var target = document.getElementById(id);
+    target.classList.add('active');
+    var num = parseInt(id.replace('s', ''));
+    if (num >= 1 && num <= 5) updateProgress(num);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showResult() {
+    go('s6');
+    var steps = [
+      { text: 'Reading your pattern', sub: 'Mapping the regulation architecture', pct: 20 },
+      { text: 'Identifying the primary function', sub: 'Cross-referencing craving clusters', pct: 45 },
+      { text: 'Locating the gap', sub: 'Why previous attempts lost hold', pct: 65 },
+      { text: 'Matching precision tools', sub: 'Selecting the right replacement architecture', pct: 85 },
+      { text: 'Pattern identified', sub: 'Preparing your result', pct: 100 }
+    ];
+    var i = 0;
+    var textEl = document.getElementById('loadingText');
+    var subEl = document.getElementById('loadingSub');
+    var barEl = document.getElementById('loadingBar');
+
+    function runStep() {
+      if (i >= steps.length) {
+        setTimeout(function() { renderResult(); }, 500);
+        return;
+      }
+      var s = steps[i];
+      textEl.style.animation = 'none';
+      subEl.style.animation = 'none';
+      void textEl.offsetWidth;
+      textEl.style.animation = 'fadeIn 0.4s ease both';
+      subEl.style.animation = 'fadeIn 0.4s ease 0.08s both';
+      textEl.textContent = s.text;
+      subEl.textContent = s.sub;
+      barEl.style.width = s.pct + '%';
+      i++;
+      setTimeout(runStep, i === steps.length ? 700 : 900);
+    }
+
+    setTimeout(runStep, 300);
+  }
+
+  function renderResult() {
+    var r = getResult();
+    var html =
+      '<span class="result-tag">Your regulation pattern</span>' +
+      '<p class="result-type">' + r.type + '</p>' +
+      '<p class="result-name">' + r.name + '</p>' +
+      '<p class="result-body">' + r.body + '</p>' +
+      '<div class="insight-block">' + r.insight + '</div>' +
+      '<p class="cta-note">' + r.cta + '</p>' +
+      '<div class="divider"></div>' +
+      '<div class="offer-card">' +
+        '<p class="offer-title">The 14-Day Reclamation</p>' +
+        '<p class="offer-sub">A private interval for sensory return and quiet baseline. No group, no accountability partner, no performance required. Built for your specific regulation pattern.</p>' +
+        '<div class="price-row"><span class="price">$37</span><span class="price-note">· Instant PDF download</span></div>' +
+        '<ul class="features">' +
+          '<li>Full regulation map — six function-specific replacements</li>' +
+          '<li>14-day structured protocol with daily micro-shifts</li>' +
+          '<li>Graceful Deflection Index — seven social scripts</li>' +
+          '<li>Three-Step Reset for difficult days and lapses</li>' +
+          '<li>Private. Instant. No expiration.</li>' +
+        '</ul>' +
+        '<a href="https://zystd.gumroad.com/l/the14dayreclamation" class="btn-offer" target="_blank">Get the protocol — $37</a>' +
+      '</div>' +
+      '<p class="disclaimer">Private use only. Not medical advice. Not a substitute for professional healthcare guidance.</p>' +
+      '<a href="https://medium.com/@Reclamationprotocol/willpower-doesnt-fail-because-you-re-weak-5d4536003c0f" class="medium-cta" target="_blank">Not ready yet? Read the deeper breakdown of your pattern &rarr;</a>';
+
+    document.getElementById('resultContent').innerHTML = html;
+    go('s7');
+  }
+
+  function retake() {
+    answers = {};
+    document.querySelectorAll('.opt').forEach(function(o) { o.classList.remove('selected'); });
+    document.querySelectorAll('.btn-primary[id^="next"]').forEach(function(b) { b.disabled = true; });
+    go('s0');
+  }
+
+  updateProgress(1);
+</script>
+</body>
+</html>
