@@ -487,8 +487,16 @@
     font-size: 18px;
     color: var(--cyan);
     font-weight: 500;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     font-style: italic;
+  }
+
+  .result-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 20px;
+    letter-spacing: 0.3px;
   }
 
   .identity-lock {
@@ -986,6 +994,7 @@ const profiles = {
     emoji: "🕵️",
     type: "THE INTER\u200BVIEWER",
     tagline: "Great questions. Zero vulnerability.",
+    subtitle: "The one where dates go well — and still go nowhere",
     identityLock: "If this feels uncomfortably accurate — it's because the Interviewer pattern is what your brain defaults to whenever you're trying to make a date go well.",
     mirror: "You leave dates feeling like they went well — but nothing ever moves forward. You replayed the conversation and it was good. They were engaged. You asked great questions. But somehow it didn't turn into a second date, and you still can't figure out why. You did everything right. That's the confusing part.",
     normalize: "You're not doing anything wrong on purpose. You stayed curious, kept the focus on them, avoided the risk of oversharing. That's not a flaw. It's a protection mechanism. But it's costing you the exact connection you're trying to build.",
@@ -998,13 +1007,15 @@ const profiles = {
     ],
     villain: "Nobody taught you that conversation is a <strong>two-way mirror</strong>. Dating advice always says 'ask good questions, show interest.' Nobody told you that if you never reveal anything real about yourself, the other person walks away feeling like they talked to a wall — a very polite, very curious wall. They opened up. You didn't. That's the whole gap.",
     bridge: "This is exactly the pattern <strong>Don't Bomb the Date</strong> was built to fix. Not with scripts. With a single shift that changes the entire dynamic of every conversation.",
-    fixTitle: "The 1 Conversation Shift",
-    fixDesc: "After their answer, don't ask another question. Share something real instead. A story. An opinion. A weird detail about yourself. Match their vulnerability. That's the only move you need."
+    fixTitle: "The Reciprocity Turn",
+    fixDesc: "After their answer, don't ask another question. Share something real instead. A story. An opinion. A weird detail about yourself. Match their vulnerability. That's the only move you need.",
+    patternCTA: "Fix the Interviewer Pattern — $19 →"
   },
   P: {
     emoji: "🎭",
     type: "THE PER\u200BFORMER",
     tagline: "Funny, charming, and somehow still alone.",
+    subtitle: "The one where the date goes great — and they still don't text back",
     identityLock: "If this feels a little too familiar — it's because the Performer pattern is your default whenever you want someone to like you.",
     mirror: "You're good at dates. You know you're good at dates. You make people laugh, the energy is high, they seem into it. Then they pull back afterward and you can't figure out why. The date felt like a nine out of ten. The follow-up felt like silence. You performed well. That was the problem.",
     normalize: "You're not trying to put on a show. The humor is real. The energy is real. You learned somewhere along the way that being entertaining kept things light and safe — and it worked, until it didn't. The issue isn't your personality. It's that you've been using it as a shield.",
@@ -1017,13 +1028,15 @@ const profiles = {
     ],
     villain: "<strong>Performance and connection use opposite muscles.</strong> When you're working for the laugh, you're not listening for the detail. You're broadcasting, not receiving. They feel entertained — not seen. Nobody told you that the funniest people in the room are often the loneliest, because they never let anyone past the material.",
     bridge: "There's one technique in <strong>Don't Bomb the Date</strong> that fixes this at the root. It takes nothing away from your natural energy. It just adds the one thing that turns a great date into a real connection.",
-    fixTitle: "The 1 Connection Shift",
-    fixDesc: "Stop performing for a moment and file something away. One small detail they share early. Carry it forward later in the night. That callback is worth ten jokes. It proves you were actually listening."
+    fixTitle: "The Presence Signal",
+    fixDesc: "Stop performing for a moment and file something away. One small detail they share early. Carry it forward later in the night. That callback is worth ten jokes. It proves you were actually listening.",
+    patternCTA: "Fix the Performer Pattern — $19 →"
   },
   G: {
     emoji: "👻",
     type: "THE GHOST\u200BER",
-    tagline: "Present in body. Gone after minute ten.",
+    tagline: "Interesting everywhere else. Blank on dates.",
+    subtitle: "The one where you run out of things to say at the worst possible moment",
     identityLock: "If this hit close to home — it's because this is the exact moment your conversation pattern shuts down, and it happens more consistently than you'd like to admit.",
     mirror: "You've sat across from someone you actually liked and felt the conversation die in real time. You could feel the silence growing. You were trying to think of something — anything — but nothing came. You smiled and nodded and hoped they'd carry it. They felt it too. And the worst part is you're a completely normal, interesting person everywhere else.",
     normalize: "This isn't about being boring or having nothing to offer. First dates have a specific kind of pressure that short-circuits something — and once you hit the wall, you don't know how to come back from it. That's not a personality flaw. It's a missing toolkit.",
@@ -1036,13 +1049,15 @@ const profiles = {
     ],
     villain: "<strong>Everyone else on that date was also running on empty</strong> — they were just better at disguising it or got lucky with natural chemistry. Chemistry isn't magic. It's mostly two people who both happen to have something to reach for when the conversation stalls. Dating apps gave you a match. Nobody gave you what to do after 'so what do you do for work.'",
     bridge: "The rescue section of <strong>Don't Bomb the Date</strong> exists specifically for this moment — the wall, the silence, the panic. It's a toolkit you can reach for instead of going blank.",
-    fixTitle: "The 1 Recovery Shift",
-    fixDesc: "You need a small set of lines you can reach for the moment the conversation stalls. Not scripts — pattern breakers. Absurd questions reset the energy every time. The guide has 20 of them."
+    fixTitle: "The Energy Reset",
+    fixDesc: "You need a small set of lines you can reach for the moment the conversation stalls. Not scripts — pattern breakers. Absurd questions reset the energy every time. The guide has 20 of them.",
+    patternCTA: "Fix the Ghoster Pattern — $19 →"
   },
   O: {
     emoji: "🌀",
     type: "THE OVER\u200BTHINKER",
     tagline: "Everything you wanted to say. Said to no one.",
+    subtitle: "The one where you edit yourself out of every good moment",
     identityLock: "If this feels painfully accurate — it's because your brain runs this exact loop on almost every date, and you probably already knew that before you finished reading it.",
     mirror: "You've had entire conversations in your head on the way home from a date. The perfect thing to say at that moment. The better answer to that question. The joke that would have landed perfectly if you'd just said it two seconds earlier instead of deciding it was too much. You replay everything. Not because it went badly — but because you know it could have been better.",
     normalize: "This isn't anxiety in the clinical sense. It's pattern recognition working against you. You're fast enough to see the ideal response. You're just not trusting yourself fast enough to say it. That gap between thought and delivery is the whole problem — and it gets worse the more you care about the outcome.",
@@ -1050,13 +1065,14 @@ const profiles = {
     futureViz: "Imagine your next date. A thought arrives. Instead of editing it for five seconds, you just say it. It lands. Not perfectly — but it lands. The conversation keeps moving. You're not watching yourself anymore. You're just there, in it. That's not a different version of you. That's you, unblocked.",
     outcomes: [
       "The thought and the words start arriving at the same time instead of five seconds apart",
-      "Dates feel like actual exchanges instead of performances you're watching yourself give",
+      "You stop watching yourself from the outside and start actually being in the conversation",
       "You stop replaying what you should have said — because you said it"
     ],
     villain: "Nobody told you that <strong>perfect is the enemy of present</strong>. While you were editing, they moved on. Conversation doesn't wait for the ideal response — it rewards the one that showed up. Dating advice talks about confidence like it's a feeling you either have or don't. It's not. It's a decision to let the decent thing out before the perfect thing arrives.",
     bridge: "There's a technique in <strong>Don't Bomb the Date</strong> borrowed directly from stand-up comedy that fixes this at the mechanical level. Not mindset work. A structural change to how you deliver.",
-    fixTitle: "The 1 Timing Shift",
-    fixDesc: "Stop trying to find the perfect thing. Say the decent thing — then stop. Don't fill the silence after. Let it sit. The silence isn't failure. It's timing."
+    fixTitle: "The Delivery Window",
+    fixDesc: "Stop trying to find the perfect thing. Say the decent thing — then stop. Don't fill the silence after. Let it sit. The silence isn't failure. It's timing.",
+    patternCTA: "Fix the Overthinker Pattern — $19 →"
   }
 };
 
@@ -1199,6 +1215,7 @@ function showResult() {
     <span class="result-tag">Your Conversation Pattern</span>
     <div class="result-type">${p.type}</div>
     <div class="result-tagline">${p.tagline}</div>
+    <div class="result-subtitle">${p.subtitle}</div>
     <div class="identity-lock">${p.identityLock}</div>
 
     <!-- FREE: Identity Lock + Mirror + Normalize + Window + FutureViz + Outcomes -->
@@ -1225,19 +1242,18 @@ function showResult() {
       <div class="gate-authority">Based on conversation principles used in stand-up comedy — applied to dating.</div>
       <div class="gate-social-proof">📱 1,200+ people have taken this quiz this week</div>
       <div class="gate-eyebrow">Written for ${p.type.replace('\u200B','')} — your exact pattern</div>
-      <div class="gate-headline">GET THE FULL FIX</div>
+      <div class="gate-headline">THE FULL FIX IS INSIDE</div>
       <div class="gate-sub">The technique. The reason it works. And the 5 other patterns that kill first dates — so you recognize them when they show up.</div>
       <div class="gate-price-row">
-        <span class="gate-orig">$29</span>
+        <span class="gate-orig">$39</span>
         <span class="gate-now">$19</span>
         <span class="gate-price-note">Quiz result discount applied</span>
       </div>
-      <a href="${GUMROAD_URL}" target="_blank" class="btn-primary">FIX THE ${p.type.replace('\u200B','').replace('THE ','')} PATTERN — $19 →</a>
+      <a href="${GUMROAD_URL}" target="_blank" class="btn-primary">${p.patternCTA}</a>
       <div class="gate-scarcity">Quiz-taker price expires when you leave this page.</div>
       <div class="gate-friction">Instant PDF. No subscription. Read it tonight.</div>
     </div>
 
-    <button class="retake" onclick="retakeQuiz()">Retake the quiz</button>
   `;
 
   document.getElementById('screen-result').innerHTML = html;
