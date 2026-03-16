@@ -4,544 +4,125 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Pattern Test — The 14-Day Reclamation</title>
-<meta property="og:title" content="Every quit attempt that didn't stick had the same design flaw.">
-<meta property="og:description" content="60-second pattern test. Identifies the regulation function nicotine was serving — and what replaces it precisely.">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --cream: #EEEAE2;
-    --stone: #E2DDD5;
-    --ink: #3A4A44;
-    --ink-dark: #2B3830;
-    --ink-muted: #6B7B74;
-    --ink-faint: #A8B4AD;
-    --accent: #4A6B5C;
-    --accent-light: #E6EDEA;
-    --border: rgba(58,74,68,0.13);
-    --border-strong: rgba(58,74,68,0.28);
+    --cream: #EEEAE2; --stone: #E2DDD5; --ink: #3A4A44; --ink-dark: #2B3830;
+    --ink-muted: #6B7B74; --ink-faint: #A8B4AD; --accent: #4A6B5C;
+    --accent-light: #E6EDEA; --border: rgba(58,74,68,0.13); --border-strong: rgba(58,74,68,0.28);
+    --clay: #9B6B4A; --clay-light: rgba(155,107,74,0.07);
   }
-
-  html { font-size: 16px; scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Jost', sans-serif;
-    font-weight: 300;
-    background: var(--cream);
-    color: var(--ink);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 2rem 1rem 4rem;
-  }
-
-  .wordmark {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 11px;
-    font-weight: 400;
-    font-style: italic;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 3rem;
-    padding-top: 0.5rem;
-  }
-
-  .quiz-container {
-    width: 100%;
-    max-width: 540px;
-  }
-
+  html { font-size: 16px; }
+  body { font-family: 'Jost', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem 5rem; }
+  .wordmark { font-family: 'Cormorant Garamond', serif; font-size: 11px; font-weight: 400; font-style: italic; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 3rem; padding-top: 0.5rem; }
+  .quiz-container { width: 100%; max-width: 540px; }
   .screen { display: none; }
   .screen.active { display: block; animation: fadeUp 0.4s ease both; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .progress-track {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 2.5rem;
-  }
-
-  .progress-pip {
-    height: 2px;
-    flex: 1;
-    background: var(--border);
-    border-radius: 2px;
-    transition: background 0.4s ease;
-  }
-
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .progress-track { display: flex; gap: 4px; margin-bottom: 2.5rem; }
+  .progress-pip { height: 2px; flex: 1; background: var(--border); border-radius: 2px; transition: background 0.4s ease; }
   .progress-pip.done { background: var(--accent); }
   .progress-pip.active { background: var(--ink-muted); }
-
-  .q-label {
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 1rem;
-    font-weight: 400;
-  }
-
-  .q-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
-    font-weight: 400;
-    line-height: 1.35;
-    color: var(--ink);
-    margin-bottom: 0.6rem;
-  }
-
-  .q-sub {
-    font-size: 13.5px;
-    color: var(--ink-muted);
-    line-height: 1.65;
-    margin-bottom: 2rem;
-    font-weight: 300;
-  }
-
-  .options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.75rem; }
-
-  .opt {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    padding: 13px 16px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background: rgba(255,255,255,0.55);
-    color: var(--ink);
-    font-family: 'Jost', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 1.5;
-    cursor: pointer;
-    text-align: left;
-    transition: border-color 0.15s, background 0.15s;
-    letter-spacing: 0.01em;
-  }
-
-  .opt:hover {
-    border-color: var(--accent);
-    background: var(--accent-light);
-  }
-
-  .opt.selected {
-    border-color: var(--accent);
-    border-width: 1.5px;
-    background: var(--accent-light);
-    color: var(--accent);
-  }
-
-  .btn {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    display: block;
-    width: 100%;
-    padding: 13px 20px;
-    border-radius: 4px;
-    font-family: 'Jost', sans-serif;
-    font-size: 13.5px;
-    font-weight: 400;
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #F0EDE6;
-    border: 1px solid var(--accent);
-  }
-
+  .intro-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 1.25rem; }
+  .intro-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px,7vw,40px); font-weight: 400; line-height: 1.2; color: var(--ink-dark); margin-bottom: 1rem; }
+  .intro-body { font-size: 14px; color: var(--ink-muted); line-height: 1.75; font-weight: 300; margin-bottom: 1.5rem; }
+  .pain-section { margin: 1.75rem 0; border-top: 1px solid var(--border); }
+  .pain-item { padding: 1.25rem 0; border-bottom: 1px solid var(--border); font-size: 13.5px; line-height: 1.8; color: var(--ink-muted); font-weight: 300; }
+  .pain-item strong { color: var(--ink); font-weight: 400; }
+  .pain-item em { color: var(--accent); font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 15px; }
+  .intro-meta { font-size: 11.5px; color: var(--ink-faint); margin-bottom: 1.5rem; letter-spacing: 0.05em; }
+  .divider { height: 1px; background: var(--border); margin: 1.75rem 0; }
+  .btn { -webkit-tap-highlight-color: transparent; touch-action: manipulation; display: block; width: 100%; padding: 13px 20px; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 13.5px; font-weight: 400; cursor: pointer; transition: all 0.15s; letter-spacing: 0.06em; text-transform: uppercase; }
+  .btn-primary { background: var(--accent); color: #F0EDE6; border: 1px solid var(--accent); text-decoration: none; text-align: center; }
   .btn-primary:hover { background: var(--ink-dark); border-color: var(--ink-dark); }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--ink-muted);
-    border: 1px solid var(--border);
-  }
-
-  .btn-ghost:hover { border-color: var(--border-strong); background: var(--stone); }
-
   .btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 2rem 0;
-  }
-
-  /* Intro screen */
-  .intro-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 1.25rem;
-  }
-
-  .intro-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 38px;
-    font-weight: 400;
-    line-height: 1.2;
-    color: var(--ink-dark);
-    margin-bottom: 1rem;
-  }
-
-  .intro-body {
-    font-size: 14px;
-    color: var(--ink-muted);
-    line-height: 1.75;
-    font-weight: 300;
-    margin-bottom: 0.5rem;
-    font-family: 'Jost', sans-serif;
-  }
-
-  .intro-meta {
-    font-size: 11.5px;
-    color: var(--ink-faint);
-    margin-bottom: 2rem;
-    letter-spacing: 0.05em;
-  }
-
-  /* Result screen */
-  .result-tag {
-    display: inline-block;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 4px 12px;
-    border-radius: 30px;
-    margin-bottom: 1.25rem;
-  }
-
-  .result-type {
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 0.5rem;
-  }
-
-  .result-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
-    font-weight: 400;
-    line-height: 1.3;
-    color: var(--ink-dark);
-    margin-bottom: 1.25rem;
-  }
-
-  .result-body {
-    font-size: 14px;
-    color: var(--ink-muted);
-    line-height: 1.75;
-    font-weight: 300;
-    margin-bottom: 1.25rem;
-  }
-
-  .insight-block {
-    border-left: 2px solid var(--accent);
-    padding: 14px 16px;
-    background: var(--accent-light);
-    border-radius: 0 4px 4px 0;
-    margin-bottom: 1.5rem;
-    font-size: 13.5px;
-    color: var(--accent);
-    line-height: 1.65;
-    font-weight: 400;
-  }
-
-  .cta-note {
-    font-size: 13px;
-    color: var(--ink-muted);
-    line-height: 1.65;
-    font-weight: 300;
-    margin-bottom: 1.75rem;
-    font-style: italic;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
-  }
-
-  .offer-card {
-    border: 1px solid var(--border-strong);
-    border-radius: 4px;
-    padding: 1.5rem;
-    background: rgba(255,255,255,0.6);
-    margin-bottom: 0.75rem;
-  }
-
-  .offer-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    font-weight: 500;
-    color: var(--ink-dark);
-    margin-bottom: 0.35rem;
-    font-style: italic;
-  }
-
-  .offer-sub {
-    font-size: 13px;
-    color: var(--ink-muted);
-    line-height: 1.6;
-    font-weight: 300;
-    margin-bottom: 1.25rem;
-  }
-
-  .price-row {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-bottom: 1.1rem;
-  }
-
-  .price {
-    font-size: 28px;
-    font-weight: 500;
-    color: var(--ink);
-    font-family: 'Cormorant Garamond', serif;
-  }
-
-  .price-note {
-    font-size: 12.5px;
-    color: var(--ink-faint);
-  }
-
-  .features {
-    list-style: none;
-    font-size: 13px;
-    color: var(--ink-muted);
-    line-height: 1.9;
-    font-weight: 300;
-    margin-bottom: 1.25rem;
-  }
-
-  .features li { display: flex; align-items: flex-start; gap: 8px; }
-  .features li::before {
-    content: "—";
-    color: var(--ink-faint);
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .disclaimer {
-    font-size: 11px;
-    color: var(--ink-faint);
-    text-align: center;
-    line-height: 1.6;
-    margin-top: 1rem;
-  }
-
-  .btn-offer {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    display: block;
-    width: 100%;
-    padding: 14px 20px;
-    background: var(--accent);
-    color: #EEF2EF;
-    border: none;
-    border-radius: 4px;
-    font-family: 'Jost', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    transition: background 0.15s;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .btn-offer:hover { background: var(--ink-dark); }
-
-  .retake {
-    display: block;
-    text-align: center;
-    font-size: 12px;
-    color: var(--ink-faint);
-    margin-top: 1.25rem;
-    cursor: pointer;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    background: none;
-    border: none;
-  }
-
-  .retake:hover { color: var(--ink-muted); }
-
-  /* Loading screen */
-  .loading-wrap {
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1rem;
-    text-align: center;
-  }
-
-  .loading-orb {
-    position: relative;
-    width: 64px;
-    height: 64px;
-    margin-bottom: 2.5rem;
-  }
-
-  .orb-ring {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 1.5px solid transparent;
-    border-top-color: var(--accent);
-    border-right-color: var(--accent);
-    animation: spin 1.4s cubic-bezier(0.68,-0.55,0.27,1.55) infinite;
-  }
-
-  .orb-ring-2 {
-    inset: 10px;
-    border-top-color: var(--ink-faint);
-    border-right-color: transparent;
-    border-bottom-color: var(--ink-faint);
-    animation: spin 1.8s cubic-bezier(0.68,-0.55,0.27,1.55) infinite reverse;
-  }
-
-  .orb-dot {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: pulse 1.4s ease-in-out infinite;
-  }
-
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 0.4; transform: translate(-50%,-50%) scale(0.8); }
-    50% { opacity: 1; transform: translate(-50%,-50%) scale(1.2); }
-  }
-
-  .loading-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--ink-dark);
-    margin-bottom: 0.5rem;
-    animation: fadeIn 0.5s ease both;
-    min-height: 1.4em;
-  }
-
-  .loading-sub {
-    font-family: 'Jost', sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-    color: var(--ink-faint);
-    letter-spacing: 0.06em;
-    margin-bottom: 2rem;
-    animation: fadeIn 0.5s ease 0.1s both;
-    min-height: 1.4em;
-  }
-
-  .loading-bar-track {
-    width: 180px;
-    height: 1.5px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .loading-bar-fill {
-    height: 100%;
-    width: 0%;
-    background: var(--accent);
-    border-radius: 2px;
-    transition: width 0.6s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .medium-cta {
-    display: block;
-    text-align: center;
-    font-family: 'Jost', sans-serif;
-    font-size: 12.5px;
-    font-weight: 400;
-    color: var(--accent);
-    text-decoration: none;
-    letter-spacing: 0.03em;
-    margin-top: 1.25rem;
-    margin-bottom: 0.5rem;
-    opacity: 0.85;
-  }
-
+  .q-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 1rem; font-weight: 400; }
+  .q-text { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; line-height: 1.35; color: var(--ink); margin-bottom: 0.5rem; }
+  .q-sub { font-size: 13.5px; color: var(--ink-muted); line-height: 1.65; margin-bottom: 1.75rem; font-weight: 300; }
+  .options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.75rem; }
+  .opt { -webkit-tap-highlight-color: transparent; touch-action: manipulation; padding: 13px 16px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.55); color: var(--ink); font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 300; line-height: 1.5; cursor: pointer; text-align: left; transition: border-color 0.15s, background 0.15s; letter-spacing: 0.01em; }
+  .opt:hover { border-color: var(--accent); background: var(--accent-light); }
+  .opt.selected { border-color: var(--accent); border-width: 1.5px; background: var(--accent-light); color: var(--accent); }
+  .loading-wrap { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 1rem; text-align: center; }
+  .loading-orb { position: relative; width: 64px; height: 64px; margin-bottom: 2.5rem; }
+  .orb-ring { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid transparent; border-top-color: var(--accent); border-right-color: var(--accent); animation: spin 1.4s cubic-bezier(0.68,-0.55,0.27,1.55) infinite; }
+  .orb-ring-2 { inset: 10px; border-top-color: var(--ink-faint); border-right-color: transparent; border-bottom-color: var(--ink-faint); animation: spin 1.8s cubic-bezier(0.68,-0.55,0.27,1.55) infinite reverse; }
+  .orb-dot { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); top: 50%; left: 50%; transform: translate(-50%,-50%); animation: orbpulse 1.4s ease-in-out infinite; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes orbpulse { 0%,100% { opacity:0.4; transform:translate(-50%,-50%) scale(0.8); } 50% { opacity:1; transform:translate(-50%,-50%) scale(1.2); } }
+  .loading-text { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--ink-dark); margin-bottom: 0.5rem; min-height: 1.4em; transition: opacity 0.3s ease; }
+  .loading-sub { font-size: 12px; font-weight: 300; color: var(--ink-faint); letter-spacing: 0.06em; margin-bottom: 2rem; min-height: 1.4em; transition: opacity 0.3s ease; }
+  .loading-bar-track { width: 180px; height: 1.5px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .loading-bar-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 2px; transition: width 0.6s ease; }
+  .result-tag { display: inline-block; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 4px 12px; border-radius: 30px; margin-bottom: 1.25rem; }
+  .result-type { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.5rem; }
+  .result-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(22px,5vw,30px); font-weight: 400; line-height: 1.3; color: var(--ink-dark); margin-bottom: 1.5rem; }
+  .identity-lock { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; line-height: 1.7; color: var(--ink); margin-bottom: 1.5rem; padding: 14px 18px; background: var(--accent-light); border-left: 2px solid var(--accent); border-radius: 0 4px 4px 0; }
+  .result-mirror { font-size: 14px; color: var(--ink-muted); line-height: 1.85; font-weight: 300; margin-bottom: 1.25rem; padding-left: 14px; border-left: 1.5px solid var(--stone); }
+  .result-normalize { font-size: 14px; color: var(--ink-muted); line-height: 1.85; font-weight: 300; margin-bottom: 1.25rem; }
+  .result-window { border-left: 2px solid var(--accent); padding: 14px 18px; background: var(--accent-light); border-radius: 0 4px 4px 0; margin: 1.5rem 0; }
+  .window-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .result-window p { font-size: 13.5px; color: var(--ink); line-height: 1.7; font-weight: 400; }
+  .future-viz { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; line-height: 1.8; color: var(--ink-dark); margin: 1.5rem 0; padding: 16px 18px; border-left: 2px solid var(--clay); background: var(--clay-light); border-radius: 0 4px 4px 0; }
+  .outcomes-block { margin: 1.5rem 0; }
+  .outcomes-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .outcomes-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .outcomes-list li { font-size: 13.5px; color: var(--ink-muted); line-height: 1.65; font-weight: 300; padding-left: 18px; position: relative; }
+  .outcomes-list li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
+  .result-villain { font-size: 14px; color: var(--ink-muted); line-height: 1.85; font-weight: 300; margin-bottom: 1.25rem; }
+  .result-villain strong { color: var(--ink); font-weight: 400; }
+  .result-bridge { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; line-height: 1.6; color: var(--ink-dark); margin: 1.5rem 0 0.25rem; }
+  .fix-card { border: 1px solid var(--border-strong); border-radius: 4px; padding: 1.25rem 1.5rem; background: rgba(255,255,255,0.5); margin: 1.25rem 0; }
+  .fix-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+  .fix-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 500; color: var(--ink-dark); margin-bottom: 0.5rem; font-style: italic; }
+  .fix-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.65; font-weight: 300; }
+  .gate-cta { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .gate-authority { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--ink-faint); text-align: center; margin-bottom: 0.5rem; font-style: italic; }
+  .gate-social-proof { font-size: 12px; color: var(--ink-muted); text-align: center; margin-bottom: 1.25rem; padding: 7px 14px; background: rgba(255,255,255,0.6); border: 1px solid var(--border); border-radius: 30px; font-weight: 300; }
+  .gate-eyebrow { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.5rem; text-align: center; }
+  .gate-headline { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px,5vw,32px); font-weight: 400; color: var(--ink-dark); line-height: 1.2; margin-bottom: 0.5rem; text-align: center; font-style: italic; }
+  .gate-sub { font-size: 13px; color: var(--ink-muted); margin-bottom: 1.5rem; font-weight: 300; line-height: 1.65; text-align: center; }
+  .gate-price-row { display: flex; align-items: baseline; justify-content: center; gap: 10px; margin-bottom: 1rem; padding: 14px; background: rgba(255,255,255,0.6); border: 1px solid var(--border-strong); border-radius: 4px; }
+  .gate-orig { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--ink-faint); text-decoration: line-through; }
+  .gate-now { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 500; color: var(--ink-dark); line-height: 1; }
+  .gate-price-note { font-size: 12px; color: var(--ink-faint); line-height: 1.4; }
+  .gate-scarcity { font-size: 12px; color: var(--clay); text-align: center; margin-top: 0.75rem; font-weight: 400; letter-spacing: 0.02em; }
+  .gate-friction { font-size: 11.5px; color: var(--ink-faint); text-align: center; margin-top: 0.4rem; font-weight: 300; letter-spacing: 0.04em; }
+  .medium-cta { display: block; text-align: center; font-size: 12.5px; font-weight: 400; color: var(--accent); text-decoration: none; letter-spacing: 0.03em; margin-top: 1.25rem; opacity: 0.85; }
   .medium-cta:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
-
+  .retake { display: block; text-align: center; font-size: 12px; color: var(--ink-faint); margin-top: 1rem; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; background: none; border: none; width: 100%; }
+  .retake:hover { color: var(--ink-muted); }
+  .disclaimer { font-size: 11px; color: var(--ink-faint); text-align: center; line-height: 1.6; margin-top: 1rem; }
   @media (max-width: 480px) {
-    .quiz-container { max-width: 100%; }
-    .intro-title { font-size: 26px; line-height: 1.25; }
-    .q-text { font-size: 20px; }
-    .result-name { font-size: 22px; }
-    .opt {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation; padding: 15px 16px; font-size: 14px; }
-    .btn {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation; padding: 15px 20px; font-size: 13px; }
-    .btn-offer {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation; padding: 15px 20px; font-size: 13px; }
-    .price { font-size: 24px; }
-    .offer-card { padding: 1.25rem; }
+    body { padding: 1.5rem 1rem 3rem; }
+    .intro-title { font-size: 26px; }
+    .q-text { font-size: 22px; }
+    .result-name { font-size: 24px; }
+    .opt { padding: 15px 16px; }
     .loading-wrap { min-height: 50vh; }
     .loading-orb { width: 52px; height: 52px; }
     .loading-text { font-size: 19px; }
-    .loading-sub { font-size: 11px; }
-    body { padding: 1.5rem 1rem 3rem; }
-    .intro-title { font-size: 28px; }
-    .q-text { font-size: 22px; }
-    .result-name { font-size: 24px; }
   }
 </style>
 </head>
 <body>
-
 <p class="wordmark">The 14-Day Reclamation</p>
-
 <div class="quiz-container">
 
-  <!-- Intro -->
   <div id="s0" class="screen active">
     <p class="intro-eyebrow">Pattern test</p>
     <h1 class="intro-title">Every quit attempt that didn't stick had the same design flaw.</h1>
     <p class="intro-body">Willpower removes the tool. It doesn't address what the tool was doing. This 60-second test identifies the specific regulation function nicotine was serving — and what replaces it precisely.</p>
-    <div class="divider"></div>
+    <div class="pain-section">
+      <div class="pain-item">You've stopped before. Maybe more than once. Each time you held it together until something happened — a bad day, a social situation, a moment where the gap became too loud. <strong>You didn't fail. The approach was incomplete.</strong></div>
+      <div class="pain-item">The frustrating part isn't the craving. It's that the craving makes sense. Your nervous system learned to call for a specific tool that actually worked. <strong>Removing the tool without replacing the function is why willpower alone doesn't hold.</strong></div>
+      <div class="pain-item"><em>The regulation function is still running. It just needs a more precise instrument.</em> Five questions identifies which one.</div>
+    </div>
     <p class="intro-meta">5 questions · 60 seconds · No signup required</p>
-    <button class="btn btn-primary" onclick="go('s1')">Find my pattern</button>
+    <button class="btn btn-primary" onclick="go('s1')">Find my regulation pattern</button>
   </div>
 
-  <!-- Q1 -->
   <div id="s1" class="screen">
     <div class="progress-track" id="pt1"></div>
     <p class="q-label">Question 1 of 5</p>
@@ -556,7 +137,6 @@
     </div>
   </div>
 
-  <!-- Q2 -->
   <div id="s2" class="screen">
     <div class="progress-track" id="pt2"></div>
     <p class="q-label">Question 2 of 5</p>
@@ -570,7 +150,6 @@
     </div>
   </div>
 
-  <!-- Q3 -->
   <div id="s3" class="screen">
     <div class="progress-track" id="pt3"></div>
     <p class="q-label">Question 3 of 5</p>
@@ -585,7 +164,6 @@
     </div>
   </div>
 
-  <!-- Q4 -->
   <div id="s4" class="screen">
     <div class="progress-track" id="pt4"></div>
     <p class="q-label">Question 4 of 5</p>
@@ -600,7 +178,6 @@
     </div>
   </div>
 
-  <!-- Q5 -->
   <div id="s5" class="screen">
     <div class="progress-track" id="pt5"></div>
     <p class="q-label">Question 5 of 5</p>
@@ -614,7 +191,6 @@
     </div>
   </div>
 
-  <!-- Loading -->
   <div id="s6" class="screen">
     <div class="loading-wrap">
       <div class="loading-orb">
@@ -628,173 +204,187 @@
     </div>
   </div>
 
-  <!-- Result -->
-  <div id="s7" class="screen">
-    <div id="resultContent"></div>
-  </div>
+  <div id="s7" class="screen"><div id="resultContent"></div></div>
 
 </div>
-
 <script>
-  var answers = {};
+var answers={},q3Answer=null;
+var GUMROAD='https://zystd.gumroad.com/l/the14dayreclamation';
+var profiles={
+  stress:{
+    type:'Stress modulator',
+    name:'Your nervous system has been using nicotine as a cortisol valve.',
+    identityLock:'If this feels accurate — it\'s because you\'ve already noticed it yourself. The craving doesn\'t arrive randomly. It arrives at a precise moment: when the pressure exceeds a threshold your nervous system can\'t otherwise manage.',
+    mirror:'You\'ve held it together through normal days and lost the thread on difficult ones. Not because you lacked discipline — because on difficult days, the pressure exceeded what willpower alone could process. The cigarette wasn\'t a weakness. It was the fastest available tool for a real physiological need.',
+    normalize:'This is not a character flaw. Your nervous system learned to call for a rapid intervention when cortisol spiked. That\'s not addiction in the ordinary sense — it\'s a regulatory pattern. The tool created dependency. The regulation need it was serving is completely legitimate.',
+    window:'Every high-stress event you navigate without a replacement tool reinforces the original pathway. The nervous system keeps the request on file. Willpower says no once, twice, three times — until one day it doesn\'t. The pressure doesn\'t diminish. Only the tool changes.',
+    futureViz:'Imagine the next difficult call. The pressure arrives — and instead of the familiar reach, something else fires. A breath sequence. A temperature shift. Something faster than thought that tells your nervous system: handled. The edge comes off in under ninety seconds. You move on. That\'s not a fantasy. That\'s a retrained pathway.',
+    outcomes:['A calmer baseline that doesn\'t require the dependency loop to maintain','Difficult moments handled with precision tools instead of suppressed cravings','The cortisol spike arrives — and something you own is already waiting for it'],
+    villain:'Willpower-based cessation fails this pattern <strong>almost every time</strong> — not because the person is weak, but because the approach removes the valve without addressing the pressure. The pressure remains, unsatisfied, and eventually calls loudly enough that the tool is reinstated. Nobody explained this. So you assumed the problem was you.',
+    bridge:'The 14-Day Reclamation introduces tools that operate on the same autonomic pathways as nicotine — at comparable speed, without the dependency loop.',
+    fixTitle:'The Autonomic Reset',
+    fixDesc:'The specific temperature and breathwork protocol built for this pattern is covered in full on Day 2. It targets the same cortisol pathway — directly. The full architecture is in place by Day 7.'
+  },
+  boundary:{
+    type:'Boundary marker',
+    name:'Your cravings are task transition signals — not addiction in the conventional sense.',
+    identityLock:'If this feels accurate — it\'s because you\'ve already noticed the timing. The craving isn\'t random. It arrives at the boundary. Between one thing and the next. That precision is the pattern.',
+    mirror:'You don\'t crave at random. You crave at edges. When one meeting ends. When a piece of work finishes. When the context shifts. The cigarette wasn\'t a reward — it was a neurological signal that one context had closed and another was permitted to begin. Without it, something bleeds.',
+    normalize:'This isn\'t chemical dependency in the way most frameworks describe it. The cognitive function the habit was performing — creating a clean break between mental states — is completely real and completely legitimate. The tool created the dependency. The function it served is yours.',
+    window:'Every transition you navigate without a replacement boundary marker leaves cognitive residue from the previous context contaminating the next one. Over time this compounds: worse focus, slower recovery, a persistent low-level drain. The need doesn\'t disappear. It just becomes background noise.',
+    futureViz:'Imagine finishing a difficult meeting. Instead of the familiar reach, you have a designed interval — thirty seconds, a specific sensory marker, a clear signal to your brain that this context is closed. You step into the next one clean. The residue doesn\'t follow you. That boundary belongs to you now — not to the cigarette.',
+    outcomes:['Clean cognitive transitions between tasks without the residue bleed','A designed interval that belongs entirely to you — no dependency attached','The hand-loop replaced with a deliberate sensory marker that performs as well'],
+    villain:'Most cessation frameworks never map what the habit was <strong>actually doing</strong>. They address the chemical layer and leave the cognitive function unaddressed. The person stops the cigarette and loses the boundary. Performance degrades. The gap becomes too loud. The tool reinstates. Nobody explained why.',
+    bridge:'The 14-Day Reclamation builds designed intervals with deliberate sensory markers — transition rituals that perform the same boundary function with more precision and no dependency.',
+    fixTitle:'The Designed Interval',
+    fixDesc:'Day 6 installs the designed interval as an owned, unconditional pause. Day 9 addresses the hand-loop — the manual component that most frameworks overlook entirely. Both are covered in full.'
+  },
+  identity:{
+    type:'Private ritualist',
+    name:'The gap you feel isn\'t withdrawal. It\'s the absence of a private practice that belonged entirely to you.',
+    identityLock:'If this feels accurate — it\'s because the gap isn\'t about cravings. It\'s about something more specific: the three minutes that were entirely yours, that required no explanation, that operated by rules you set.',
+    mirror:'You know the biochemistry diminishes. That\'s not what concerns you. What concerns you is the thing that goes with it — the private pause, the deliberate step outside, the sense that for three minutes you were operating by your own rules and answerable to no one. That was real. That was yours. The cigarette was just the delivery mechanism.',
+    normalize:'This is the pattern cessation frameworks miss most often — and one of the most common drivers of long-term relapse after successful abstinence. The dependency ends. The identity layer remains. The private ritual, the deliberate pause, the permission to take time that belongs to no one else: none of these were properties of the cigarette. They were always yours.',
+    window:'The longer the identity layer goes unaddressed, the more the private practice feels inseparable from the tool. At six months clean, the gap can feel as present as it did at six days — not because of chemistry, but because nothing has been installed to hold what the cigarette held.',
+    futureViz:'Imagine a pause that belongs entirely to you. No cigarette required, no explanation owed. Three minutes that are structurally yours — a specific sensory practice, a private ritual that requires no justification and no audience. Same permission. Same ownership. No dependency. That\'s not a replacement. That\'s reclamation.',
+    outcomes:['A private practice that is structurally yours — owned outright, no tool required','The permission to pause remains intact — only the delivery mechanism changes','The identity layer addressed directly, not just the chemical layer'],
+    villain:'Willpower-based cessation removes the tool and calls it done. The identity function — <strong>the private claim on three minutes that belonged to you alone</strong> — is left unaddressed. The person doesn\'t relapse because of cravings after month two. They relapse because the gap in the day is still there and nothing credible has filled it.',
+    bridge:'The 14-Day Reclamation maps which elements were genuinely yours and reinstalls them through more precise tools — tools that belong to no one else and require no explanation.',
+    fixTitle:'The Reclaimed Pause',
+    fixDesc:'Day 8 is built specifically for this pattern. Day 11 reclaims the unoccupied quiet — the permission the cigarette granted for three minutes of purposeless stillness. Both are covered in full.'
+  },
+  social:{
+    type:'Social synchronizer',
+    name:'Your habit was doing social work that had nothing to do with nicotine.',
+    identityLock:'If this feels accurate — it\'s because you\'ve already identified the moments. Not the daily craving. The specific social situations where not having one creates a different kind of problem entirely.',
+    mirror:'It\'s not the craving that worries you. It\'s the moments. The colleague who steps outside. The close friend who offers. The context where participating was simply what happened and not participating requires an explanation you don\'t want to give. The cigarette gave you a legible exit, an informal connection, a membership. Removing it leaves specific social gaps that willpower alone can\'t close.',
+    normalize:'The social function of this pattern is the most underestimated layer in cessation frameworks. The dependency is real, but it\'s not primarily chemical — it\'s contextual. Certain situations create a specific pull that has nothing to do with nicotine levels. That pull is social. It\'s real. And it needs a different kind of tool.',
+    window:'The first party. The first work event. The first time a close colleague offers on a difficult afternoon. These are predictable high-risk moments. Every person who enters them without preparation meets the same outcome. The tool reinstates — not from craving, but from the social pressure having nowhere to land.',
+    futureViz:'Imagine the next situation where someone offers. You have a response that is clean, complete, and requires no elaboration. It lands with authority. The conversation moves on. No awkwardness, no follow-up questions. You stay in the room, fully present. The social membership was never about the cigarette. You just needed a different way to hold it.',
+    outcomes:['High-risk social moments approached with a specific prepared response — not improvised discomfort','The legible exit still available — without the tool attached to it','Social connection intact — the membership was always yours'],
+    villain:'Most cessation frameworks hand you willpower and send you into social situations unprepared. <strong>The social layer of this pattern is what ends most long-term attempts</strong> — not the craving, not the chemistry. The person is clean for months, enters a specific social context, and the tool reinstates because nothing was installed to handle that precise moment.',
+    bridge:'The 14-Day Reclamation was built specifically for this pattern — with a complete set of social protocols for every high-risk context, built on a single principle: a clean statement followed by silence carries more authority than any explanation you could offer.',
+    fixTitle:'The Social Protocol Index',
+    fixDesc:'Day 7 installs a complete set of responses for the seven highest-risk social contexts. Each one is a single sentence designed to close the conversation — not open a negotiation. Covered in full.'
+  },
+  default:{
+    type:'Compound regulator',
+    name:'Your pattern involves multiple regulation functions — which is why single-tool approaches haven\'t held.',
+    identityLock:'If this feels accurate — it\'s because no single explanation has ever fully described it. The craving arrives in different forms at different times. That\'s not inconsistency. That\'s a compound pattern, and it requires a different architecture entirely.',
+    mirror:'No single explanation has ever fully landed for you. The stress framing gets close but misses something. The social layer is real but isn\'t the whole story. The identity element is there. What you\'ve been managing isn\'t one function — it\'s several, running simultaneously. That\'s why single-tool approaches get you partway and stop.',
+    normalize:'Compound regulation patterns are the most common profile among people who have attempted cessation seriously multiple times. The intelligence that makes you aware enough to identify that something is missing is the same intelligence that keeps reinstating the tool. This isn\'t weakness. It\'s a mapping problem.',
+    window:'Every single-tool approach you\'ve applied has addressed one function while leaving the others intact. The unaddressed functions continue generating demand. When the tool is removed, they find the loudest moment to reinstate. The pattern repeats — not because you\'re not trying hard enough, but because the architecture is incomplete.',
+    futureViz:'Imagine a day where the craving arrives and you already have something waiting for it — matched to the specific function being called for in that moment. The stress call gets the autonomic response. The transition call gets the designed interval. The identity call gets the reclaimed pause. The architecture holds because it\'s complete.',
+    outcomes:['A difficult day arrives and something is already waiting for it — matched to the specific demand, not applied generically','You stop white-knuckling through the pressure spikes, the transitions, the quiet gaps — each one handled by its own instrument','The pattern that outlasted every previous attempt finally meets something built to the same complexity'],
+    villain:'The most common reason intelligent people fail at cessation isn\'t willpower — <strong>it\'s that their habit was performing several distinct regulatory functions simultaneously</strong>. Willpower removes the tool. It doesn\'t address the underlying functions. They persist, unsatisfied, and eventually call loudly enough that the tool is reinstated.',
+    bridge:'The 14-Day Reclamation maps all six regulatory functions and introduces a higher-precision replacement for each — the architecture single-tool approaches can\'t provide.',
+    fixTitle:'The Full Regulation Map',
+    fixDesc:'Part I maps all six functions your pattern is serving. Each of the fourteen days targets a specific layer of the architecture. The compound pattern gets the compound response.'
+  }
+};
 
-  var results = {
-    stress: {
-      type: "Stress modulator",
-      name: "Your nervous system has been using nicotine as a cortisol valve.",
-      body: "The pattern is clear: your cravings arrive when pressure spikes, not randomly. This means nicotine wasn't a habit in the ordinary sense — it was a rapid physiological intervention your nervous system learned to call for whenever stress rose above a threshold it couldn't manage otherwise. Willpower-based approaches fail this pattern consistently because they remove the valve without addressing the pressure. The pressure remains, unsatisfied, and eventually calls loudly enough that the tool is reinstated.",
-      insight: "The 14-Day Reclamation introduces temperature contrast and breathwork as direct physiological replacements — tools that operate on the same autonomic pathways, at comparable speed, without the dependency loop. These are not coping strategies. They are direct physiological inputs.",
-      cta: "Day 2 maps your specific craving clusters. Day 3 installs the temperature ritual before your peak window. By Day 7, the full architecture is in place."
-    },
-    boundary: {
-      type: "Boundary marker",
-      name: "Your cravings are task transition signals — not addiction in the conventional sense.",
-      body: "The timing tells the story: your habit was performing a cognitive function, not just a chemical one. The cigarette break created a reliable neurological signal that one context had ended and another was beginning. Without it, cognitive residue from previous tasks bleeds into the next one — reducing performance on both. Most cessation approaches never address this because they don't map what the habit was actually doing.",
-      insight: "The 14-Day Reclamation builds designed intervals with deliberate sensory markers — transition rituals that perform the same boundary function with more precision and no dependency. Day 6 installs these as owned, unconditional pauses.",
-      cta: "Day 6 installs designed intervals as owned pauses. Day 9 addresses the hand-loop — the manual component of the transition ritual that most frameworks overlook entirely."
-    },
-    identity: {
-      type: "Private ritualist",
-      name: "The gap you feel isn't withdrawal. It's the absence of a private practice that belonged entirely to you.",
-      body: "This is the pattern most cessation frameworks miss entirely — and one of the most common drivers of long-term relapse after successful abstinence. The biochemical dependency diminishes within two weeks. The identity layer doesn't, unless it's addressed directly. The private ritual, the deliberate pause, the sense of operating by your own rules: none of these were properties of the cigarette. They were yours. The tool simply carried them.",
-      insight: "The 14-Day Reclamation doesn't ask you to close that gap by abandoning the identity. It maps which elements were genuinely yours and reinstalls them through more precise tools — tools that belong to no one else and require no explanation.",
-      cta: "Day 8 is built specifically for this pattern. Day 11 reclaims the unoccupied quiet — the permission the cigarette granted for three minutes of purposeless stillness."
-    },
-    social: {
-      type: "Social synchronizer",
-      name: "Your habit was doing social work that had nothing to do with nicotine.",
-      body: "The social layer of this pattern is the most underestimated in cessation frameworks. The cigarette provided a legible exit from situations that had become exhausting, informal connection with people you wouldn't otherwise pause with, and a membership of sorts. Removing the habit without preparing for these specific social moments is why the first party, the first work event, the first offer from a close colleague tends to be where the pattern reinstates.",
-      insight: "The 14-Day Reclamation includes a complete Graceful Deflection Index — seven scripts for specific social contexts, built on the principle that a clean statement followed by silence carries more authority than any explanation you could offer.",
-      cta: "Day 7 installs the social scripts. The index covers direct offers, follow-up questions, close colleagues, and social smoking contexts where participation was previously expected."
-    },
-    default: {
-      type: "Compound regulator",
-      name: "Your pattern involves multiple regulation functions — which is why single-tool approaches haven't held.",
-      body: "The most common reason intelligent people fail at cessation isn't willpower — it's that their habit was performing several distinct regulatory functions simultaneously. Stress modulation, task boundary marking, identity reinforcement, social synchronization. Willpower removes the tool. It doesn't address the underlying needs. They persist, unsatisfied, and eventually call loudly enough that the tool is reinstated.",
-      insight: "The 14-Day Reclamation maps all six regulatory functions and introduces a higher-precision replacement for each. The architecture addresses the full pattern — not a single craving type applied to all six at once.",
-      cta: "The Regulation Map in Part I identifies which of the six functions your pattern is primarily serving. Each of the fourteen days targets a specific layer of the architecture."
+function getResult(){
+  var a1=answers.a1||'',a3=answers.a3||'',a4=answers.a4||'';
+  if(a3==='social'||a4==='social') return profiles.social;
+  if(a3==='identity'||a4==='identity') return profiles.identity;
+  if(a3==='transition'||a4==='boredom'||a1==='transition') return profiles.boundary;
+  if(a3==='edge'||a4==='willpower'||a1==='stress') return profiles.stress;
+  return profiles.default;
+}
+
+function answer(el,key,val,next){
+  el.parentElement.querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  answers[key]=val;
+  if(key==='a3') q3Answer=val;
+  setTimeout(function(){ if(next==='result'){showLoader();}else{go(next);} },280);
+}
+
+function updateProgress(activeQ){
+  for(var i=1;i<=5;i++){
+    var pt=document.getElementById('pt'+i);
+    if(!pt) continue;
+    pt.innerHTML='';
+    for(var j=1;j<=5;j++){
+      var pip=document.createElement('div');
+      pip.className='progress-pip';
+      if(j<i) pip.classList.add('done');
+      else if(j===i) pip.classList.add('active');
+      pt.appendChild(pip);
     }
-  };
-
-  function getResult() {
-    var a1 = answers.a1 || '';
-    var a3 = answers.a3 || '';
-    var a4 = answers.a4 || '';
-    if (a3 === 'social' || a4 === 'social') return results.social;
-    if (a3 === 'identity' || a4 === 'identity') return results.identity;
-    if (a3 === 'transition' || a4 === 'boredom' || a1 === 'transition') return results.boundary;
-    if (a3 === 'edge' || a4 === 'willpower' || a1 === 'stress') return results.stress;
-    return results.default;
   }
+}
 
-  function answer(el, key, val, next) {
-    var opts = el.parentElement.querySelectorAll('.opt');
-    opts.forEach(function(o) { o.classList.remove('selected'); });
-    el.classList.add('selected');
-    answers[key] = val;
-    setTimeout(function() {
-      if (next === 'result') { showResult(); }
-      else { go(next); }
-    }, 280);
+function go(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  var num=parseInt(id.replace('s',''));
+  if(num>=1&&num<=5) updateProgress(num);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showLoader(){
+  go('s6');
+  var steps=[
+    {text:'Reading your pattern',sub:'Mapping the regulation architecture',pct:20},
+    {text:'Identifying the primary function',sub:'Cross-referencing craving clusters',pct:45},
+    {text:'Locating the gap',sub:'Why previous attempts lost hold',pct:65},
+    {text:'Matching precision tools',sub:'Selecting the right replacement architecture',pct:85},
+    {text:'Identifying your regulation pattern',sub:'Preparing your result',pct:100}
+  ];
+  var i=0,textEl=document.getElementById('loadingText'),subEl=document.getElementById('loadingSub'),barEl=document.getElementById('loadingBar');
+  function runStep(){
+    if(i>=steps.length){setTimeout(renderResult,500);return;}
+    var s=steps[i];
+    textEl.style.opacity='0';subEl.style.opacity='0';
+    setTimeout(function(){textEl.textContent=s.text;subEl.textContent=s.sub;barEl.style.width=s.pct+'%';textEl.style.opacity='1';subEl.style.opacity='1';},150);
+    i++;
+    setTimeout(runStep,i===steps.length?700:900);
   }
+  setTimeout(runStep,300);
+}
 
-  function updateProgress(activeQ) {
-    for (var i = 1; i <= 5; i++) {
-      var pt = document.getElementById('pt' + i);
-      if (!pt) continue;
-      pt.innerHTML = '';
-      for (var j = 1; j <= 5; j++) {
-        var pip = document.createElement('div');
-        pip.className = 'progress-pip';
-        if (j < i) pip.classList.add('done');
-        else if (j === i) pip.classList.add('active');
-        pt.appendChild(pip);
-      }
-    }
-  }
+function renderResult(){
+  var r=getResult();
+  var outcomeLis=r.outcomes.map(function(o){return '<li>'+o+'</li>';}).join('');
+  var html=
+    '<span class="result-tag">Your regulation pattern</span>'+
+    '<p class="result-type">'+r.type+'</p>'+
+    '<p class="result-name">'+r.name+'</p>'+
+    '<div class="identity-lock">'+r.identityLock+'</div>'+
+    '<div class="result-mirror">'+r.mirror+'</div>'+
+    '<p class="result-normalize">'+r.normalize+'</p>'+
+    '<div class="result-window"><div class="window-label">Why this matters now</div><p>'+r.window+'</p></div>'+
+    '<div class="future-viz">'+r.futureViz+'</div>'+
+    '<div class="outcomes-block"><div class="outcomes-label">What changes after this</div><ul class="outcomes-list">'+outcomeLis+'</ul></div>'+
+    '<p class="result-villain">'+r.villain+'</p>'+
+    '<p class="result-bridge">'+r.bridge+'</p>'+
+    '<div class="fix-card"><div class="fix-label">Your replacement architecture — inside the guide</div><div class="fix-title">'+r.fixTitle+'</div><div class="fix-desc">'+r.fixDesc+'</div></div>'+
+    '<a href="https://medium.com/@Reclamationprotocol/willpower-doesnt-fail-because-you-re-weak-5d4536003c0f" class="medium-cta" target="_blank">Not ready to start yet? Read the full breakdown of your pattern on Medium first &#8594;</a>'+
+    '<div class="gate-cta" id="gate-cta-block">'+
+      '<div class="gate-authority">Developed from autonomic nervous system research — not habit-loop frameworks or willpower models.</div>'+
+      '<div class="gate-social-proof">✦ 3,100+ people have taken this pattern test</div>'+
+      '<div class="gate-eyebrow">Built for your exact regulation pattern</div>'+
+      '<div class="gate-headline">The 14-Day Reclamation</div>'+
+      '<div class="gate-sub">A private interval for sensory return and quiet baseline. 14 days. Your specific pattern. The complete replacement architecture.</div>'+
+      '<div class="gate-price-row"><span class="gate-orig">$57</span><span class="gate-now">$37</span><span class="gate-price-note">Pattern test<br>discount applied</span></div>'+
+      '<a href="'+GUMROAD+'" class="btn btn-primary" target="_blank">Get The Reclamation — $37</a>'+
+      '<div class="gate-scarcity">Pattern test price expires when you leave this page.</div>'+
+      '<div class="gate-friction">Instant PDF · Private · No expiration</div>'+
+    '</div>'+
+    '<p class="disclaimer">Private use only. Not medical advice.</p>';
+  document.getElementById('resultContent').innerHTML=html;
+  go('s7');
+  setTimeout(function(){var c=document.getElementById('gate-cta-block');if(c)c.scrollIntoView({behavior:'smooth',block:'start'});},9000);
+}
 
-  function go(id) {
-    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
-    var target = document.getElementById(id);
-    target.classList.add('active');
-    var num = parseInt(id.replace('s', ''));
-    if (num >= 1 && num <= 5) updateProgress(num);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+function retake(){
+  answers={};q3Answer=null;
+  document.querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected');});
+  go('s0');
+}
 
-  function showResult() {
-    go('s6');
-    var steps = [
-      { text: 'Reading your pattern', sub: 'Mapping the regulation architecture', pct: 20 },
-      { text: 'Identifying the primary function', sub: 'Cross-referencing craving clusters', pct: 45 },
-      { text: 'Locating the gap', sub: 'Why previous attempts lost hold', pct: 65 },
-      { text: 'Matching precision tools', sub: 'Selecting the right replacement architecture', pct: 85 },
-      { text: 'Pattern identified', sub: 'Preparing your result', pct: 100 }
-    ];
-    var i = 0;
-    var textEl = document.getElementById('loadingText');
-    var subEl = document.getElementById('loadingSub');
-    var barEl = document.getElementById('loadingBar');
-
-    function runStep() {
-      if (i >= steps.length) {
-        setTimeout(function() { renderResult(); }, 500);
-        return;
-      }
-      var s = steps[i];
-      textEl.style.animation = 'none';
-      subEl.style.animation = 'none';
-      void textEl.offsetWidth;
-      textEl.style.animation = 'fadeIn 0.4s ease both';
-      subEl.style.animation = 'fadeIn 0.4s ease 0.08s both';
-      textEl.textContent = s.text;
-      subEl.textContent = s.sub;
-      barEl.style.width = s.pct + '%';
-      i++;
-      setTimeout(runStep, i === steps.length ? 700 : 900);
-    }
-
-    setTimeout(runStep, 300);
-  }
-
-  function renderResult() {
-    var r = getResult();
-    var html =
-      '<span class="result-tag">Your regulation pattern</span>' +
-      '<p class="result-type">' + r.type + '</p>' +
-      '<p class="result-name">' + r.name + '</p>' +
-      '<p class="result-body">' + r.body + '</p>' +
-      '<div class="insight-block">' + r.insight + '</div>' +
-      '<p class="cta-note">' + r.cta + '</p>' +
-      '<div class="divider"></div>' +
-      '<div class="offer-card">' +
-        '<p class="offer-title">The 14-Day Reclamation</p>' +
-        '<p class="offer-sub">A private interval for sensory return and quiet baseline. No group, no accountability partner, no performance required. Built for your specific regulation pattern.</p>' +
-        '<div class="price-row"><span class="price">$37</span><span class="price-note">· Instant PDF download</span></div>' +
-        '<ul class="features">' +
-          '<li>Private. Instant. No expiration.</li>' +
-          '<li>Full regulation map — six function-specific replacements</li>' +
-          '<li>14-day structured protocol with daily micro-shifts</li>' +
-          '<li>Graceful Deflection Index — seven social scripts</li>' +
-          '<li>Three-Step Reset for difficult days and lapses</li>' +
-        '</ul>' +
-        '<a href="https://zystd.gumroad.com/l/the14dayreclamation" class="btn-offer" target="_blank">Get The Reclamation — $37</a>' +
-      '</div>' +
-      '<p class="disclaimer">Private use only. Not medical advice. Not a substitute for professional healthcare guidance.</p>' +
-      '<a href="https://medium.com/@Reclamationprotocol/willpower-doesnt-fail-because-you-re-weak-5d4536003c0f" class="medium-cta" target="_blank">Read the full pattern breakdown &rarr;</a>';
-
-    document.getElementById('resultContent').innerHTML = html;
-    go('s7');
-  }
-
-  function retake() {
-    answers = {};
-    document.querySelectorAll('.opt').forEach(function(o) { o.classList.remove('selected'); });
-    document.querySelectorAll('.btn-primary[id^="next"]').forEach(function(b) { b.disabled = true; });
-    go('s0');
-  }
-
-  updateProgress(1);
+updateProgress(1);
 </script>
 </body>
 </html>
