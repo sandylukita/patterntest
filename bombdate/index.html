@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Kind of Date Conversationalist Are You?</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d0d1a;
+    --purple: #1a0f3c;
+    --cyan: #00e5ff;
+    --gold: #ffc947;
+    --white: #f0eee8;
+    --muted: #8b8fa8;
+    --card: #13102a;
+    --border: rgba(0,229,255,0.15);
+    --border-gold: rgba(255,201,71,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(26,15,60,0.9) 0%, rgba(13,13,26,0) 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(0,229,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .noise {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .screen { display: none; animation: fadeUp 0.5s ease forwards; }
+  .screen.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── SPOTLIGHT LINES ─── */
+  .spotlight-lines {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 300px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.15;
+  }
+
+  /* ─── LANDING PAGE ─── */
+  .mic-icon {
+    font-size: 48px;
+    display: block;
+    text-align: center;
+    margin-bottom: 24px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  .tag {
+    display: inline-block;
+    background: rgba(0,229,255,0.1);
+    border: 1px solid var(--border);
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 12vw, 80px);
+    line-height: 0.92;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    color: var(--white);
+  }
+
+  h1 span.cyan { color: var(--cyan); }
+  h1 span.gold { color: var(--gold); }
+
+  .subtitle {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+
+  .subtitle strong { color: var(--white); font-weight: 500; }
+
+  .stats-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .divider {
+    width: 1px;
+    background: var(--border);
+    align-self: stretch;
+  }
+
+  /* Pain amplifiers */
+  .pain-section {
+    margin: 48px 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .pain-item {
+    padding: 24px 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .pain-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+  .pain-item strong { color: var(--white); font-weight: 500; }
+
+  .pain-item em {
+    color: var(--cyan);
+    font-style: italic;
+  }
+
+  .pain-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+
+  /* ─── BUTTONS ─── */
+  .btn-primary {
+    display: block;
+    width: 100%;
+    background: var(--cyan);
+    color: var(--navy);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    padding: 18px 32px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover {
+    background: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,229,255,0.25);
+  }
+
+  .btn-secondary {
+    display: block;
+    width: 100%;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    padding: 18px 32px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 12px;
+  }
+
+  .btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  .fine-print {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 14px;
+  }
+
+  /* ─── QUIZ ─── */
+  .progress-wrap { margin-bottom: 36px; }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .progress-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .progress-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--cyan);
+  }
+
+  .progress-bar {
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--cyan);
+    border-radius: 100px;
+    transition: width 0.4s ease;
+    box-shadow: 0 0 12px rgba(0,229,255,0.5);
+  }
+
+  .question-num {
+    font-size: 12px;
+    color: var(--cyan);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .question-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(28px, 7vw, 44px);
+    line-height: 1.05;
+    margin-bottom: 32px;
+    color: var(--white);
+  }
+
+  .options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    text-align: left;
+  }
+
+  .option:hover {
+    border-color: var(--cyan);
+    background: rgba(0,229,255,0.06);
+    transform: translateX(4px);
+  }
+
+  .option.selected {
+    border-color: var(--cyan);
+    background: rgba(0,229,255,0.1);
+  }
+
+  .option-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--cyan);
+    min-width: 24px;
+    line-height: 1.3;
+  }
+
+  .option-text {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--white);
+    font-weight: 300;
+  }
+
+  /* ─── LOADER ─── */
+  .loading-wrap {
+    min-height: 65vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    text-align: center;
+  }
+
+  .loading-orb {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    margin-bottom: 2.5rem;
+  }
+
+  .orb-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: var(--cyan);
+    border-right-color: var(--cyan);
+    animation: orbSpin 1.4s cubic-bezier(0.68,-0.55,0.27,1.55) infinite;
+  }
+
+  .orb-ring-2 {
+    inset: 12px;
+    border-top-color: var(--gold);
+    border-right-color: transparent;
+    border-bottom-color: var(--gold);
+    animation: orbSpin 1.8s cubic-bezier(0.68,-0.55,0.27,1.55) infinite reverse;
+  }
+
+  .orb-dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--cyan);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: orbPulse 1.4s ease-in-out infinite;
+    box-shadow: 0 0 12px rgba(0,229,255,0.6);
+  }
+
+  @keyframes orbSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes orbPulse {
+    0%, 100% { opacity: 0.4; transform: translate(-50%,-50%) scale(0.8); }
+    50% { opacity: 1; transform: translate(-50%,-50%) scale(1.2); }
+  }
+
+  .loading-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--white);
+    margin-bottom: 8px;
+    min-height: 1.2em;
+    letter-spacing: 1px;
+  }
+
+  .loading-sub {
+    font-size: 13px;
+    color: var(--muted);
+    min-height: 1.4em;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .loading-bar-track {
+    width: 200px;
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .loading-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--cyan);
+    border-radius: 2px;
+    transition: width 0.6s ease;
+    box-shadow: 0 0 8px rgba(0,229,255,0.5);
+  }
+
+  /* ─── RESULT PAGE ─── */
+  .result-tag {
+    display: inline-block;
+    background: rgba(255,201,71,0.12);
+    border: 1px solid var(--border-gold);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+
+  .result-type {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 13vw, 88px);
+    line-height: 0.9;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+
+  .result-type .highlight { color: var(--gold); }
+
+  .result-emoji {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .result-tagline {
+    font-size: 18px;
+    color: var(--cyan);
+    font-weight: 500;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .identity-lock {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--white);
+    font-weight: 400;
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    background: rgba(0,229,255,0.05);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 6px;
+    font-style: italic;
+  }
+
+  /* FREE sections */
+  .result-mirror {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--white);
+    margin-bottom: 20px;
+    font-weight: 400;
+    border-left: 2px solid var(--cyan);
+    padding-left: 16px;
+  }
+
+  .result-normalize {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  /* ─── PREVIEW GATE ─── */
+  .gate-wrapper {
+    position: relative;
+    margin-bottom: 0;
+  }
+
+  .gate-content {
+    position: relative;
+  }
+
+  .gate-blur {
+    filter: blur(5px);
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.5;
+    transition: filter 0.4s ease;
+  }
+
+  .gate-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(to bottom, transparent 0%, var(--navy) 70%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .gate-cta {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 32px 24px 40px;
+    background: var(--navy);
+    border-top: 1px solid var(--border);
+    margin-top: -1px;
+  }
+
+  .gate-eyebrow {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .gate-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(28px, 7vw, 40px);
+    color: var(--white);
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+
+  .gate-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .gate-price-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    background: rgba(255,201,71,0.05);
+    border: 1px solid var(--border-gold);
+    border-radius: 8px;
+  }
+
+  .gate-orig {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--muted);
+    text-decoration: line-through;
+    opacity: 0.4;
+  }
+
+  .gate-now {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .gate-price-note {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+    text-align: left;
+  }
+
+  .gate-friction {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-weight: 300;
+  }
+
+  .gate-scarcity {
+    font-size: 12px;
+    color: var(--gold);
+    margin-top: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+  }
+
+  .gate-authority {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 0.3px;
+  }
+
+  .future-viz {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-weight: 300;
+    font-style: italic;
+    padding: 20px;
+    border-left: 2px solid var(--gold);
+    background: rgba(255,201,71,0.03);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .gate-social-proof {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 14px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 100px;
+    font-weight: 300;
+    letter-spacing: 0.2px;
+  }
+
+  /* ─── OVERLAY MODAL ─── */
+  /* Gated sections preview (blurred) */
+  .result-villain {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+
+  .result-villain strong { color: var(--white); font-weight: 500; }
+
+  .result-window {
+    background: rgba(255,201,71,0.06);
+    border: 1px solid var(--border-gold);
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .result-window em { color: var(--gold); font-style: italic; }
+
+  .window-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .result-bridge {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--white);
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+
+  .result-bridge strong { color: var(--cyan); }
+
+  .outcomes-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  .outcomes-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    margin-bottom: 14px;
+  }
+
+  .outcomes-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .outcomes-list li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+    font-weight: 300;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .outcomes-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--cyan);
+  }
+
+  .outcomes-list li em { color: var(--white); font-style: normal; }
+
+  .fix-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .fix-label {
+    font-size: 11px;
+    color: var(--cyan);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .fix-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .fix-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .fix-desc em { color: var(--gold); font-style: italic; }
+
+  .retake {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    margin-top: 16px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    background: none;
+    border: none;
+    width: 100%;
+  }
+
+  .retake:hover { color: var(--white); }
+
+  @media (max-width: 480px) {
+    .container { padding: 28px 16px 60px; }
+    .stats-row { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+
+<svg class="spotlight-lines" viewBox="0 0 640 300" preserveAspectRatio="xMidYTop slice">
+  <defs>
+    <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00e5ff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#00e5ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <line x1="320" y1="0" x2="80" y2="300" stroke="url(#lineGrad)" stroke-width="1"/>
+  <line x1="320" y1="0" x2="180" y2="300" stroke="url(#lineGrad)" stroke-width="0.5"/>
+  <line x1="320" y1="0" x2="320" y2="300" stroke="url(#lineGrad)" stroke-width="1"/>
+  <line x1="320" y1="0" x2="460" y2="300" stroke="url(#lineGrad)" stroke-width="0.5"/>
+  <line x1="320" y1="0" x2="560" y2="300" stroke="url(#lineGrad)" stroke-width="1"/>
+</svg>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════
+       SCREEN 1 — LANDING PAGE
+  ══════════════════════════════════════ -->
+  <div class="screen active" id="screen-intro">
+    <span class="mic-icon">🎤</span>
+    <span class="tag">60-Second Pattern Test</span>
+    <h1>THE REASON YOUR <span class="cyan">DATES</span> GO NOWHERE HAS NOTHING TO DO WITH <span class="gold">CHEMISTRY.</span></h1>
+    <p class="subtitle">You're not boring. You're not bad at conversation. <strong>You have a specific blind spot — and it's the same one killing the date every time.</strong> Six questions. We'll name it exactly.</p>
+
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-num">4</span>
+        <span class="stat-label">Profiles</span>
+      </div>
+      <div class="divider"></div>
+      <div class="stat">
+        <span class="stat-num">6</span>
+        <span class="stat-label">Questions</span>
+      </div>
+      <div class="divider"></div>
+      <div class="stat">
+        <span class="stat-num">60 sec</span>
+        <span class="stat-label">That's it</span>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="startQuiz()">FIND MY CONVERSATION PATTERN →</button>
+    <p class="fine-print">No email required. Results are instant. Free.</p>
+
+    <!-- PAIN AMPLIFIERS -->
+    <div class="pain-section">
+      <div class="pain-item">
+        You've been on dates that felt genuinely good — conversation flowed, they were laughing, you left thinking it went well. Then nothing. No second date. No explanation. <strong>You replayed the whole night and still couldn't find what went wrong.</strong>
+      </div>
+      <div class="pain-item">
+        You've tried the advice. Ask good questions. Show interest. Be present. <strong>You do all of it.</strong> And somehow the conversation still dies at minute twenty, or they walk away feeling entertained but not connected, or you go blank right when it matters most.
+      </div>
+      <div class="pain-item">
+        At some point you started wondering if the problem is just <em>you</em> — your personality, your looks, your energy. It's not. <strong>There is one specific conversational pattern running underneath every bad date you've had.</strong> This test finds it.
+      </div>
+    </div>
+
+    <button class="btn-secondary" onclick="startQuiz()">TAKE THE FREE TEST →</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 2 — QUIZ
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-question">
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="progress-label">Progress</span>
+        <span class="progress-count" id="progress-count">1 / 6</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width: 16.6%"></div>
+      </div>
+    </div>
+    <div class="question-num" id="question-num">Question 01</div>
+    <div class="question-text" id="question-text"></div>
+    <div class="options-grid" id="options-grid"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 3 — LOADER
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-loading">
+    <div class="loading-wrap">
+      <div class="loading-orb">
+        <div class="orb-ring"></div>
+        <div class="orb-ring orb-ring-2"></div>
+        <div class="orb-dot"></div>
+      </div>
+      <div class="loading-text" id="loading-text">Reading your answers</div>
+      <div class="loading-sub" id="loading-sub">Mapping your conversation pattern</div>
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill" id="loading-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 4 — RESULT
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-result"></div>
+
+</div>
+
+
+
+<script>
+const GUMROAD_URL = "https://zystd.gumroad.com/l/dontbombthedate";
+
+const questions = [
+  {
+    text: "The date's been going for 10 minutes. How does it feel?",
+    options: [
+      { text: "I'm firing questions — it feels like I'm running an interview.", type: "I" },
+      { text: "I'm performing. Telling stories, landing jokes, working for reactions.", type: "P" },
+      { text: "I've gone quiet. I hit a wall and have no idea what to say next.", type: "G" },
+      { text: "I'm in my head. Analyzing every word I just said.", type: "O" }
+    ]
+  },
+  {
+    text: "They share something personal. What's your move?",
+    options: [
+      { text: "Ask a follow-up question immediately.", type: "I" },
+      { text: "Relate it back to a funnier story of my own.", type: "P" },
+      { text: "Nod and smile. Then panic about what comes next.", type: "G" },
+      { text: "Think about the perfect response for so long the moment passes.", type: "O" }
+    ]
+  },
+  {
+    text: "There's a 5-second silence.\n\nWhat happens inside your head?",
+    options: [
+      { text: "I ask another question to fill it.", type: "I" },
+      { text: "I crack a joke — silence makes me uncomfortable.", type: "P" },
+      { text: "Full panic. I feel the whole date slipping away.", type: "G" },
+      { text: "I replay everything I've said to find what caused it.", type: "O" }
+    ]
+  },
+  {
+    text: "When do you feel most like yourself on a date?",
+    options: [
+      { text: "When they're talking and I'm genuinely curious.", type: "I" },
+      { text: "When I land a joke and they actually laugh.", type: "P" },
+      { text: "Honestly? I rarely feel like myself on dates.", type: "G" },
+      { text: "In the first few minutes, before I start second-guessing.", type: "O" }
+    ]
+  },
+  {
+    text: "How do you prep before a first date?",
+    options: [
+      { text: "I think of questions I can ask them.", type: "I" },
+      { text: "I rehearse a few stories or lines I know land well.", type: "P" },
+      { text: "I stress about it and hope for the best.", type: "G" },
+      { text: "I overthink every possible scenario until I'm exhausted.", type: "O" }
+    ]
+  },
+  {
+    text: "After the date, what do you replay in your head?",
+    options: [
+      { text: "Whether I gave them enough space to share about themselves.", type: "I" },
+      { text: "Whether my jokes actually landed or I came across as try-hard.", type: "P" },
+      { text: "The moments I went quiet and couldn't think of anything to say.", type: "G" },
+      { text: "Every single thing I said, in painful detail, for 48 hours.", type: "O" }
+    ]
+  }
+];
+
+const profiles = {
+  I: {
+    emoji: "🕵️",
+    type: "THE INTER\u200BVIEWER",
+    tagline: "Great questions. Zero vulnerability.",
+    identityLock: "If this feels uncomfortably accurate — it's because the Interviewer pattern is what your brain defaults to whenever you're trying to make a date go well.",
+    mirror: "You leave dates feeling like they went well — but nothing ever moves forward. You replayed the conversation and it was good. They were engaged. You asked great questions. But somehow it didn't turn into a second date, and you still can't figure out why. You did everything right. That's the confusing part.",
+    normalize: "You're not doing anything wrong on purpose. You stayed curious, kept the focus on them, avoided the risk of oversharing. That's not a flaw. It's a protection mechanism. But it's costing you the exact connection you're trying to build.",
+    window: "<div class='window-label'>WHY THIS MATTERS NOW</div>The longer this pattern runs, the more it becomes your identity. You become <em>the good listener</em> who never gets chosen. The person people enjoy talking to — but don't think of romantically. That gap closes the moment you make one structural change.",
+    futureViz: "Imagine your next date. They share something. Instead of reaching for another question, you share something back — something real. You watch their energy shift. The conversation stops feeling like an interview and starts feeling like two people actually meeting. That's the moment. That's what changes everything.",
+    outcomes: [
+      "They leave the date feeling like they actually met you — not just interviewed by you",
+      "The conversation becomes a genuine exchange instead of a one-sided download",
+      "Second dates happen because both people felt something real — not just comfortable"
+    ],
+    villain: "Nobody taught you that conversation is a <strong>two-way mirror</strong>. Dating advice always says 'ask good questions, show interest.' Nobody told you that if you never reveal anything real about yourself, the other person walks away feeling like they talked to a wall — a very polite, very curious wall. They opened up. You didn't. That's the whole gap.",
+    bridge: "This is exactly the pattern <strong>Don't Bomb the Date</strong> was built to fix. Not with scripts. With a single shift that changes the entire dynamic of every conversation.",
+    fixTitle: "The 1 Conversation Shift",
+    fixDesc: "After their answer, don't ask another question. Share something real instead. A story. An opinion. A weird detail about yourself. Match their vulnerability. That's the only move you need."
+  },
+  P: {
+    emoji: "🎭",
+    type: "THE PER\u200BFORMER",
+    tagline: "Funny, charming, and somehow still alone.",
+    identityLock: "If this feels a little too familiar — it's because the Performer pattern is your default whenever you want someone to like you.",
+    mirror: "You're good at dates. You know you're good at dates. You make people laugh, the energy is high, they seem into it. Then they pull back afterward and you can't figure out why. The date felt like a nine out of ten. The follow-up felt like silence. You performed well. That was the problem.",
+    normalize: "You're not trying to put on a show. The humor is real. The energy is real. You learned somewhere along the way that being entertaining kept things light and safe — and it worked, until it didn't. The issue isn't your personality. It's that you've been using it as a shield.",
+    window: "<div class='window-label'>WHY THIS MATTERS NOW</div>Every date where this happens widens the gap between how you present and who you actually are. <em>At some point the performance becomes the only version of you anyone sees</em> — including people worth knowing. The fix is smaller than you think.",
+    futureViz: "Imagine your next date. You're still funny. Still magnetic. But at one point you stop performing and say something real — something that surprises even you. They lean in. The energy shifts from entertained to connected. That shift is what makes someone text you the next morning.",
+    outcomes: [
+      "The humor lands and builds connection instead of replacing it",
+      "They leave feeling like they met someone real — not watched a set",
+      "The follow-up text writes itself because there's something genuine to reference back to"
+    ],
+    villain: "<strong>Performance and connection use opposite muscles.</strong> When you're working for the laugh, you're not listening for the detail. You're broadcasting, not receiving. They feel entertained — not seen. Nobody told you that the funniest people in the room are often the loneliest, because they never let anyone past the material.",
+    bridge: "There's one technique in <strong>Don't Bomb the Date</strong> that fixes this at the root. It takes nothing away from your natural energy. It just adds the one thing that turns a great date into a real connection.",
+    fixTitle: "The 1 Connection Shift",
+    fixDesc: "Stop performing for a moment and file something away. One small detail they share early. Carry it forward later in the night. That callback is worth ten jokes. It proves you were actually listening."
+  },
+  G: {
+    emoji: "👻",
+    type: "THE GHOST\u200BER",
+    tagline: "Present in body. Gone after minute ten.",
+    identityLock: "If this hit close to home — it's because this is the exact moment your conversation pattern shuts down, and it happens more consistently than you'd like to admit.",
+    mirror: "You've sat across from someone you actually liked and felt the conversation die in real time. You could feel the silence growing. You were trying to think of something — anything — but nothing came. You smiled and nodded and hoped they'd carry it. They felt it too. And the worst part is you're a completely normal, interesting person everywhere else.",
+    normalize: "This isn't about being boring or having nothing to offer. First dates have a specific kind of pressure that short-circuits something — and once you hit the wall, you don't know how to come back from it. That's not a personality flaw. It's a missing toolkit.",
+    window: "<div class='window-label'>WHY THIS MATTERS NOW</div>The cost of this isn't just bad dates. It's genuinely good people who wrote you off as boring because the conversation died — <em>not because you are boring</em>. Every one of those is a connection that didn't happen. The tools are simple. You just don't have them yet.",
+    futureViz: "Imagine your next date. The conversation hits a lull. Instead of freezing, you reach for something — a question, a pivot, an observation. The silence breaks. They laugh. The date resets. You walk away thinking: that was actually fun. That version of you already exists. You just need the toolkit.",
+    outcomes: [
+      "The wall never becomes a full stop — just a brief pause you know exactly how to move past",
+      "You stop leaving dates feeling like you failed and start leaving feeling like yourself",
+      "The people worth knowing actually get to see who you are past minute ten"
+    ],
+    villain: "<strong>Everyone else on that date was also running on empty</strong> — they were just better at disguising it or got lucky with natural chemistry. Chemistry isn't magic. It's mostly two people who both happen to have something to reach for when the conversation stalls. Dating apps gave you a match. Nobody gave you what to do after 'so what do you do for work.'",
+    bridge: "The rescue section of <strong>Don't Bomb the Date</strong> exists specifically for this moment — the wall, the silence, the panic. It's a toolkit you can reach for instead of going blank.",
+    fixTitle: "The 1 Recovery Shift",
+    fixDesc: "You need a small set of lines you can reach for the moment the conversation stalls. Not scripts — pattern breakers. Absurd questions reset the energy every time. The guide has 20 of them."
+  },
+  O: {
+    emoji: "🌀",
+    type: "THE OVER\u200BTHINKER",
+    tagline: "Everything you wanted to say. Said to no one.",
+    identityLock: "If this feels painfully accurate — it's because your brain runs this exact loop on almost every date, and you probably already knew that before you finished reading it.",
+    mirror: "You've had entire conversations in your head on the way home from a date. The perfect thing to say at that moment. The better answer to that question. The joke that would have landed perfectly if you'd just said it two seconds earlier instead of deciding it was too much. You replay everything. Not because it went badly — but because you know it could have been better.",
+    normalize: "This isn't anxiety in the clinical sense. It's pattern recognition working against you. You're fast enough to see the ideal response. You're just not trusting yourself fast enough to say it. That gap between thought and delivery is the whole problem — and it gets worse the more you care about the outcome.",
+    window: "<div class='window-label'>WHY THIS MATTERS NOW</div>The longer this runs, the more it feels like who you are — someone who processes privately and performs publicly. <em>Every date where the real you stayed inside is a connection that didn't happen.</em> That's the actual cost.",
+    futureViz: "Imagine your next date. A thought arrives. Instead of editing it for five seconds, you just say it. It lands. Not perfectly — but it lands. The conversation keeps moving. You're not watching yourself anymore. You're just there, in it. That's not a different version of you. That's you, unblocked.",
+    outcomes: [
+      "The thought and the words start arriving at the same time instead of five seconds apart",
+      "Dates feel like actual exchanges instead of performances you're watching yourself give",
+      "You stop replaying what you should have said — because you said it"
+    ],
+    villain: "Nobody told you that <strong>perfect is the enemy of present</strong>. While you were editing, they moved on. Conversation doesn't wait for the ideal response — it rewards the one that showed up. Dating advice talks about confidence like it's a feeling you either have or don't. It's not. It's a decision to let the decent thing out before the perfect thing arrives.",
+    bridge: "There's a technique in <strong>Don't Bomb the Date</strong> borrowed directly from stand-up comedy that fixes this at the mechanical level. Not mindset work. A structural change to how you deliver.",
+    fixTitle: "The 1 Timing Shift",
+    fixDesc: "Stop trying to find the perfect thing. Say the decent thing — then stop. Don't fill the silence after. Let it sit. The silence isn't failure. It's timing."
+  }
+};
+
+let current = 0;
+let scores = { I: 0, P: 0, G: 0, O: 0 };
+let answered = false;
+let currentWinner = null;
+
+function startQuiz() {
+  showScreen('screen-question');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = 'none';
+  });
+  const el = document.getElementById(id);
+  el.style.display = 'block';
+  setTimeout(() => el.classList.add('active'), 10);
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  const pct = ((current + 1) / questions.length) * 100;
+  document.getElementById('progress-count').textContent = `${current + 1} / ${questions.length}`;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('question-num').textContent = `Question ${String(current + 1).padStart(2, '0')}`;
+  document.getElementById('question-text').textContent = q.text;
+  document.getElementById('question-text').style.whiteSpace = 'pre-line';
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  grid.style.pointerEvents = 'none';
+  answered = false;
+
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML = `
+      <span class="option-letter">${letters[i]}</span>
+      <span class="option-text">${opt.text}</span>
+    `;
+    div.addEventListener('click', () => selectAnswer(div, opt.type, grid));
+    grid.appendChild(div);
+  });
+
+  setTimeout(() => { grid.style.pointerEvents = 'auto'; }, 650);
+}
+
+function selectAnswer(el, type, grid) {
+  if (answered) return;
+  answered = true;
+  grid.style.pointerEvents = 'none';
+  grid.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  scores[type]++;
+  // Record Q3 answer for tiebreaker
+  if (current === 2) q3Type = type;
+
+  setTimeout(() => {
+    current++;
+    if (current < questions.length) {
+      showScreen('screen-question');
+      renderQuestion();
+    } else {
+      showScreen('screen-loading');
+      runLoadingSequence();
+    }
+  }, 500);
+}
+
+function runLoadingSequence() {
+  var steps = [
+    { text: 'Reading your answers', sub: 'Mapping your conversation pattern', pct: 20 },
+    { text: 'Identifying your blind spot', sub: 'Cross-referencing all six questions', pct: 45 },
+    { text: 'Locating the gap', sub: 'Why previous dates lost momentum', pct: 65 },
+    { text: 'Matching your fix', sub: 'Selecting the right technique for your type', pct: 85 },
+    { text: 'Identifying your conversation pattern', sub: 'Preparing your result', pct: 100 }
+  ];
+  var i = 0;
+  var textEl = document.getElementById('loading-text');
+  var subEl = document.getElementById('loading-sub');
+  var barEl = document.getElementById('loading-bar');
+
+  function runStep() {
+    if (i >= steps.length) {
+      setTimeout(showResult, 500);
+      return;
+    }
+    var s = steps[i];
+    textEl.style.opacity = '0';
+    subEl.style.opacity = '0';
+    setTimeout(function() {
+      textEl.textContent = s.text;
+      subEl.textContent = s.sub;
+      barEl.style.width = s.pct + '%';
+      textEl.style.transition = 'opacity 0.4s ease';
+      subEl.style.transition = 'opacity 0.4s ease 0.08s';
+      textEl.style.opacity = '1';
+      subEl.style.opacity = '1';
+    }, 150);
+    i++;
+    setTimeout(runStep, i === steps.length ? 700 : 950);
+  }
+  setTimeout(runStep, 300);
+}
+
+// Q3 answer type recorded separately for tiebreaking
+let q3Type = null;
+
+function getWinner() {
+  const keys = Object.keys(scores);
+  const max = Math.max(...keys.map(k => scores[k]));
+  const tied = keys.filter(k => scores[k] === max);
+  if (tied.length === 1) return tied[0];
+  // Tiebreaker: Q3 (Private Cost) answer wins
+  if (q3Type && tied.includes(q3Type)) return q3Type;
+  return tied[0];
+}
+
+function showResult() {
+  currentWinner = getWinner();
+  const p = profiles[currentWinner];
+
+  const gatedHTML = `
+    <div class="result-villain">${p.villain}</div>
+    <div class="result-bridge">${p.bridge}</div>
+    <div class="fix-card">
+      <div class="fix-label">Your technique — inside the guide</div>
+      <div class="fix-title">${p.fixTitle}</div>
+      <div class="fix-desc">This technique is covered in full detail inside the guide — exactly when to use it, what to say, and why it works at the psychological level. It takes one date to test. Most people notice a difference immediately.</div>
+    </div>
+  `;
+
+  const html = `
+    <span class="result-emoji">${p.emoji}</span>
+    <span class="result-tag">Your Conversation Pattern</span>
+    <div class="result-type">${p.type}</div>
+    <div class="result-tagline">${p.tagline}</div>
+    <div class="identity-lock">${p.identityLock}</div>
+
+    <!-- FREE: Identity Lock + Mirror + Normalize + Window + FutureViz + Outcomes -->
+    <div class="result-mirror">${p.mirror}</div>
+    <div class="result-normalize">${p.normalize}</div>
+    <div class="result-window">${p.window}</div>
+    <div class="future-viz">${p.futureViz}</div>
+
+    <div class="outcomes-block">
+      <div class="outcomes-label">WHAT CHANGES AFTER THIS</div>
+      <ul class="outcomes-list">
+        ${p.outcomes.map(o => `<li>${o}</li>`).join('')}
+      </ul>
+    </div>
+
+    <!-- GATED: Villain + Bridge + Fix tease -->
+    <div class="gate-wrapper">
+      <div class="gate-content" id="gated-content">
+        ${gatedHTML}
+      </div>
+    </div>
+
+    <div class="gate-cta" id="gate-cta-block">
+      <div class="gate-authority">Based on conversation principles used in stand-up comedy — applied to dating.</div>
+      <div class="gate-social-proof">📱 1,200+ people have taken this quiz this week</div>
+      <div class="gate-eyebrow">Written for ${p.type.replace('\u200B','')} — your exact pattern</div>
+      <div class="gate-headline">GET THE FULL FIX</div>
+      <div class="gate-sub">The technique. The reason it works. And the 5 other patterns that kill first dates — so you recognize them when they show up.</div>
+      <div class="gate-price-row">
+        <span class="gate-orig">$29</span>
+        <span class="gate-now">$19</span>
+        <span class="gate-price-note">Quiz result discount applied</span>
+      </div>
+      <a href="${GUMROAD_URL}" target="_blank" class="btn-primary">FIX THE ${p.type.replace('\u200B','').replace('THE ','')} PATTERN — $19 →</a>
+      <div class="gate-scarcity">Quiz-taker price expires when you leave this page.</div>
+      <div class="gate-friction">Instant PDF. No subscription. Read it tonight.</div>
+    </div>
+
+    <button class="retake" onclick="retakeQuiz()">Retake the quiz</button>
+  `;
+
+  document.getElementById('screen-result').innerHTML = html;
+  showScreen('screen-result');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Scroll nudge — 9 seconds, after they've read Mirror + Normalize + Window + Outcomes
+  setTimeout(() => {
+    const cta = document.getElementById('gate-cta-block');
+    if (cta) cta.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 9000);
+}
+
+
+
+function retakeQuiz() {
+  current = 0;
+  scores = { I: 0, P: 0, G: 0, O: 0 };
+  q3Type = null;
+  currentWinner = null;
+  showScreen('screen-intro');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Init
+document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+document.getElementById('screen-intro').style.display = 'block';
+document.getElementById('screen-intro').classList.add('active');
+</script>
+</body>
+</html>
