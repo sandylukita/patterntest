@@ -389,9 +389,22 @@
     color: var(--charcoal);
     margin-bottom: 8px;
     font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .result-pattern em { font-style: italic; color: var(--sage-dark); }
+
+  .pattern-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--mid);
+    font-style: normal;
+    letter-spacing: 0;
+    line-height: 1.5;
+  }
 
   .result-divider {
     width: 40px;
@@ -869,11 +882,11 @@ let resultId = null;
 
 const profiles = {
   reflex: {
-    patternName: 'Delayed <em>Reflex</em> Response',
+    patternName: 'Delayed <em>Reflex</em> Response<span class="pattern-subtitle">The one where you brace — and it still happens</span>',
     identityLock: 'If this result feels accurate — it\'s because your body already knows. You\'ve been compensating for this exact pattern every time you feel that split-second before a sneeze.',
     mirror: 'You sneeze and brace at the same time — but the leak still happens. You\'ve gotten good at the brace. You\'ve adjusted your whole day around it. What nobody told you is that the brace itself is proof the reflex is there. It\'s just late.',
-    normalize: 'This isn\'t weakness and it\'s not something you\'re doing wrong. Pregnancy shifts the timing of the pelvic floor response in a way that strength training doesn\'t fix. The reflex still exists. It just needs retraining.',
-    window: 'The longer the delayed timing pattern runs without targeted retraining, the more the brain reinforces the compensating brace as the default. You\'re not stuck. But the longer the pattern runs, the more deliberate the retraining needs to be.',
+    normalize: 'This isn\'t weakness and it\'s not something you\'re doing wrong. Pregnancy shifts the timing of the pelvic floor response in a way that strength training doesn\'t fix. The reflex still exists. It just needs retraining — not strengthening.',
+    window: 'The longer the delayed timing pattern runs without targeted retraining, the more the brain consolidates the compensating brace as the default response. What starts as a timing gap becomes a learned movement pattern. <strong>The brace becomes the reflex — and the actual reflex gets quieter.</strong> You\'re not stuck. But every week that passes without retraining makes the pathway slightly harder to reach.',
     futureViz: 'Imagine laughing — really laughing — without the thought crossing your mind. No brace, no check, no pause. Just the moment. That reflex fires on its own, exactly when it should. That\'s not a distant future. That\'s what a retrained pathway feels like.',
     outcomes: [
       'Sneezing and laughing without thinking about it first',
@@ -884,13 +897,14 @@ const profiles = {
     bridge: 'The Quiet Comeback was built exactly for this pattern — starting with timing, not strength.',
     fixTitle: 'The Timing Reset',
     fixDesc: 'The specific 10-minute sequence inside The Quiet Comeback targets the neuromuscular pathway that controls when — not how hard — your pelvic floor fires. It\'s covered in full in Day 1.',
+    patternCTA: 'Retrain the Reflex — $27 →',
   },
   load: {
-    patternName: 'Pressure <em>Load</em> Mismatch',
+    patternName: 'Pressure <em>Load</em> Mismatch<span class="pattern-subtitle">The one where lifting, running, or stepping is when it happens</span>',
     identityLock: 'If this result feels accurate — it\'s because you\'ve noticed it yourself. The leak doesn\'t happen randomly. It happens under load. Lifting. Stepping. Bracing for impact.',
     mirror: 'It\'s not constant. It\'s specific. Lifting your baby off the floor. Stepping down hard. Trying to get back to running. The leak only happens when something heavy is demanded of the system — and that\'s exactly what tells us what\'s actually going on.',
     normalize: 'This is not a strength gap. Your muscles can contract. <strong>It\'s a coordination gap.</strong> Your pelvic floor and your breathing lost their rhythm during pregnancy. When they\'re not coordinating, pressure wins every time — no matter how strong you are.',
-    window: 'Every week you spend doing load-bearing movement without retraining the coordination pattern reinforces the mismatch. The good news: the two systems want to sync. They just need a reset sequence to find each other again.',
+    window: 'Every week of load-bearing movement without retraining the coordination pattern deepens the mismatch. The diaphragm and the floor adapt separately — and the further apart they drift, the more deliberate the reconnection needs to be. <strong>The systems don\'t naturally resync on their own.</strong> They need a specific reset sequence. The longer that\'s delayed, the more compensating movement patterns layer on top.',
     futureViz: 'Imagine lifting your baby without the split-second thought before you do it. No brace, no check, no mental note. Just picking them up. Your breath and your floor working together the way they did before. That coordination already exists in your body. It just needs reconnecting.',
     outcomes: [
       'Lifting, stepping and exercising without the anticipatory check',
@@ -901,13 +915,14 @@ const profiles = {
     bridge: 'The Quiet Comeback starts with breath, not muscle — because that\'s where the mismatch lives.',
     fixTitle: 'The Coordination Reset',
     fixDesc: 'The specific sequence targets breath-floor synchronization before it targets strength. The retraining protocol is inside The Quiet Comeback, starting Day 1.',
+    patternCTA: 'Reset the Coordination — $27 →',
   },
   longterm: {
-    patternName: 'Cumulative <em>Load</em> Response',
+    patternName: 'Cumulative <em>Load</em> Response<span class="pattern-subtitle">The one that\'s been there so long it started to feel permanent</span>',
     identityLock: 'If this result feels accurate — it\'s because you\'ve been carrying this quietly for a long time. Maybe through more than one pregnancy. Maybe you tried something before and stopped. That\'s not failure. That\'s a sign the approach was wrong, not you.',
     mirror: 'You\'ve had this longer than most. Long enough that you stopped thinking of it as something to fix and started thinking of it as just how things are now. You\'ve rebuilt your routines around it. You\'ve accepted limitations you shouldn\'t have accepted. The problem isn\'t that you waited too long. The problem is nobody gave you the right starting point.',
     normalize: 'The neuromuscular pathways that need retraining don\'t have an expiry date. They respond at three years postpartum the same way they respond at three months. You haven\'t missed the window. You\'re in it right now.',
-    window: 'The longer a compensating pattern runs, the more layers there are to unwind — but none of those layers are permanent. What compounds over time is the workaround, not the damage. The retraining window stays open. What narrows is how much unnecessary compensation you carry into it.',
+    window: 'The retraining window doesn\'t close — but what accumulates around it does. <strong>Every year of compensation builds additional movement patterns on top of the original gap.</strong> Secondary compensations in the hips, the glutes, the lower back. The original pathway is still there. But reaching it requires unwinding more layers the longer it\'s been running. The sequence exists. Starting now means fewer layers to work through.',
     futureViz: 'Imagine a week where you didn\'t plan around it. No mental catalogue of which situations to avoid. No adjustments, no management, no quiet resignation. Just moving through your day the way you did before. That week is closer than it feels from here.',
     outcomes: [
       'The pattern that\'s been running for years finally has a name — and a sequence',
@@ -918,6 +933,7 @@ const profiles = {
     bridge: 'The Quiet Comeback works at any stage after pregnancy — and it\'s built for patterns exactly like this one.',
     fixTitle: 'The Unwind Protocol',
     fixDesc: 'The specific sequence inside The Quiet Comeback addresses cumulative compensation patterns with a progressive retraining approach — covered fully starting Day 1.',
+    patternCTA: 'Start the Unwind — $27 →',
   }
 };
 
@@ -969,8 +985,8 @@ function showAnalyzing() {
     { text: 'Mapping neuromuscular response type...', pct: 20 },
     { text: 'Identifying your postpartum pattern...', pct: 45 },
     { text: 'Cross-referencing 3 pattern profiles...', pct: 70 },
-    { text: 'Locating your retraining entry point...', pct: 88 },
-    { text: 'Identifying your conversation pattern', pct: 100 }
+    { text: 'Identifying your postpartum pattern...', pct: 88 },
+    { text: 'Locating your retraining entry point', pct: 100 }
   ];
 
   const bar = document.getElementById('analyzingBar');
@@ -1035,25 +1051,23 @@ function showResult() {
       <div class="fix-desc">${p.fixDesc}</div>
     </div>
 
+    <a href="https://medium.com/@aeshacutee/why-kegels-arent-enough-and-what-actually-works-2c34637f3503" class="secondary-cta" target="_blank">Not ready to start yet? Read the full breakdown of your pattern on Medium first →</a>
+
     <div class="gate-cta" id="gate-cta-block">
-      <div class="gate-authority">Developed from pelvic floor physiotherapy principles — made accessible for home use.</div>
+      <div class="gate-authority">Developed from neuromuscular retraining research used in pelvic floor physiotherapy — made accessible for home use.</div>
       <div class="gate-social-proof">🌿 2,400+ moms have taken this pattern test</div>
       <div class="gate-eyebrow">Built for your exact pattern</div>
       <div class="gate-headline">The Quiet Comeback</div>
-      <div class="gate-sub">14 days. 10 minutes a day. The full retraining sequence for your pattern — and the two others most likely to overlap with it.</div>
+      <div class="gate-sub">14 days. 10 minutes a day. The full retraining sequence for your specific pattern — not a generic Kegel programme.</div>
       <div class="gate-price-row">
-        <span class="gate-orig">$37</span>
+        <span class="gate-orig">$47</span>
         <span class="gate-now">$27</span>
         <span class="gate-price-note">Pattern test<br>discount applied</span>
       </div>
-      <a href="${GUMROAD_URL}" target="_blank" class="btn-cta">Start The Quiet Comeback — $27 →</a>
+      <a href="${GUMROAD_URL}" target="_blank" class="btn-cta">${p.patternCTA}</a>
       <div class="gate-scarcity">Pattern test price expires when you leave this page.</div>
       <div class="gate-friction">Instant download · Start tonight · No equipment needed</div>
     </div>
-
-    <a href="https://medium.com/@aeshacutee/why-kegels-arent-enough-and-what-actually-works-2c34637f3503" class="secondary-cta" target="_blank">Not ready yet? Read the full guide to your pattern on Medium →</a>
-
-    <button class="retake-btn" onclick="retakeQuiz()">Retake the quiz</button>
 
     <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
   `;
