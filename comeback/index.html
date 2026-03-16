@@ -18,6 +18,8 @@
     --mid: #6B6B6B;
     --light: #A8A8A8;
     --border: #E8E2D9;
+    --border-sage: rgba(90,122,94,0.25);
+    --border-clay: rgba(196,133,106,0.3);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,14 +29,7 @@
     background: var(--cream);
     color: var(--charcoal);
     min-height: 100vh;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 48px 20px 60px;
-  }
-
-  @media (min-height: 700px) and (max-content-height: 600px) {
-    body { align-items: center; }
+    padding: 48px 20px 80px;
   }
 
   body::before {
@@ -42,7 +37,7 @@
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: 
+    background:
       radial-gradient(ellipse at 20% 20%, rgba(138,158,140,0.12) 0%, transparent 60%),
       radial-gradient(ellipse at 80% 80%, rgba(196,133,106,0.08) 0%, transparent 60%);
     pointer-events: none;
@@ -52,15 +47,13 @@
   .container {
     width: 100%;
     max-width: 560px;
+    margin: 0 auto;
     position: relative;
     z-index: 1;
   }
 
-  /* SCREENS */
-  .screen {
-    display: none;
-    animation: fadeUp 0.5s ease forwards;
-  }
+  /* ── SCREENS ── */
+  .screen { display: none; animation: fadeUp 0.5s ease forwards; }
   .screen.active { display: block; }
 
   @keyframes fadeUp {
@@ -68,11 +61,8 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* PROGRESS BAR */
-  .progress-wrap {
-    margin-bottom: 40px;
-    display: none;
-  }
+  /* ── PROGRESS ── */
+  .progress-wrap { margin-bottom: 40px; display: none; }
   .progress-wrap.visible { display: block; }
 
   .progress-label {
@@ -99,7 +89,7 @@
     width: 0%;
   }
 
-  /* WELCOME SCREEN */
+  /* ── LANDING PAGE ── */
   .welcome-eyebrow {
     font-size: 11px;
     letter-spacing: 0.16em;
@@ -131,10 +121,7 @@
     margin-bottom: 12px;
   }
 
-  .welcome-sub strong {
-    color: var(--charcoal);
-    font-weight: 500;
-  }
+  .welcome-sub strong { color: var(--charcoal); font-weight: 500; }
 
   .divider {
     width: 40px;
@@ -143,15 +130,35 @@
     margin: 28px 0;
   }
 
+  /* Pain amplifiers */
+  .pain-section {
+    margin: 36px 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pain-item {
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--mid);
+    font-weight: 300;
+  }
+
+  .pain-item:last-child { border-bottom: 1px solid var(--border); }
+  .pain-item strong { color: var(--charcoal); font-weight: 500; }
+  .pain-item em { color: var(--sage-dark); font-style: italic; }
+
   .welcome-meta {
     font-size: 13px;
     color: var(--light);
     font-weight: 300;
-    margin-bottom: 36px;
+    margin-bottom: 32px;
     letter-spacing: 0.02em;
   }
 
-  /* BUTTONS */
+  /* ── BUTTONS ── */
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -177,13 +184,29 @@
     transform: translateY(-1px);
   }
 
-  .btn-primary .arrow {
-    transition: transform 0.25s ease;
+  .btn-primary .arrow { transition: transform 0.25s ease; }
+  .btn-primary:hover .arrow { transform: translateX(4px); }
+
+  .btn-primary-full {
+    display: block;
+    width: 100%;
+    background: var(--charcoal);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 18px 36px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    text-align: center;
+    margin-top: 20px;
   }
 
-  .btn-primary:hover .arrow {
-    transform: translateX(4px);
-  }
+  .btn-primary-full:hover { background: var(--sage-dark); transform: translateY(-1px); }
 
   .btn-cta {
     display: block;
@@ -201,15 +224,11 @@
     transition: all 0.25s ease;
     text-align: center;
     text-decoration: none;
-    margin-top: 32px;
   }
 
-  .btn-cta:hover {
-    background: #B3745A;
-    transform: translateY(-1px);
-  }
+  .btn-cta:hover { background: #B3745A; transform: translateY(-1px); }
 
-  /* QUESTION SCREEN */
+  /* ── QUIZ ── */
   .q-number {
     font-size: 11px;
     letter-spacing: 0.16em;
@@ -226,6 +245,7 @@
     color: var(--charcoal);
     margin-bottom: 32px;
     font-weight: 400;
+    white-space: pre-line;
   }
 
   .options {
@@ -277,11 +297,7 @@
     justify-content: center;
   }
 
-  .option.selected .option-dot {
-    border-color: var(--sage-dark);
-    background: var(--sage-dark);
-  }
-
+  .option.selected .option-dot { border-color: var(--sage-dark); background: var(--sage-dark); }
   .option.selected .option-dot::after {
     content: '';
     width: 6px;
@@ -290,160 +306,35 @@
     background: white;
   }
 
-  .btn-next {
-    margin-top: 28px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: transparent;
-    color: var(--charcoal);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 12px 0;
-    border: none;
-    border-bottom: 1px solid var(--charcoal);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .btn-next.visible {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .btn-next:hover {
-    color: var(--sage-dark);
-    border-color: var(--sage-dark);
-    gap: 12px;
-  }
-
-  /* RESULT SCREEN */
-  .result-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--clay);
-    font-weight: 500;
-    margin-bottom: 16px;
-  }
-
-  .result-pattern {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(26px, 6vw, 38px);
-    line-height: 1.2;
-    color: var(--charcoal);
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-
-  .result-pattern em {
-    font-style: italic;
-    color: var(--sage-dark);
-  }
-
-  .result-divider {
-    width: 40px;
-    height: 2px;
-    background: linear-gradient(90deg, var(--sage), var(--clay));
-    margin: 24px 0;
-  }
-
-  .result-body {
-    font-size: 15px;
-    line-height: 1.85;
-    color: var(--mid);
-    font-weight: 300;
-    margin-bottom: 8px;
-  }
-
-  .result-body strong {
-    color: var(--charcoal);
-    font-weight: 500;
-  }
-
-  .result-highlight {
-    background: linear-gradient(135deg, #EDF3EE, #F5F0EB);
-    border-left: 3px solid var(--sage);
-    padding: 20px 24px;
-    margin: 28px 0;
-    border-radius: 0 2px 2px 0;
-  }
-
-  .result-highlight p {
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--charcoal);
-    font-weight: 400;
-  }
-
-  .result-transition {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    line-height: 1.5;
-    color: var(--charcoal);
-    font-style: italic;
-    margin: 28px 0 4px;
-  }
-
-  .secondary-cta {
-    display: block;
-    text-align: center;
-    margin-top: 24px;
-    font-size: 14px;
-    color: var(--mid);
-    text-decoration: none;
-    font-weight: 300;
-    transition: color 0.2s ease;
-  }
-  .secondary-cta:hover {
-    color: var(--charcoal);
-    text-decoration: underline;
-  }
-  .price-note {
-    font-size: 12px;
-    color: var(--light);
-    text-align: center;
-    margin-top: 12px;
-    letter-spacing: 0.04em;
-    line-height: 1.6;
-  }
-
-  /* ANALYZING SCREEN */
+  /* ── LOADER ── */
   .analyzing-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 60vh;
+    min-height: 65vh;
     text-align: center;
     padding: 40px 0;
   }
 
   .analyzing-bar-wrap {
-    width: 180px;
-    height: 2px;
+    width: 200px;
+    height: 1px;
     background: var(--border);
-    border-radius: 2px;
+    margin: 0 auto 40px;
     overflow: hidden;
-    margin-bottom: 40px;
   }
 
   .analyzing-bar-fill {
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, var(--sage), var(--clay));
-    border-radius: 2px;
-    transition: width 0.4s ease;
+    transition: width 0.6s ease;
   }
 
   .analyzing-title {
     font-family: 'Playfair Display', serif;
-    font-size: 26px;
+    font-size: clamp(22px, 5vw, 28px);
     font-style: italic;
     color: var(--charcoal);
     margin-bottom: 20px;
@@ -481,93 +372,333 @@
     transition: opacity 0.4s ease;
   }
 
-  /* DECORATIVE */
-  .leaf {
-    display: inline-block;
-    color: var(--sage-light);
-    font-size: 18px;
-    margin: 0 4px;
-  }
-
-  /* ANALYZING SCREEN */
-  .analyzing-wrap {
-    text-align: center;
-    padding: 60px 20px;
-  }
-
-  .analyzing-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 5vw, 32px);
-    font-style: italic;
-    color: var(--charcoal);
+  /* ── RESULT PAGE ── */
+  .result-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--clay);
+    font-weight: 500;
     margin-bottom: 16px;
-    opacity: 0;
-    animation: fadeIn 0.6s ease 0.3s forwards;
   }
 
-  .analyzing-sub {
-    font-size: 14px;
+  .result-pattern {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 6vw, 40px);
+    line-height: 1.2;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .result-pattern em { font-style: italic; color: var(--sage-dark); }
+
+  .result-divider {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--sage), var(--clay));
+    margin: 24px 0;
+  }
+
+  /* Identity lock */
+  .identity-lock {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--charcoal);
+    font-weight: 400;
+    margin-bottom: 24px;
+    padding: 18px 20px;
+    background: linear-gradient(135deg, #EDF3EE, #F5F0EB);
+    border-left: 3px solid var(--sage-dark);
+    border-radius: 0 2px 2px 0;
+    font-style: italic;
+  }
+
+  /* Mirror */
+  .result-mirror {
+    font-size: 15px;
+    line-height: 1.85;
     color: var(--mid);
     font-weight: 300;
-    letter-spacing: 0.04em;
-    opacity: 0;
-    animation: fadeIn 0.6s ease 0.7s forwards;
-    min-height: 22px;
+    margin-bottom: 20px;
+    padding-left: 16px;
+    border-left: 2px solid var(--clay-light);
   }
 
-  .analyzing-dots {
+  /* Normalize */
+  .result-normalize {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--mid);
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  /* Window */
+  .result-window {
+    background: linear-gradient(135deg, #EDF3EE, #F5F0EB);
+    border-left: 3px solid var(--sage);
+    padding: 20px 24px;
+    margin: 24px 0;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .result-window p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--charcoal);
+    font-weight: 400;
+  }
+
+  .window-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--sage-dark);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* Future visualization */
+  .future-viz {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--charcoal);
+    font-style: italic;
+    margin: 24px 0;
+    padding: 20px 24px;
+    border-left: 3px solid var(--clay-light);
+    background: rgba(196,133,106,0.04);
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* Outcomes */
+  .outcomes-block {
+    margin: 24px 0;
+  }
+
+  .outcomes-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--sage-dark);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .outcomes-list {
+    list-style: none;
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .outcomes-list li {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--mid);
+    font-weight: 300;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .outcomes-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--sage-dark);
+  }
+
+  /* Villain / Bridge */
+  .result-villain {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--mid);
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .result-villain strong { color: var(--charcoal); font-weight: 500; }
+
+  .result-bridge {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--charcoal);
+    font-style: italic;
+    margin: 24px 0 4px;
+  }
+
+  /* Fix tease card */
+  .fix-card {
+    background: var(--warm-white);
+    border: 1.5px solid var(--border);
+    border-radius: 2px;
+    padding: 22px;
+    margin: 24px 0;
+  }
+
+  .fix-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--sage-dark);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .fix-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--charcoal);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .fix-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--mid);
+    font-weight: 300;
+  }
+
+  /* ── CTA BLOCK ── */
+  .gate-cta {
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .gate-authority {
+    font-size: 12px;
+    color: var(--light);
+    text-align: center;
+    margin-bottom: 8px;
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+
+  .gate-social-proof {
+    font-size: 12px;
+    color: var(--mid);
+    text-align: center;
+    margin-bottom: 16px;
+    padding: 8px 12px;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-weight: 300;
+  }
+
+  .gate-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    font-weight: 500;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .gate-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 5vw, 32px);
+    color: var(--charcoal);
+    line-height: 1.2;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .gate-sub {
+    font-size: 14px;
+    color: var(--mid);
+    margin-bottom: 24px;
+    font-weight: 300;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .gate-price-row {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 8px;
-    margin: 32px 0;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 14px;
+    background: var(--warm-white);
+    border: 1px solid var(--border-clay);
+    border-radius: 2px;
   }
 
-  .analyzing-dots span {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--sage);
-    opacity: 0;
-    animation: dotPulse 1.4s ease infinite;
+  .gate-orig {
+    font-size: 18px;
+    color: var(--light);
+    text-decoration: line-through;
   }
 
-  .analyzing-dots span:nth-child(1) { animation-delay: 0.8s; }
-  .analyzing-dots span:nth-child(2) { animation-delay: 1.0s; }
-  .analyzing-dots span:nth-child(3) { animation-delay: 1.2s; }
-
-  .analyzing-bar-wrap {
-    width: 200px;
-    height: 1px;
-    background: var(--border);
-    margin: 0 auto 32px;
-    overflow: hidden;
-    opacity: 0;
-    animation: fadeIn 0.4s ease 0.5s forwards;
+  .gate-now {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: var(--clay);
+    line-height: 1;
+    font-weight: 600;
   }
 
-  .analyzing-bar-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--sage), var(--clay));
-    animation: barFill 2.4s ease 0.8s forwards;
+  .gate-price-note {
+    font-size: 12px;
+    color: var(--mid);
+    line-height: 1.4;
+    text-align: left;
   }
 
-  @keyframes fadeIn {
-    to { opacity: 1; }
+  .gate-scarcity {
+    font-size: 12px;
+    color: var(--clay);
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 
-  @keyframes dotPulse {
-    0%, 100% { opacity: 0.2; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.2); }
+  .gate-friction {
+    font-size: 12px;
+    color: var(--light);
+    text-align: center;
+    margin-top: 6px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
   }
 
-  @keyframes barFill {
-    0% { width: 0%; }
-    30% { width: 35%; }
-    60% { width: 68%; }
-    85% { width: 89%; }
-    100% { width: 100%; }
+  .secondary-cta {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--mid);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.2s ease;
   }
+
+  .secondary-cta:hover { color: var(--charcoal); text-decoration: underline; }
+
+  .retake-btn {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    color: var(--light);
+    cursor: pointer;
+    margin-top: 16px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    background: none;
+    border: none;
+    width: 100%;
+  }
+
+  .retake-btn:hover { color: var(--mid); }
 
   .screen-footer {
     margin-top: 48px;
@@ -592,20 +723,32 @@
     </div>
   </div>
 
-  <!-- SCREEN 0: WELCOME -->
+  <!-- ══ SCREEN 0: LANDING ══ -->
   <div class="screen active" id="screen-welcome">
     <div class="welcome-eyebrow">The Quiet Comeback ✦ Pattern Test</div>
-    <h1 class="welcome-title">Most moms try Kegels. <br>Most moms are solving the <em>wrong problem.</em></h1>
-    <p class="welcome-sub">Take 5 questions to find your actual postpartum pattern — and what fixes it.</p>
-    <div class="divider"></div>
-    <p class="welcome-meta">5 questions &nbsp;·&nbsp; 30 seconds &nbsp;·&nbsp; No email required</p>
+    <h1 class="welcome-title">Most moms try Kegels.<br>Most are solving the <em>wrong problem.</em></h1>
+    <p class="welcome-sub">The leaking isn't random. <strong>It follows a specific pattern — and that pattern has a specific fix.</strong> This isn't it for everyone. Take 5 questions to find yours.</p>
+
+    <div class="pain-section">
+      <div class="pain-item">
+        You've done the Kegels. Maybe consistently for weeks. And it helped a little, or not at all, and you quietly moved on. <strong>You assumed the problem was effort. It wasn't.</strong> It was approach.
+      </div>
+      <div class="pain-item">
+        You've adjusted your life around it. You know which pants to wear. You brace before you sneeze. You've stopped running. You've declined things. <strong>None of that is managing the problem — it's just managing around it.</strong>
+      </div>
+      <div class="pain-item">
+        The frustrating part is that your body is not broken. <em>The pathway just needs to be retrained the right way.</em> Five questions tells you which way that is.
+      </div>
+    </div>
+
+    <p class="welcome-meta">5 questions &nbsp;·&nbsp; 60 seconds &nbsp;·&nbsp; No email required</p>
     <button class="btn-primary" onclick="startQuiz()">
       Find My Pattern <span class="arrow">→</span>
     </button>
     <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
   </div>
 
-  <!-- SCREEN 1: Q1 -->
+  <!-- ══ SCREEN 1: Q1 ══ -->
   <div class="screen" id="screen-q1">
     <div class="q-number">Question 1 of 5</div>
     <div class="q-text">When does leaking happen most?</div>
@@ -625,10 +768,10 @@
     </div>
   </div>
 
-  <!-- SCREEN 2: Q2 -->
+  <!-- ══ SCREEN 2: Q2 ══ -->
   <div class="screen" id="screen-q2">
     <div class="q-number">Question 2 of 5</div>
-    <div class="q-text">Have you tried Kegels before?</div>
+    <div class="q-text">Have you tried Kegels?</div>
     <div class="options">
       <div class="option" onclick="selectOption(this, 'q2', 'kegel_fail')">
         <div class="option-dot"></div>Yes — and they didn't really help
@@ -642,7 +785,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 3: Q3 -->
+  <!-- ══ SCREEN 3: Q3 (emotional line break) ══ -->
   <div class="screen" id="screen-q3">
     <div class="q-number">Question 3 of 5</div>
     <div class="q-text">Do you feel that tiny "brace" moment before a sneeze or laugh?</div>
@@ -659,7 +802,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 4: Q4 -->
+  <!-- ══ SCREEN 4: Q4 ══ -->
   <div class="screen" id="screen-q4">
     <div class="q-number">Question 4 of 5</div>
     <div class="q-text">How long has this been happening?</div>
@@ -679,7 +822,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 5: Q5 -->
+  <!-- ══ SCREEN 5: Q5 ══ -->
   <div class="screen" id="screen-q5">
     <div class="q-number">Question 5 of 5</div>
     <div class="q-text">What would feel like winning?</div>
@@ -699,7 +842,7 @@
     </div>
   </div>
 
-  <!-- ANALYZING SCREEN -->
+  <!-- ══ LOADER ══ -->
   <div class="screen" id="screen-analyzing">
     <div class="analyzing-wrap">
       <div class="analyzing-bar-wrap">
@@ -713,201 +856,229 @@
     </div>
   </div>
 
-  <!-- RESULT 1: DELAYED REFLEX -->
-  <div class="screen" id="result-1">
-    <div class="result-eyebrow">Your Pattern</div>
-    <h2 class="result-pattern">Delayed <em>Reflex</em> Response</h2>
-    <div class="result-divider"></div>
-    <div class="result-highlight">
-      <p class="personalized-line"></p>
-    </div>
-    <p class="result-body">Your pelvic floor <strong>isn't weak.</strong> It's late.</p>
-    <p class="result-body" style="margin-top:16px;">When you sneeze or laugh, pressure spikes in a fraction of a second. Your pelvic floor is supposed to close <em>before</em> that spike hits.</p>
-    <p class="result-body" style="margin-top:16px;">After pregnancy, that half-second window shifts. The reflex still exists. It just needs retraining.</p>
-    <div class="result-highlight">
-      <p>This is the most common postpartum pattern — and the most responsive to the right 10-minute sequence. Strength training won't fix late timing. <strong>Reflex training will.</strong></p>
-    </div>
-    <p class="result-transition">The Quiet Comeback was built exactly for this pattern.</p>
-    <a href="https://zystd.gumroad.com/l/quietcomeback" class="btn-cta" target="_blank">
-      Get The Quiet Comeback — $27 &rarr;
-    </a>
-    <p class="price-note">Instant download · Start tonight · No equipment needed</p>
-    <a href="https://medium.com/@aeshacutee/why-kegels-arent-enough-and-what-actually-works-2c34637f3503" class="secondary-cta" target="_blank">Not ready yet? Read the full guide to your pattern on Medium →</a>
-    <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
-  </div>
-
-  <!-- RESULT 2: PRESSURE LOAD -->
-  <div class="screen" id="result-2">
-    <div class="result-eyebrow">Your Pattern</div>
-    <h2 class="result-pattern">Pressure <em>Load</em> Mismatch</h2>
-    <div class="result-divider"></div>
-    <div class="result-highlight">
-      <p class="personalized-line"></p>
-    </div>
-    <p class="result-body">Your leaks happen under load. Lifting your baby. Stepping down hard. Trying to run again.</p>
-    <p class="result-body" style="margin-top:16px;">This isn't a strength gap. <strong>It's a coordination gap.</strong></p>
-    <p class="result-body" style="margin-top:16px;">Your pelvic floor and your breathing lost their rhythm during pregnancy. When they're not coordinating, pressure wins every time.</p>
-    <div class="result-highlight">
-      <p>The fix isn't more squeezing. It's retraining the two systems to work together — starting with breath, not muscle. <strong>Coordination first. Strength second.</strong></p>
-    </div>
-    <p class="result-transition">The Quiet Comeback starts there. Day 1. 10 minutes.</p>
-    <a href="https://zystd.gumroad.com/l/quietcomeback" class="btn-cta" target="_blank">
-      Get The Quiet Comeback — $27 &rarr;
-    </a>
-    <p class="price-note">Instant download · Start tonight · No equipment needed</p>
-    <a href="https://medium.com/@aeshacutee/why-kegels-arent-enough-and-what-actually-works-2c34637f3503" class="secondary-cta" target="_blank">Not ready yet? Read the full guide to your pattern on Medium →</a>
-    <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
-  </div>
-
-  <!-- RESULT 3: CUMULATIVE LOAD -->
-  <div class="screen" id="result-3">
-    <div class="result-eyebrow">Your Pattern</div>
-    <h2 class="result-pattern">Cumulative <em>Load</em> Response</h2>
-    <div class="result-divider"></div>
-    <div class="result-highlight">
-      <p class="personalized-line"></p>
-    </div>
-    <p class="result-body">You've been carrying this for a while. Maybe through more than one pregnancy. Maybe you tried something before and quietly stopped.</p>
-    <p class="result-body" style="margin-top:16px;">The leaks aren't persisting because you're broken. <strong>They're persisting because the retraining window keeps getting pushed back.</strong></p>
-    <div class="result-highlight">
-      <p>The neuromuscular pathways that need retraining <strong>don't have an expiry date.</strong> They respond at 3 years postpartum the same way they respond at 3 months. You haven't missed the window. You're in it right now.</p>
-    </div>
-    <p class="result-transition">The Quiet Comeback works at any stage after pregnancy.</p>
-    <a href="https://zystd.gumroad.com/l/quietcomeback" class="btn-cta" target="_blank">
-      Get The Quiet Comeback — $27 &rarr;
-    </a>
-    <p class="price-note">Instant download · Start tonight · No equipment needed</p>
-    <a href="https://medium.com/@aeshacutee/why-kegels-arent-enough-and-what-actually-works-2c34637f3503" class="secondary-cta" target="_blank">Not ready yet? Read the full guide to your pattern on Medium →</a>
-    <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
-  </div>
+  <!-- ══ RESULT SCREEN ══ -->
+  <div class="screen" id="screen-result"></div>
 
 </div>
 
 <script>
-  // State
-  const answers = {};
+const GUMROAD_URL = 'https://zystd.gumroad.com/l/quietcomeback';
 
-  function startQuiz() {
-    goTo('screen-q1', 1);
-    document.getElementById('progressWrap').classList.add('visible');
+const answers = {};
+let resultId = null;
+
+const profiles = {
+  reflex: {
+    patternName: 'Delayed <em>Reflex</em> Response',
+    identityLock: 'If this result feels accurate — it\'s because your body already knows. You\'ve been compensating for this exact pattern every time you feel that split-second before a sneeze.',
+    mirror: 'You sneeze and brace at the same time — but the leak still happens. You\'ve gotten good at the brace. You\'ve adjusted your whole day around it. What nobody told you is that the brace itself is proof the reflex is there. It\'s just late.',
+    normalize: 'This isn\'t weakness and it\'s not something you\'re doing wrong. Pregnancy shifts the timing of the pelvic floor response in a way that strength training doesn\'t fix. The reflex still exists. It just needs retraining.',
+    window: 'The longer the delayed timing pattern runs without targeted retraining, the more the brain reinforces the compensating brace as the default. You\'re not stuck. But the longer the pattern runs, the more deliberate the retraining needs to be.',
+    futureViz: 'Imagine laughing — really laughing — without the thought crossing your mind. No brace, no check, no pause. Just the moment. That reflex fires on its own, exactly when it should. That\'s not a distant future. That\'s what a retrained pathway feels like.',
+    outcomes: [
+      'Sneezing and laughing without thinking about it first',
+      'The brace reflex stops being something you manage and starts being automatic',
+      'Your body feels like yours again — not something you\'re working around'
+    ],
+    villain: 'Kegels train strength. <strong>This pattern isn\'t a strength problem — it\'s a timing problem.</strong> Pressure spikes in a fraction of a second. The pelvic floor is supposed to close before that spike hits. After pregnancy, that half-second window shifts. Squeezing harder doesn\'t fix a timing gap. Reflex retraining does.',
+    bridge: 'The Quiet Comeback was built exactly for this pattern — starting with timing, not strength.',
+    fixTitle: 'The Timing Reset',
+    fixDesc: 'The specific 10-minute sequence inside The Quiet Comeback targets the neuromuscular pathway that controls when — not how hard — your pelvic floor fires. It\'s covered in full in Day 1.',
+  },
+  load: {
+    patternName: 'Pressure <em>Load</em> Mismatch',
+    identityLock: 'If this result feels accurate — it\'s because you\'ve noticed it yourself. The leak doesn\'t happen randomly. It happens under load. Lifting. Stepping. Bracing for impact.',
+    mirror: 'It\'s not constant. It\'s specific. Lifting your baby off the floor. Stepping down hard. Trying to get back to running. The leak only happens when something heavy is demanded of the system — and that\'s exactly what tells us what\'s actually going on.',
+    normalize: 'This is not a strength gap. Your muscles can contract. <strong>It\'s a coordination gap.</strong> Your pelvic floor and your breathing lost their rhythm during pregnancy. When they\'re not coordinating, pressure wins every time — no matter how strong you are.',
+    window: 'Every week you spend doing load-bearing movement without retraining the coordination pattern reinforces the mismatch. The good news: the two systems want to sync. They just need a reset sequence to find each other again.',
+    futureViz: 'Imagine lifting your baby without the split-second thought before you do it. No brace, no check, no mental note. Just picking them up. Your breath and your floor working together the way they did before. That coordination already exists in your body. It just needs reconnecting.',
+    outcomes: [
+      'Lifting, stepping and exercising without the anticipatory check',
+      'Breath and floor moving together again instead of against each other',
+      'Running, jumping, carrying — on your terms, not on the pattern\'s'
+    ],
+    villain: 'Nobody explained the breath-floor connection during pregnancy or after. <strong>Your core pressure system is a team of two — diaphragm and pelvic floor.</strong> When one changes, the other adapts. After pregnancy, those adaptations need to be actively unwound. Kegels only train one half of the team.',
+    bridge: 'The Quiet Comeback starts with breath, not muscle — because that\'s where the mismatch lives.',
+    fixTitle: 'The Coordination Reset',
+    fixDesc: 'The specific sequence targets breath-floor synchronization before it targets strength. The retraining protocol is inside The Quiet Comeback, starting Day 1.',
+  },
+  longterm: {
+    patternName: 'Cumulative <em>Load</em> Response',
+    identityLock: 'If this result feels accurate — it\'s because you\'ve been carrying this quietly for a long time. Maybe through more than one pregnancy. Maybe you tried something before and stopped. That\'s not failure. That\'s a sign the approach was wrong, not you.',
+    mirror: 'You\'ve had this longer than most. Long enough that you stopped thinking of it as something to fix and started thinking of it as just how things are now. You\'ve rebuilt your routines around it. You\'ve accepted limitations you shouldn\'t have accepted. The problem isn\'t that you waited too long. The problem is nobody gave you the right starting point.',
+    normalize: 'The neuromuscular pathways that need retraining don\'t have an expiry date. They respond at three years postpartum the same way they respond at three months. You haven\'t missed the window. You\'re in it right now.',
+    window: 'The longer a compensating pattern runs, the more layers there are to unwind — but none of those layers are permanent. What compounds over time is the workaround, not the damage. The retraining window stays open. What narrows is how much unnecessary compensation you carry into it.',
+    futureViz: 'Imagine a week where you didn\'t plan around it. No mental catalogue of which situations to avoid. No adjustments, no management, no quiet resignation. Just moving through your day the way you did before. That week is closer than it feels from here.',
+    outcomes: [
+      'The pattern that\'s been running for years finally has a name — and a sequence',
+      'Progress after the first week that feels different from anything you\'ve tried before',
+      'The quiet resignation starts to lift — because you\'re working with the right mechanism'
+    ],
+    villain: 'You tried Kegels because that\'s what everyone recommends. <strong>But Kegels are a generic answer to what is almost always a specific problem.</strong> Cumulative postpartum patterns need targeted retraining, not general strengthening. The longer the specific cause goes unaddressed, the more the body builds workarounds. This is the first time you\'ve been given the actual cause.',
+    bridge: 'The Quiet Comeback works at any stage after pregnancy — and it\'s built for patterns exactly like this one.',
+    fixTitle: 'The Unwind Protocol',
+    fixDesc: 'The specific sequence inside The Quiet Comeback addresses cumulative compensation patterns with a progressive retraining approach — covered fully starting Day 1.',
   }
+};
 
-  const autoAdvance = {
-    q1: () => goTo('screen-q2', 2),
-    q2: () => goTo('screen-q3', 3),
-    q3: () => goTo('screen-q4', 4),
-    q4: () => goTo('screen-q5', 5),
-    q5: () => showResult()
-  };
+function startQuiz() {
+  goTo('screen-q1', 1);
+  document.getElementById('progressWrap').classList.add('visible');
+}
 
-  function selectOption(el, question, value) {
-    el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-    el.classList.add('selected');
-    answers[question] = value;
-    setTimeout(() => {
-      if (autoAdvance[question]) autoAdvance[question]();
-    }, 400);
-  }
+const autoAdvance = {
+  q1: () => goTo('screen-q2', 2),
+  q2: () => goTo('screen-q3', 3),
+  q3: () => goTo('screen-q4', 4),
+  q4: () => goTo('screen-q5', 5),
+  q5: () => showAnalyzing()
+};
 
-  function goTo(screenId, questionNum) {
-    // Hide all screens
-    document.querySelectorAll('.screen').forEach(s => {
-      s.classList.remove('active');
-    });
-    // Show target
-    const target = document.getElementById(screenId);
-    target.classList.add('active');
-    // Update progress
-    const pct = ((questionNum - 1) / 5) * 100;
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressText').textContent = 'Question ' + questionNum + ' of 5';
-    // Scroll top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+function selectOption(el, question, value) {
+  el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[question] = value;
+  setTimeout(() => {
+    if (autoAdvance[question]) autoAdvance[question]();
+  }, 400);
+}
 
-  function showResult() {
-    // Determine result
-    let resultId = 'result-2';
-    if (answers.q4 === 'long') {
-      resultId = 'result-3';
-    } else if ((answers.q1 === 'sneezing' || answers.q1 === 'laughing') && (answers.q3 === 'brace_always' || answers.q3 === 'brace_sometimes')) {
-      resultId = 'result-1';
+function goTo(screenId, questionNum) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  const pct = ((questionNum - 1) / 5) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = 'Question ' + questionNum + ' of 5';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function getResultKey() {
+  if (answers.q4 === 'long') return 'longterm';
+  if ((answers.q1 === 'sneezing' || answers.q1 === 'laughing') &&
+      (answers.q3 === 'brace_always' || answers.q3 === 'brace_sometimes')) return 'reflex';
+  return 'load';
+}
+
+function showAnalyzing() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-analyzing').classList.add('active');
+  document.getElementById('progressText').textContent = 'Analyzing your pattern...';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const steps = [
+    { text: 'Mapping neuromuscular response type...', pct: 20 },
+    { text: 'Identifying your postpartum pattern...', pct: 45 },
+    { text: 'Cross-referencing 3 pattern profiles...', pct: 70 },
+    { text: 'Locating your retraining entry point...', pct: 88 },
+    { text: 'Identifying your conversation pattern', pct: 100 }
+  ];
+
+  const bar = document.getElementById('analyzingBar');
+  const msg = document.getElementById('analyzingMsg');
+  let i = 0;
+
+  function runStep() {
+    if (i >= steps.length) {
+      setTimeout(showResult, 500);
+      return;
     }
-
-    // Generate personalized diagnostic line
-    const diagnosticMap = {
-      q1: {
-        'sneezing': 'leaking during sneezing',
-        'laughing': 'leaking during laughing',
-        'exercise': 'leaking during exercise',
-        'lifting': 'leaking while lifting'
-      },
-      q2: {
-        'kegel_fail': "Kegels that didn't land",
-        'kegel_partial': "Kegels that only helped a little",
-        'kegel_none': "untested Kegels"
-      },
-      q3: {
-        'brace_always': 'a reflex that fires late',
-        'brace_sometimes': 'a reflex that fires inconsistently',
-        'brace_never': "a reflex that isn't responding yet"
-      }
-    };
-
-    const personalizedText = `Based on your answers — ${diagnosticMap.q1[answers.q1]}, ${diagnosticMap.q2[answers.q2]}, and ${diagnosticMap.q3[answers.q3]} — your pattern is:`;
-    document.querySelectorAll('.personalized-line').forEach(el => {
-      el.textContent = personalizedText;
-    });
-
-    // Show analyzing screen first
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('screen-analyzing').classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // Update progress label
-    document.getElementById('progressText').textContent = 'Analyzing your answers...';
-
-    // Animated messages sequence
-    const messages = [
-      'Mapping neuromuscular response type...',
-      'Cross-referencing with 3 postpartum pattern profiles...',
-      'Your pattern is ready.'
-    ];
-
-    const bar = document.getElementById('analyzingBar');
-    const msg = document.getElementById('analyzingMsg');
-
-    let step = 0;
-    const totalDuration = 2400; // Faster sequence
-    const stepDuration = totalDuration / messages.length;
-
-    // Animate bar and messages
-    const interval = setInterval(() => {
-      step++;
-      const pct = (step / messages.length) * 100;
-      bar.style.width = pct + '%';
-
-      if (step <= messages.length) {
-        msg.style.opacity = '0';
-        setTimeout(() => {
-          msg.textContent = messages[step-1];
-          msg.style.opacity = '1';
-        }, 200);
-      }
-
-      if (step >= messages.length) {
-        clearInterval(interval);
-        // Small pause then reveal result
-        setTimeout(() => {
-          document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-          document.getElementById(resultId).classList.add('active');
-          document.getElementById('progressFill').style.width = '100%';
-          document.getElementById('progressText').textContent = 'Your result is ready';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 600);
-      }
-    }, stepDuration);
+    const s = steps[i];
+    msg.style.opacity = '0';
+    setTimeout(() => {
+      msg.textContent = s.text;
+      bar.style.width = s.pct + '%';
+      msg.style.opacity = '1';
+    }, 150);
+    i++;
+    setTimeout(runStep, i === steps.length ? 700 : 950);
   }
+
+  setTimeout(runStep, 300);
+}
+
+function showResult() {
+  const key = getResultKey();
+  const p = profiles[key];
+
+  const html = `
+    <div class="result-eyebrow">Your Pattern</div>
+    <h2 class="result-pattern">${p.patternName}</h2>
+    <div class="result-divider"></div>
+
+    <div class="identity-lock">${p.identityLock}</div>
+
+    <div class="result-mirror">${p.mirror}</div>
+
+    <p class="result-normalize">${p.normalize}</p>
+
+    <div class="result-window">
+      <div class="window-label">Why this matters now</div>
+      <p>${p.window}</p>
+    </div>
+
+    <div class="future-viz">${p.futureViz}</div>
+
+    <div class="outcomes-block">
+      <div class="outcomes-label">What changes after this</div>
+      <ul class="outcomes-list">
+        ${p.outcomes.map(o => `<li>${o}</li>`).join('')}
+      </ul>
+    </div>
+
+    <div class="result-villain">${p.villain}</div>
+
+    <p class="result-bridge">${p.bridge}</p>
+
+    <div class="fix-card">
+      <div class="fix-label">Your retraining protocol — inside the guide</div>
+      <div class="fix-title">${p.fixTitle}</div>
+      <div class="fix-desc">${p.fixDesc}</div>
+    </div>
+
+    <div class="gate-cta" id="gate-cta-block">
+      <div class="gate-authority">Developed from pelvic floor physiotherapy principles — made accessible for home use.</div>
+      <div class="gate-social-proof">🌿 2,400+ moms have taken this pattern test</div>
+      <div class="gate-eyebrow">Built for your exact pattern</div>
+      <div class="gate-headline">The Quiet Comeback</div>
+      <div class="gate-sub">14 days. 10 minutes a day. The full retraining sequence for your pattern — and the two others most likely to overlap with it.</div>
+      <div class="gate-price-row">
+        <span class="gate-orig">$37</span>
+        <span class="gate-now">$27</span>
+        <span class="gate-price-note">Pattern test<br>discount applied</span>
+      </div>
+      <a href="${GUMROAD_URL}" target="_blank" class="btn-cta">Start The Quiet Comeback — $27 →</a>
+      <div class="gate-scarcity">Pattern test price expires when you leave this page.</div>
+      <div class="gate-friction">Instant download · Start tonight · No equipment needed</div>
+    </div>
+
+    <a href="https://medium.com/@aeshacutee/why-kegels-arent-enough-and-what-actually-works-2c34637f3503" class="secondary-cta" target="_blank">Not ready yet? Read the full guide to your pattern on Medium →</a>
+
+    <button class="retake-btn" onclick="retakeQuiz()">Retake the quiz</button>
+
+    <div class="screen-footer">© 2026 The Quiet Comeback™ &nbsp;·&nbsp; by Maya</div>
+  `;
+
+  document.getElementById('screen-result').innerHTML = html;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-result').classList.add('active');
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressText').textContent = 'Your result is ready';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Scroll nudge — 9 seconds after reading Mirror + Normalize + Window + FutureViz + Outcomes
+  setTimeout(() => {
+    const cta = document.getElementById('gate-cta-block');
+    if (cta) cta.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 9000);
+}
+
+function retakeQuiz() {
+  Object.keys(answers).forEach(k => delete answers[k]);
+  document.getElementById('progressWrap').classList.remove('visible');
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-welcome').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 </script>
 
 </body>
