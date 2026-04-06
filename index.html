@@ -108,7 +108,9 @@ ttq.page();
   .q-text em { font-style: italic; color: #c8392b; }
   .options { display: flex; flex-direction: column; gap: 12px; }
   .option { background: #ffffff; border: 1.5px solid #d8d2c8; border-radius: 2px; padding: 18px 20px; cursor: pointer; transition: all 0.18s; display: flex; align-items: flex-start; gap: 14px; font-size: 15px; font-weight: 300; color: #0e0e0e; line-height: 1.45; text-align: left; width: 100%; }
-  .option:hover { border-color: #0e0e0e; background: #f5f0e8; }
+  @media (hover: hover) {
+    .option:hover { border-color: #0e0e0e; background: #f5f0e8; }
+  }
   .option.selected { border-color: #c8392b; background: #fdf5f4; }
   .option-letter { font-family: 'Playfair Display', serif; font-size: 11px; font-style: italic; color: #6b6763; min-width: 14px; margin-top: 2px; flex-shrink: 0; }
   .option.selected .option-letter { color: #c8392b; }
@@ -193,7 +195,9 @@ ttq.page();
   .agree-label { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: #6b6763; margin-bottom: 20px; }
   .agree-options { display: flex; flex-direction: column; gap: 10px; }
   .agree-option { background: #ffffff; border: 1.5px solid #d8d2c8; border-radius: 2px; padding: 16px 20px; cursor: pointer; transition: all 0.18s; text-align: left; width: 100%; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 400; color: #0e0e0e; line-height: 1.4; display: flex; align-items: center; gap: 14px; }
-  .agree-option:hover { border-color: #0e0e0e; background: #f5f0e8; }
+  @media (hover: hover) {
+    .agree-option:hover { border-color: #0e0e0e; background: #f5f0e8; }
+  }
   .agree-option.selected { border-color: #c8392b; background: #fdf5f4; }
   .agree-dot {
     width: 10px; height: 10px; border-radius: 50%;
