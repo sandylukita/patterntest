@@ -264,7 +264,17 @@ ttq.page();
 <!-- ══════════════════════════════════════════════ -->
 <!-- EMAIL CAPTURE — FIX 3b                         -->
 <!-- ══════════════════════════════════════════════ -->
-<!-- Email Capture is now handled inside the result page template -->
+<div id="email-capture" class="screen">
+  <div class="email-eyebrow">Your result is ready</div>
+  <h2 class="email-title">Get your result<br>in your inbox</h2>
+  <p class="email-sub">We’ll send your pattern + what to do next.<br>Most people fail on day 3. I’ll show you why.</p>
+  <div class="email-input-wrap">
+    <input type="email" class="email-input" id="email-field" placeholder="Enter your email" />
+    <button class="btn-email" onclick="submitEmail()">SEND MY RESULT →</button>
+  </div>
+  <span class="email-skip" onclick="showResult()">Skip — show me my result →</span>
+  <p class="email-privacy">No spam. Unsubscribe anytime.</p>
+</div>
 
 <!-- ══════════════════════════════════════════════ -->
 <!-- RESULT — rendered dynamically by showResult() -->
@@ -357,7 +367,7 @@ const patterns = {
     id: 'knowing',
     name: 'The <em>Knowing</em><br>Protective Pattern',
     nameText: 'The Knowing Protective Pattern',
-    tagline: '"You already know. You just haven\'t acted yet."',
+    tagline: '"You\'re not stuck. You\'re protected."',
     mirror: 'You already know.',
     mirrorP1: 'You know what the food is doing. You know the relationship isn\'t right. You know the job is slowly taking something from you. You know the habit isn\'t about the habit.',
     mirrorP2: 'You\'ve known for a while.',
@@ -374,7 +384,7 @@ const patterns = {
     id: 'almost',
     name: 'The <em>Almost</em><br>Protective Pattern',
     nameText: 'The Almost Protective Pattern',
-    tagline: '"You don\'t fail. You stop just before it counts."',
+    tagline: '"You\'re not stuck. You\'re protected."',
     mirror: 'You get close every time.',
     mirrorP1: 'You\'ve started this before. More than once. You built the momentum, you could see where it was going, and then — something happened. A reason appeared. A better time presented itself.',
     mirrorP2: 'It wasn\'t random. It was the pattern.',
@@ -621,7 +631,7 @@ function showLoader() {
     if (pct >= 100) {
       clearInterval(interval);
       clearInterval(testimonialInterval);
-      setTimeout(() => showResult(), 600);
+      setTimeout(() => showScreen('email-capture'), 600);
     }
   }, 100);
 }
@@ -691,7 +701,7 @@ function showResult() {
 
     <div class="result-body">
 
-      <!-- BLOCK 2: MECHANISM -->
+      <!-- MIRROR -->
       <div class="result-section">
         <div class="section-label">The Mirror</div>
         <div class="result-mirror">${p.mirror}</div>
@@ -701,28 +711,9 @@ function showResult() {
         <p class="result-body-text">${p.mirrorP3}</p>
       </div>
 
-      <!-- BLOCK 3: COST -->
-      <div class="result-section">
-        <div class="section-label">The Cost of Staying</div>
-        <p class="result-body-text">${p.cost}</p>
-        <div class="result-pull">
-          <p>The protective pattern doesn't wait for you to be ready. It's already running.</p>
-        </div>
-        <p class="result-body-text">Most people wait until they're forced to reset. A health scare. A relationship ending. A job that disappears. You don't have to wait.</p>
-      </div>
-
-      <!-- BLOCK 4: MICRO RESET -->
-      <div class="result-section">
-        <div class="section-label">The Shift Required</div>
-        <div class="give-item">
-          <div class="give-label">The Replace behavior</div>
-          <div class="give-text" style="font-family:'Playfair Display', serif; font-size:18px; font-style:italic; color:#0e0e0e; line-height:1.5;">${p.give3}</div>
-        </div>
-      </div>
-
-      <!-- BLOCK 5: PRIMARY CTA (EBOOK) -->
+      <!-- FIRST BUY BUTTON -->
       <div class="result-cta">
-        <div class="cta-eyebrow">Ready to replace it?</div>
+        <div class="cta-eyebrow">Ready now?</div>
         <div class="cta-title">The Pattern Reset</div>
         <div class="cta-sub">Identify your protective pattern. Build a chosen pattern.</div>
         <p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:16px;font-style:italic;line-height:1.5;">You already know what needs to change. <br>The only question is whether you’ll act on it this time.</p>
@@ -730,21 +721,47 @@ function showResult() {
         <span class="cta-note">~15 minute read &nbsp;·&nbsp; Most people finish it the same night.</span>
       </div>
 
-      <!-- BLOCK 6: EMAIL CAPTURE (OPTIONAL) -->
-      <div class="share-box" style="background:#0e0e0e; color:#f5f0e8; border:none; padding:40px 24px;">
-        <div class="cta-eyebrow" style="color:rgba(255,255,255,0.5);">Free Resource</div>
-        <div class="cta-title" style="font-size:24px; margin-bottom:12px;">Get The Day 3<br>Survival Guide</div>
-        <p style="font-size:14px; color:rgba(255,255,255,0.6); margin-bottom:24px; font-style:italic;">For when the pattern comes back dressed as a reason.</p>
-        
-        <div class="email-input-wrap" style="max-width:340px; margin:0 auto 16px;">
-          <input type="email" class="email-input" id="email-field" placeholder="Enter your email" style="background:#ffffff; color:#0e0e0e;" />
-          <button class="btn-email" onclick="submitEmail()" style="background:#c8392b; color:#ffffff; width:100%; border:none; border-radius:2px; padding:15px; cursor:pointer; text-transform:uppercase; font-size:11px; letter-spacing:0.2em; font-weight:500;">SEND MY GUIDE →</button>
+      <!-- COST -->
+      <div class="result-section">
+        <div class="section-label">The Cost of Staying</div>
+        <p class="result-body-text">${p.cost}</p>
+        <div class="result-pull">
+          <p>The protective pattern doesn't wait for you to be ready. It's already running.</p>
         </div>
-        <p style="font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.1em;">No spam. Unsubscribe anytime.</p>
+        <p class="result-body-text">Most people wait until they're forced to reset. A health scare. A relationship ending. A job that disappears. The pattern gets the final say because they never named it first.</p>
+        <p class="result-body-text">You don't have to wait.</p>
       </div>
 
+      <!-- GIVE -->
+      <div class="result-section">
+        <div class="section-label">What The Reset Actually Requires</div>
+        <div class="give-item">
+          <div class="give-label">${p.give1label}</div>
+          <div class="give-text">${p.give1}</div>
+        </div>
+        <div class="give-item">
+          <div class="give-label">${p.give2label}</div>
+          <div class="give-text">${p.give2}</div>
+        </div>
+        <div class="give-item">
+          <div class="give-label">${p.give3label}</div>
+          <div class="give-text">${p.give3}</div>
+        </div>
+      </div>
+
+      <!-- SECOND BUY BUTTON -->
+      <div class="result-cta">
+        <div class="cta-eyebrow">Your next step</div>
+        <div class="cta-title">The Pattern Reset</div>
+        <div class="cta-sub">The guide for people who already know — and are finally ready to replace their protective pattern with a chosen one.</div>
+        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('below_fold')">Get The Pattern Reset — $9</a>
+        <span class="cta-note">~15 minute read &nbsp;·&nbsp; Most people finish it the same night.</span>
+        <span class="cta-note" style="color:#c8392b;font-style:normal;margin-top:4px;font-weight:500;">The protective pattern doesn't wait for you to be ready. It's already running.</span>
+      </div>
+
+      <!-- SHARE -->
       <div class="share-box">
-        <div class="share-label">Share your result</div>
+        <div class="share-label">Share your protective pattern</div>
         <div class="share-text">"${p.nameText}.<br>patterntest.xyz"</div>
         <button class="btn-share" id="share-btn" onclick="copyShare('${p.share}')">Copy & Share</button>
       </div>
