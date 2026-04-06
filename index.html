@@ -302,11 +302,11 @@ const questions = [
   // Q3 onwards — pain questions
   {
     text: "The area of your life that feels most <em>stuck</em> is...",
-    options: ["My body or physical health", "A habit I can't seem to break", "My relationships or how I connect", "My direction — I'm not sure where I'm going"]
+    options: ["My body or physical health", "A habit I can't seem to break", "My relationships or how I connect"]
   },
   {
     text: "When you try to change something, you usually make it to...",
-    options: ["Day 2 or 3, then something derails it", "2–3 weeks, then life gets in the way", "The finish line — but it never actually sticks", "You rarely start. The timing never feels right."],
+    options: ["The finish line — but it never actually sticks", "Day 2 or 3, then something derails it", "2–3 weeks, then life gets in the way"],
     interstitial: true
   },
   {
@@ -321,19 +321,19 @@ const questions = [
   },
   {
     text: "The last time you felt like <em>yourself</em> was...",
-    options: ["Before something happened to my body", "Before a habit took hold", "Before a relationship changed me", "I'm not sure I've ever fully felt it"]
+    options: ["Before something happened to my body", "Before a habit took hold", "Before a relationship changed me"]
   },
   {
     text: "When things get hard, you tend to...",
-    options: ["Push through until my body forces me to stop", "Reach for the thing that takes the edge off", "Withdraw from the people around me", "Spiral into overthinking and stall completely"]
+    options: ["Push through until my body forces me to stop", "Reach for the thing that takes the edge off", "Withdraw from the people around me"]
   },
   {
     text: "You've tried to fix this before. What stopped it from sticking?",
-    options: ["The stress came back and wiped everything out", "I didn't have the right approach for my situation", "I couldn't change the dynamic with the people around me", "I never really committed — something always held me back"]
+    options: ["The stress came back and wiped everything out", "I didn't have the right approach for my situation", "I couldn't change the dynamic with the people around me"]
   },
   {
     text: "What you actually need right now is...",
-    options: ["A system that works with my body, not against it", "A way to finally break the pattern for good", "A way to show up differently with the people I care about", "A complete reset — I'm not sure where to start"]
+    options: ["A system that works with my body, not against it", "A way to finally break the pattern for good", "A way to show up differently with the people I care about"]
   }
 ];
 
@@ -345,19 +345,18 @@ const questions = [
 // Q5 and Q6 (agree-scale) score by conviction not pattern
 // ══════════════════════════════════════════════
 
-// Pattern scoring map — for each question, which pattern does each answer suggest
-// [Quiet, Almost, Knowing, Waiting]
+// [Quiet, Almost, Knowing]
 const patternMap = [
-  null, // Q1 age — not scored
-  null, // Q2 life stage — not scored
-  [0, 1, 2, 3], // Q3 — stuck area: body=Quiet, habit=Almost, relationships=Knowing, direction=Waiting
-  [1, 2, 0, 3], // Q4 — change attempt: day2-3=Almost, 2-3weeks=Knowing, finish-no-stick=Quiet, rarely-start=Waiting
-  null, // Q5 — agree scale (not pattern scored)
-  null, // Q6 — agree scale (not pattern scored)
-  [0, 1, 2, 3], // Q7 — last felt like self: body=Quiet, habit=Almost, relationship=Knowing, never=Waiting
-  [0, 1, 2, 3], // Q8 — when hard: push-through=Quiet, reach-for-something=Almost, withdraw=Knowing, overthink=Waiting
-  [0, 1, 2, 3], // Q9 — what stopped it: stress=Quiet, wrong-approach=Almost, dynamic=Knowing, never-committed=Waiting
-  [0, 1, 2, 3], // Q10 — what need: body-system=Quiet, break-pattern=Almost, show-up-differently=Knowing, complete-reset=Waiting
+  null, // Q1 age
+  null, // Q2 life stage
+  [0, 1, 2], // Q3 area: body=Quiet, habit=Almost, rel=Knowing
+  [0, 1, 2], // Q4 change: finish-no-stick=Quiet, day2-3=Almost, 2-3weeks=Knowing
+  null, // Q5
+  null, // Q6
+  [0, 1, 2], // Q7 self: body=Quiet, habit=Almost, rel=Knowing
+  [0, 1, 2], // Q8 hard: push=Quiet, reach=Almost, withdraw=Knowing
+  [0, 1, 2], // Q9 stopped: stress=Quiet, approach=Almost, dynamic=Knowing
+  [0, 1, 2], // Q10 need: body=Quiet, break=Almost, show-up=Knowing
 ];
 
 // ══════════════════════════════════════════════
@@ -414,31 +413,14 @@ const patterns = {
     give3label: 'One ask.', give3: 'Something named. Out loud. To someone real. The pattern shrinks when it hears its name. Not permanently on day one — but enough. Enough to create the half second.',
     share: 'I got The Quiet Protective Pattern.\npatterntest.xyz',
     anchor: 'If this felt accurate, part of you recognized it before you finished reading.',
-  },
-  waiting: {
-    id: 'waiting',
-    name: 'The <em>Waiting</em><br>Protective Pattern',
-    nameText: 'The Waiting Protective Pattern',
-    tagline: '"You\'re not stuck. You\'re protected."',
-    mirror: 'You\'re waiting for the right time.',
-    mirrorP1: 'Not because you\'re lazy. Not because you don\'t care. Because something in you keeps moving the starting line just slightly out of reach — until the conditions are better, the plan is clearer, the version of you who does this kind of thing is more ready.',
-    mirrorP2: 'The timing never quite arrives.',
-    mirrorPull: 'The Waiting Protective Pattern is the most invisible kind. Because it looks like preparation. It looks like patience. It looks like the responsible thing to do before committing to something big.',
-    mirrorP3: 'But it\'s protection. From what beginning would mean. From the risk that comes with actually going. From the version of reality where you started and it turned out to be the wrong thing after all. The pattern keeps you safe from that — by making sure you never fully find out.',
-    cost: 'The Waiting Pattern doesn\'t cost you in obvious ways. Nothing breaks. Nothing fails dramatically. It just costs you time — the one thing you can\'t get back. Every year waiting for the right conditions is a year the conditions were already right enough.',
-    give1label: 'Not a better plan.', give1: 'More planning is what the Waiting Pattern wants. It keeps you in preparation mode — where everything feels productive but nothing actually moves. The plan you have is already enough to start.',
-    give2label: 'Not more certainty.', give2: 'Certainty doesn\'t come before starting. It comes from starting. The pattern has it backwards — and has kept it backwards long enough that waiting feels like wisdom.',
-    give3label: 'A beginning date.', give3: 'Not a plan. Not a complete system. A date. The day this starts — before the conditions improve, before the timing is perfect, before you feel ready. The pattern can\'t survive a committed start date.',
-    share: 'I got The Waiting Protective Pattern.\npatterntest.xyz',
-    anchor: 'If this felt accurate, some part of you already knew it was time.',
   }
 };
 
 // Pattern key order for scoring
-const patternKeys = ['quiet', 'almost', 'knowing', 'waiting'];
+const patternKeys = ['quiet', 'almost', 'knowing'];
 
 function calculatePattern() {
-  const scores = [0, 0, 0, 0]; // quiet, almost, knowing, waiting
+  const scores = [0, 0, 0]; // quiet, almost, knowing
 
   answers.forEach((answerIdx, questionIdx) => {
     const map = patternMap[questionIdx];
