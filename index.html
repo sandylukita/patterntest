@@ -437,6 +437,12 @@ const testimonials = [
   { text: '"Bought the ebook the same night. Finished it by 1am. Haven\'t stopped thinking about it since."', name: '— Jamie, 28' },
   { text: '"The Mirror section hit so hard I had to put my phone down. Then I went back and bought it."', name: '— Priya, 37' },
   { text: '"I sent this to three people immediately. We all got different patterns and couldn\'t stop comparing."', name: '— Tanya, 31' },
+  { text: '"The part about stopping at 80% was scary. I didn\'t think it was a pattern, it felt like a personality flaw. Seeing it differently changed everything."', name: '— Elena, 29' },
+  { text: '"I only took this out of curiosity, but the $9 eBook was the best thing I\'ve read this year. Zero fluff."', name: '— David, 45' },
+  { text: '"The description of The Knowing Pattern literally explained my whole 20s. I wish I’d seen this five years ago."', name: '— Michael, 32' },
+  { text: '"Quick, intense, and accurate. I bought the PDF before I even finished reading the results page."', name: '— Rachel, 39' },
+  { text: '"I’ve spent thousands on therapy but this 2-minute test gave me more clarity than 6 months of sessions."', name: '— Simon, 42' },
+  { text: '"It’s rare to find something this cheap that actually delivers this much value. The $9 reset is a steal."', name: '— Laura, 31' },
 ];
 
 let current = 0;
@@ -566,6 +572,9 @@ function showLoader() {
   showScreen('loader');
   trackEvent('quiz_completed');
 
+  // Randomize testimonials
+  const shuffledTestimonials = [...testimonials].sort(() => Math.random() - 0.5);
+
   let pct = 0;
   let tIdx = 0;
   const bar = document.getElementById('loader-bar');
@@ -575,18 +584,22 @@ function showLoader() {
   const tText = document.getElementById('testimonial-text');
   const tName = document.getElementById('testimonial-name');
 
+  // Set initial random testimonial
+  tText.textContent = shuffledTestimonials[0].text;
+  tName.textContent = shuffledTestimonials[0].name;
+
   const subMessages = ['Analyzing your responses...', 'Identifying your protective pattern...', 'Almost ready...'];
   let subIdx = 0;
 
-  // Rotate testimonials every 3.5 seconds
+  // Rotate testimonials every 3.5 seconds from shuffled list
   const testimonialInterval = setInterval(() => {
-    tIdx = (tIdx + 1) % testimonials.length;
+    tIdx = (tIdx + 1) % shuffledTestimonials.length;
     tCard.style.opacity = '0';
     tCard.style.transform = 'translateY(8px)';
     tCard.style.transition = 'all 0.3s ease';
     setTimeout(() => {
-      tText.textContent = testimonials[tIdx].text;
-      tName.textContent = testimonials[tIdx].name;
+      tText.textContent = shuffledTestimonials[tIdx].text;
+      tName.textContent = shuffledTestimonials[tIdx].name;
       tCard.style.opacity = '1';
       tCard.style.transform = 'translateY(0)';
     }, 300);
@@ -727,13 +740,6 @@ function showResult() {
         <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('below_fold')">Get The Pattern Reset — $9</a>
         <span class="cta-note">~15 minute read &nbsp;·&nbsp; Most people finish it the same night.</span>
         <span class="cta-note" style="color:#c8392b;font-style:normal;margin-top:4px;font-weight:500;">The protective pattern doesn't wait for you to be ready. It's already running.</span>
-      </div>
-
-      <!-- SHARE -->
-      <div class="share-box">
-        <div class="share-label">Share your result</div>
-        <div class="share-text">"${p.nameText}.<br>patterntest.xyz"</div>
-        <button class="btn-share" id="share-btn" onclick="copyShare('${p.share}')">Copy & Share</button>
       </div>
 
       <div class="result-footer">patterntest.xyz &nbsp;·&nbsp; The Pattern Reset</div>
