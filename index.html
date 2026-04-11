@@ -804,26 +804,6 @@ function showResult() {
         <span class="cta-note">∼15 minute read &nbsp;·&nbsp; Most people finish it the same night.</span>
       </div>
 
-      <div class="share-box">
-        <div class="share-label">Share your result</div>
-        <div class="share-text">${p.share}</div>
-        <button class="btn-share" id="share-btn" onclick="
-          navigator.clipboard.writeText(this.closest('.share-box').querySelector('.share-text').textContent).then(() => {
-            this.textContent = 'Copied';
-            this.classList.add('copied');
-            setTimeout(() => { this.textContent = 'Copy to share'; this.classList.remove('copied'); }, 2000);
-          });
-        ">Copy to share</button>
-      </div>
-
-      <div class="result-cta" style="margin-bottom:0;">
-        <div class="cta-eyebrow">Your next step</div>
-        <div class="cta-title">The Pattern Reset</div>
-        <div class="cta-sub">The guide for people who already know — and are finally ready to replace their protective pattern with a chosen one.</div>
-        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('secondary_cta')">Get The Pattern Reset — $9</a>
-        <span class="cta-note">∼15 minute read &nbsp;·&nbsp; Most people finish it the same night.</span>
-      </div>
-
       <div class="result-footer">patterntest.xyz &nbsp;·&nbsp; The Pattern Reset</div>
     </div>
   `;
@@ -851,16 +831,6 @@ function trackEvent(name, params = {}) {
 
 function trackPurchaseClick(position) {
   trackEvent('purchase_click', { position });
-}
-
-function copyShare(shareText) {
-  const text = shareText || "I got The Knowing Protective Pattern.\n\npatterntest.xyz";
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('share-btn');
-    btn.textContent = 'Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy & Share'; btn.classList.remove('copied'); }, 2500);
-  });
 }
 </script>
 </body>
