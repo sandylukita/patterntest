@@ -684,7 +684,7 @@ function showResult() {
 
     <div class="result-body">
 
-      <!-- MIRROR -->
+      <!-- 1. MIRROR -->
       <div class="result-section">
         <div class="section-label">The Mirror</div>
         <div class="result-mirror">${p.mirror}</div>
@@ -694,17 +694,7 @@ function showResult() {
         <p class="result-body-text">${p.mirrorP3}</p>
       </div>
 
-      <!-- FIRST BUY BUTTON -->
-      <div class="result-cta">
-        <div class="cta-eyebrow">Ready now?</div>
-        <div class="cta-title">The Pattern Reset</div>
-        <div class="cta-sub">Identify your protective pattern. Build a chosen pattern.</div>
-        <p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:16px;font-style:italic;line-height:1.5;">You already know what needs to change. <br>The only question is whether you’ll act on it this time.</p>
-        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('above_fold')">The Pattern Reset — $9</a>
-        <span class="cta-note">~15 minute read &nbsp;·&nbsp; Most people finish it the same night.</span>
-      </div>
-
-      <!-- COST -->
+      <!-- 2. COST -->
       <div class="result-section">
         <div class="section-label">The Cost of Staying</div>
         <p class="result-body-text">${p.cost}</p>
@@ -715,31 +705,49 @@ function showResult() {
         <p class="result-body-text">You don't have to wait.</p>
       </div>
 
-      <!-- GIVE -->
+      <!-- 3. MECHANISM (NEW) -->
       <div class="result-section">
-        <div class="section-label">What The Reset Actually Requires</div>
-        <div class="give-item">
-          <div class="give-label">${p.give1label}</div>
-          <div class="give-text">${p.give1}</div>
-        </div>
-        <div class="give-item">
-          <div class="give-label">${p.give2label}</div>
-          <div class="give-text">${p.give2}</div>
-        </div>
-        <div class="give-item">
-          <div class="give-label">${p.give3label}</div>
-          <div class="give-text">${p.give3}</div>
-        </div>
+        <div class="section-label">How this actually changes</div>
+        <p class="result-body-text">The pattern doesn’t break with more awareness. <br><strong>You already have that.</strong></p>
+        <p class="result-body-text">It breaks at one specific moment — the moment right before the pattern takes over.</p>
+        <p class="result-body-text">The reset isn’t a system you follow. It’s a shift in that moment. That’s what <em>The Pattern Reset</em> is built around.</p>
       </div>
 
-      <!-- SECOND BUY BUTTON -->
+      <!-- 4. OUTCOME (NEW) -->
+      <div class="result-section">
+        <div class="section-label">What changes after this</div>
+        <p class="result-body-text" style="display:flex; gap:12px; margin-bottom:12px;">
+          <span style="color:#c8392b">•</span> 
+          <span>You’ll recognize the exact moment your pattern activates</span>
+        </p>
+        <p class="result-body-text" style="display:flex; gap:12px; margin-bottom:12px;">
+          <span style="color:#c8392b">•</span> 
+          <span>You’ll know what to do in that moment (not after)</span>
+        </p>
+        <p class="result-body-text" style="display:flex; gap:12px; margin-bottom:12px;">
+          <span style="color:#c8392b">•</span> 
+          <span>You’ll stop restarting and start finishing</span>
+        </p>
+      </div>
+
+      <!-- 5. CTA BUTTON -->
       <div class="result-cta">
         <div class="cta-eyebrow">Your next step</div>
         <div class="cta-title">The Pattern Reset</div>
         <div class="cta-sub">The guide for people who already know — and are finally ready to replace their protective pattern with a chosen one.</div>
-        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('below_fold')">Get The Pattern Reset — $9</a>
+        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('primary_cta')">Get The Pattern Reset — $9</a>
         <span class="cta-note">~15 minute read &nbsp;·&nbsp; Most people finish it the same night.</span>
-        <span class="cta-note" style="color:#c8392b;font-style:normal;margin-top:4px;font-weight:500;">The protective pattern doesn't wait for you to be ready. It's already running.</span>
+      </div>
+
+      <!-- 6. URGENCY (NEW) -->
+      <div style="text-align:center; padding: 0 24px 48px;">
+        <p class="result-body-text" style="font-style:italic; font-size:14px; color:#6b6763; line-height:1.6; max-width:400px; margin:0 auto;">
+          Most people read this, feel the recognition, and close the tab. 
+          <br><br>
+          <strong>The pattern stays.</strong>
+          <br><br>
+          This only works in the moment right after you see it — before it convinces you that knowing was enough.
+        </p>
       </div>
 
       <div class="result-footer">patterntest.xyz &nbsp;·&nbsp; The Pattern Reset</div>
