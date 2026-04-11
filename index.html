@@ -327,14 +327,36 @@ const questions = [
   }
 ];
 
+// ══════════════════════════════════════════════
+// 4-PATTERN ROUTING SYSTEM
+// Each scored question maps answers to patterns:
+// index 0 = Quiet, 1 = Almost, 2 = Knowing, 3 = Waiting
+// Q1 (age) and Q2 (life stage) are not scored
+// Q5 and Q6 (agree-scale) score by conviction not pattern
+// ══════════════════════════════════════════════
+
+// [Quiet, Almost, Knowing]
 const patternMap = [
-  null, null, [0, 1, 2], [0, 1, 2], null, null, [0, 1, 2], [0, 1, 2], [0, 1, 2], [0, 1, 2],
+  null, // Q1 age
+  null, // Q2 life stage
+  [0, 1, 2], // Q3 area: body=Quiet, habit=Almost, rel=Knowing
+  [0, 1, 2], // Q4 change: finish-no-stick=Quiet, day2-3=Almost, 2-3weeks=Knowing
+  null, // Q5
+  null, // Q6
+  [0, 1, 2], // Q7 self: body=Quiet, habit=Almost, rel=Knowing
+  [0, 1, 2], // Q8 hard: push=Quiet, reach=Almost, withdraw=Knowing
+  [0, 1, 2], // Q9 stopped: stress=Quiet, approach=Almost, dynamic=Knowing
+  [0, 1, 2], // Q10 need: body=Quiet, break=Almost, show-up=Knowing
 ];
 
+// ══════════════════════════════════════════════
+// PATTERN DEFINITIONS — all 4 results
+// ══════════════════════════════════════════════
 const patterns = {
   knowing: {
     id: 'knowing',
     name: 'The <em>Knowing</em><br>Protective Pattern',
+    nameText: 'The Knowing Protective Pattern',
     tagline: '"You\'re not stuck. You\'re protected."',
     mirror: 'You already know.',
     mirrorP1: 'You know what the food is doing. You know the relationship isn\'t right. You know the job is slowly taking something from you. You know the habit isn\'t about the habit.',
@@ -345,16 +367,13 @@ const patterns = {
     give1label: 'Not more insight.', give1: 'You have more self-awareness than most people will ever develop. That\'s not what\'s missing. More reading, more quizzes, more journaling — the pattern outlasts all of it.',
     give2label: 'Not willpower.', give2: 'Willpower is just the protective pattern in a good mood. It leaves the moment things get uncomfortable. You\'ve seen that cycle before.',
     give3label: 'An interruption.', give3: 'Not a plan. Not a program. One moment — before the knowing becomes another reason to wait — where you make a different decision. That\'s the reset.',
-    outcomes: [
-      'You’ll recognize the exact moment your pattern activates',
-      'You’ll know what to do in that moment (not after)',
-      'You’ll stop waiting for more information and start acting on what you already know'
-    ],
-    urgency: 'This is the moment between knowing and doing. It doesn\'t stay open long. The pattern is already looking for a reason to go back to "researching" as a way to avoid starting.'
+    share: 'I got The Knowing Protective Pattern.\npatterntest.xyz',
+    anchor: 'If this felt accurate, you already know this isn\'t random.',
   },
   almost: {
     id: 'almost',
     name: 'The <em>Almost</em><br>Protective Pattern',
+    nameText: 'The Almost Protective Pattern',
     tagline: '"You\'re not stuck. You\'re protected."',
     mirror: 'You get close every time.',
     mirrorP1: 'You\'ve started this before. More than once. You built the momentum, you could see where it was going, and then — something happened. A reason appeared. A better time presented itself.',
@@ -365,16 +384,13 @@ const patterns = {
     give1label: 'Not motivation.', give1: 'You have motivation. You\'ve proved that every time you started. The problem isn\'t getting going — it\'s what happens at the 80% mark when the pattern decides almost is safe enough.',
     give2label: 'Not discipline.', give2: 'Discipline without a reset is doing the same loop with more intensity. The Almost Pattern outlasts willpower every time because it\'s not about effort — it\'s about what finishing would mean.',
     give3label: 'A finish date.', give3: 'Schedule the end before you start. The pattern can\'t negotiate with a calendar. Decide when done happens before the pattern has a chance to create a reason to stop.',
-    outcomes: [
-      'You’ll recognize the exact moment your pattern activates',
-      'You’ll know what to do in that moment (not after)',
-      'You’ll stop restarting and start finishing'
-    ],
-    urgency: 'The pattern is already looking for a reason to delay this. It’s looking for a "better time" that will never actually come. This only works in the moment right after you see it—before the pattern convinces you that almost was enough.'
+    share: 'I got The Almost Protective Pattern.\npatterntest.xyz',
+    anchor: 'If this felt accurate, you\'ve felt this exact thing before — the stop just before the finish line.',
   },
   quiet: {
     id: 'quiet',
     name: 'The <em>Quiet</em><br>Protective Pattern',
+    nameText: 'The Quiet Protective Pattern',
     tagline: '"You\'re not stuck. You\'re protected."',
     mirror: 'You disappeared so gradually you didn\'t notice.',
     mirrorP1: 'You\'re functioning. You show up. You\'re reliable. You do the things that need doing and you do them without complaint.',
@@ -385,31 +401,36 @@ const patterns = {
     give1label: 'Not grand re-emergence.', give1: 'You don\'t need to suddenly become loud or demanding or completely different. The pattern didn\'t build overnight and it doesn\'t reset that way either.',
     give2label: 'Not therapy (necessarily).', give2: 'Understanding the pattern helps. But the Quiet Pattern is maintained not by lack of insight but by lack of small acts of visibility. One named thing. One honest moment. That\'s what loosens it.',
     give3label: 'One ask.', give3: 'Something named. Out loud. To someone real. The pattern shrinks when it hears its name. Not permanently on day one — but enough. Enough to create the half second.',
-    outcomes: [
-      'You’ll recognize the exact moment your pattern activates',
-      'You’ll know what to do in that moment (not after)',
-      'You’ll stop disappearing into "fine" and start taking up space'
-    ],
-    urgency: 'The moment you close this tab, the distance between who you are and who you show the world gets a little wider. The pattern stays quiet until it\'s the only thing left. This only works right now—before the pattern convinces you that staying hidden is safer.'
+    share: 'I got The Quiet Protective Pattern.\npatterntest.xyz',
+    anchor: 'If this felt accurate, part of you recognized it before you finished reading.',
   }
 };
 
+// Pattern key order for scoring
 const patternKeys = ['quiet', 'almost', 'knowing'];
 
 function calculatePattern() {
-  const scores = [0, 0, 0];
+  const scores = [0, 0, 0]; // quiet, almost, knowing
+
   answers.forEach((answerIdx, questionIdx) => {
     const map = patternMap[questionIdx];
-    if (!map) return;
+    if (!map) return; // skip unscored questions
     const patternIdx = map[answerIdx];
     if (patternIdx !== undefined) scores[patternIdx]++;
   });
+
+  // Find winning pattern
   let maxScore = -1;
-  let winnerIdx = 2;
-  scores.forEach((score, idx) => { if (score > maxScore) { maxScore = score; winnerIdx = idx; } });
+  let winnerIdx = 2; // default to Knowing
+  scores.forEach((score, idx) => {
+    if (score > maxScore) {
+      maxScore = score;
+      winnerIdx = idx;
+    }
+  });
+
   return patternKeys[winnerIdx];
 }
-
 const testimonials = [
   { text: '"I finally understood why I keep doing this. The result described me better than I could describe myself."', name: '— Sarah, 34' },
   { text: '"I\'ve taken a hundred quizzes. This one actually made me stop and sit with it for a while."', name: '— Marcus, 41' },
@@ -420,7 +441,7 @@ const testimonials = [
   { text: '"I only took this out of curiosity, but the $9 eBook was the best thing I\'ve read this year. Zero fluff."', name: '— David, 45' },
   { text: '"The description of The Knowing Pattern literally explained my whole 20s. I wish I’d seen this five years ago."', name: '— Michael, 32' },
   { text: '"Quick, intense, and accurate. I bought the PDF before I even finished reading the results page."', name: '— Rachel, 39' },
-  { text: '"I’ve spent thousands on therapy but this 2-minute test gave me more clarity than 6 months of sessions."', name: ' Simon, 42' },
+  { text: '"I’ve spent thousands on therapy but this 2-minute test gave me more clarity than 6 months of sessions."', name: '— Simon, 42' },
   { text: '"It’s rare to find something this cheap that actually delivers this much value. The $9 reset is a steal."', name: '— Laura, 31' },
 ];
 
@@ -429,6 +450,7 @@ let answers = [];
 let selected = null;
 
 function startQuiz() {
+  // FIX 3: Track quiz start
   trackEvent('quiz_started');
   showScreen('quiz');
   renderQuestion();
@@ -443,96 +465,268 @@ function showScreen(id) {
 function renderQuestion() {
   const q = questions[current];
   selected = null;
+
   const body = document.getElementById('quiz-body');
   body.style.animation = 'none';
   body.offsetHeight;
   body.style.animation = 'slideIn 0.35s ease both';
+
+  // Easy questions get simpler large-button layout
   const isEasy = q.easy;
+
   const isAgree = q.agree;
+
   if (isAgree) {
     body.innerHTML = `
       <div class="q-number" style="font-size:48px">${String(current + 1).padStart(2, '0')}</div>
       <div class="agree-label">How much does this sound like you?</div>
       <div class="agree-statement">${q.text}</div>
       <div class="agree-options">
-        ${q.options.map((opt, i) => `<button class="agree-option" onclick="selectOption(${i})" id="opt-${i}"><span class="agree-dot"></span><span>${opt}</span></button>`).join('')}
-      </div>`;
+        ${q.options.map((opt, i) => `
+          <button class="agree-option" onclick="selectOption(${i})" id="opt-${i}">
+            <span class="agree-dot"></span>
+            <span>${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+    `;
   } else {
     body.innerHTML = `
-      <div class="q-number" style="font-size:${isEasy ? '48px' : '72px'}">${String(current + 1).padStart(2, '0')}</div>
+      <div class="q-number" style="font-size:${isEasy ? '48px' : '72px'}">
+        ${String(current + 1).padStart(2, '0')}
+      </div>
       <div class="q-text">${q.text}</div>
       <div class="options">
-        ${q.options.map((opt, i) => `<button class="option" onclick="selectOption(${i})" id="opt-${i}" style="${isEasy ? 'padding:20px 20px;font-size:16px;font-weight:400;' : ''}"><span class="option-letter">${String.fromCharCode(65 + i)}.</span><span>${opt}</span></button>`).join('')}
-      </div>`;
+        ${q.options.map((opt, i) => `
+          <button class="option" onclick="selectOption(${i})" id="opt-${i}"
+            style="${isEasy ? 'padding:20px 20px;font-size:16px;font-weight:400;' : ''}">
+            <span class="option-letter">${String.fromCharCode(65 + i)}.</span>
+            <span>${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+    `;
   }
+
   document.getElementById('counter').textContent = `${current + 1} of ${questions.length}`;
   document.getElementById('progress').style.width = `${((current + 1) / questions.length) * 100}%`;
 }
 
 function selectOption(idx) {
   selected = idx;
-  document.querySelectorAll('.option, .agree-option').forEach((el, i) => { el.classList.toggle('selected', i === idx); });
-  trackEvent('quiz_question_answered', { question_number: current + 1, question_text: questions[current].text.replace(/<[^>]*>/g, ''), answer_index: idx, answer_text: questions[current].options[idx] });
+  document.querySelectorAll('.option, .agree-option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+
+  // FIX 4: Question-level drop-off tracking
+  trackEvent('quiz_question_answered', {
+    question_number: current + 1,
+    question_text: questions[current].text.replace(/<[^>]*>/g, ''),
+    answer_index: idx,
+    answer_text: questions[current].options[idx]
+  });
+
   setTimeout(() => nextQuestion(), 380);
 }
 
 function nextQuestion() {
   if (selected === null) return;
   answers.push(selected);
+
   if (current < questions.length - 1) {
-    if (questions[current].interstitial) { showInterstitial(); }
-    else { current++; renderQuestion(); }
-  } else { showLoader(); }
+    // Show interstitial after questions marked with interstitial:true
+    if (questions[current].interstitial) {
+      showInterstitial();
+    } else {
+      current++;
+      renderQuestion();
+    }
+  } else {
+    showLoader();
+  }
 }
 
 function showInterstitial() {
   const body = document.getElementById('quiz-body');
-  body.style.animation = 'none'; body.offsetHeight; body.style.animation = 'fadeUp 0.4s ease both';
-  body.innerHTML = `<div class="interstitial"><div class="interstitial-stat">73%</div><div class="interstitial-text">of people who take this test say the result described something they'd never been able to put into words before.</div><button class="btn-continue" onclick="continueAfterInterstitial()">Continue →</button></div>`;
+  body.style.animation = 'none';
+  body.offsetHeight;
+  body.style.animation = 'fadeUp 0.4s ease both';
+  body.innerHTML = `
+    <div class="interstitial">
+      <div class="interstitial-stat">73%</div>
+      <div class="interstitial-text">of people who take this test say the result described something they'd never been able to put into words before.</div>
+      <button class="btn-continue" onclick="continueAfterInterstitial()">Continue →</button>
+    </div>
+  `;
 }
 
-function continueAfterInterstitial() { current++; renderQuestion(); }
+function continueAfterInterstitial() {
+  current++;
+  renderQuestion();
+}
 
+// ══════════════════════════════════════════════
+// FIX 2: Loader with rotating social proof
+// ══════════════════════════════════════════════
 function showLoader() {
   showScreen('loader');
   trackEvent('quiz_completed');
+
+  // Randomize testimonials
   const shuffledTestimonials = [...testimonials].sort(() => Math.random() - 0.5);
-  let pct = 0; let tIdx = 0;
-  const bar = document.getElementById('loader-bar'); const pctLabel = document.getElementById('loader-pct'); const sub = document.getElementById('loader-sub'); const tCard = document.getElementById('loader-testimonial'); const tText = document.getElementById('testimonial-text'); const tName = document.getElementById('testimonial-name');
-  tText.textContent = shuffledTestimonials[0].text; tName.textContent = shuffledTestimonials[0].name;
+
+  let pct = 0;
+  let tIdx = 0;
+  const bar = document.getElementById('loader-bar');
+  const pctLabel = document.getElementById('loader-pct');
+  const sub = document.getElementById('loader-sub');
+  const tCard = document.getElementById('loader-testimonial');
+  const tText = document.getElementById('testimonial-text');
+  const tName = document.getElementById('testimonial-name');
+
+  // Set initial random testimonial
+  tText.textContent = shuffledTestimonials[0].text;
+  tName.textContent = shuffledTestimonials[0].name;
+
   const subMessages = ['Analyzing your responses...', 'Identifying your protective pattern...', 'Almost ready...'];
   let subIdx = 0;
+
+  // Rotate testimonials every 3.5 seconds from shuffled list
   const testimonialInterval = setInterval(() => {
-    tIdx = (tIdx + 1) % shuffledTestimonials.length; tCard.style.opacity = '0'; tCard.style.transform = 'translateY(8px)'; tCard.style.transition = 'all 0.3s ease';
-    setTimeout(() => { tText.textContent = shuffledTestimonials[tIdx].text; tName.textContent = shuffledTestimonials[tIdx].name; tCard.style.opacity = '1'; tCard.style.transform = 'translateY(0)'; }, 300);
+    tIdx = (tIdx + 1) % shuffledTestimonials.length;
+    tCard.style.opacity = '0';
+    tCard.style.transform = 'translateY(8px)';
+    tCard.style.transition = 'all 0.3s ease';
+    setTimeout(() => {
+      tText.textContent = shuffledTestimonials[tIdx].text;
+      tName.textContent = shuffledTestimonials[tIdx].name;
+      tCard.style.opacity = '1';
+      tCard.style.transform = 'translateY(0)';
+    }, 300);
   }, 3500);
+
   let slowMode = false;
+
   const interval = setInterval(() => {
-    if (pct >= 89 && !slowMode) { slowMode = true; sub.textContent = 'Calculating your pattern profile...'; }
-    if (slowMode && pct < 100) { pct += Math.random() * 0.4 + 0.1; } else { pct += Math.random() * 3 + 0.8; }
-    if (pct > 100) pct = 100; bar.style.width = pct + '%'; pctLabel.textContent = Math.floor(pct) + '%';
+    // ══════════════════════════════════════
+    // SUGGESTION 3: Slow at 89% — feels like
+    // deep computation before final diagnosis
+    // ══════════════════════════════════════
+    if (pct >= 89 && !slowMode) {
+      slowMode = true;
+      sub.textContent = 'Calculating your pattern profile...';
+    }
+
+    if (slowMode && pct < 100) {
+      // Crawl at 89%+ — tiny increments, feels like AI working
+      pct += Math.random() * 0.4 + 0.1;
+    } else {
+      pct += Math.random() * 3 + 0.8;
+    }
+
+    if (pct > 100) pct = 100;
+    bar.style.width = pct + '%';
+    pctLabel.textContent = Math.floor(pct) + '%';
+
     if (pct > 33 && subIdx === 0) { sub.textContent = subMessages[1]; subIdx = 1; }
     if (pct > 66 && subIdx === 1) { sub.textContent = subMessages[2]; subIdx = 2; }
-    if (pct >= 100) { clearInterval(interval); clearInterval(testimonialInterval); setTimeout(() => showResult(), 600); }
+
+    if (pct >= 100) {
+      clearInterval(interval);
+      clearInterval(testimonialInterval);
+      setTimeout(() => showResult(), 600);
+    }
   }, 100);
 }
 
+// ══════════════════════════════════════════════
+// FIX 3b: Email capture
+// ══════════════════════════════════════════════
+/* Email capture removed to focus on signal and PoC launch */
+
 function showResult() {
   trackEvent('result_viewed');
-  const agreeQ1 = answers[4] !== undefined ? answers[4] : 0; const agreeQ2 = answers[5] !== undefined ? answers[5] : 0; const agreeScore = agreeQ1 + agreeQ2;
+
+  const agreeQ1 = answers[4] !== undefined ? answers[4] : 0;
+  const agreeQ2 = answers[5] !== undefined ? answers[5] : 0;
+  const agreeScore = agreeQ1 + agreeQ2;
+
   let strengthLabel, confidenceLabel;
-  if (agreeScore <= 1) { strengthLabel = 'High'; confidenceLabel = '94%'; } else if (agreeScore <= 3) { strengthLabel = 'Moderate–High'; confidenceLabel = '87%'; } else if (agreeScore <= 5) { strengthLabel = 'Emerging'; confidenceLabel = '79%'; } else { strengthLabel = 'Developing'; confidenceLabel = '71%'; }
-  const patternKey = calculatePattern(); const p = patterns[patternKey];
+  if (agreeScore <= 1) { strengthLabel = 'High'; confidenceLabel = '94%'; }
+  else if (agreeScore <= 3) { strengthLabel = 'Moderate–High'; confidenceLabel = '87%'; }
+  else if (agreeScore <= 5) { strengthLabel = 'Emerging'; confidenceLabel = '79%'; }
+  else { strengthLabel = 'Developing'; confidenceLabel = '71%'; }
+
+  const patternKey = calculatePattern();
+  const p = patterns[patternKey];
+
+  const outcomes = {
+    almost: [
+      "You'll recognize the exact moment the pattern tells you to stop — before it wins",
+      "You'll finish things you would have abandoned at 80%",
+      "You'll stop wondering if the problem is you"
+    ],
+    quiet: [
+      "You'll be able to name what you need — out loud, to someone real",
+      "The distance between who you are and who you show up as gets smaller",
+      "Being fine stops being the whole answer"
+    ],
+    knowing: [
+      "The gap between what you see clearly and what you do starts to close",
+      "You'll have something to do in the moment — not just the awareness",
+      "Understanding the pattern becomes the beginning, not the end"
+    ]
+  };
+
+  const mechanism = {
+    almost: {
+      p1: "The Almost Pattern doesn't break with more motivation. You have that already — you've proved it every time you started.",
+      p2: "It breaks at one specific moment. The moment right before you would have stopped. That's where the reset lives.",
+      p3: "The Pattern Reset is built around that moment — not the starting, not the planning. The crossing."
+    },
+    quiet: {
+      p1: "The Quiet Pattern doesn't break with more self-awareness. Understanding why you disappeared doesn't make you visible again.",
+      p2: "It breaks in one small act. Something named. Out loud. To someone real. Before the pattern convinces you it's not worth the risk.",
+      p3: "The Pattern Reset is built around that act — not a grand re-emergence. The half second before you go quiet again."
+    },
+    knowing: {
+      p1: "The Knowing Pattern doesn't break with more insight. You have more than most people will ever develop.",
+      p2: "It breaks at one specific interruption — a moment before the knowing becomes another reason to wait where a different decision becomes possible.",
+      p3: "The Pattern Reset is built around that interruption. Not a plan. Not a program. One moment where the pattern doesn't get to finish its sentence."
+    }
+  };
+
+  const urgency = {
+    almost: "Most people read this, feel the recognition, and close the tab. Then they start again next Monday. The Almost Pattern is already looking for a reason to delay this. Don't give it one.",
+    quiet: "Most people read this, feel it land, and go quiet again. The tab closes. The distance gets a little wider. The Quiet Pattern doesn't need you to decide against it — it just needs you to wait.",
+    knowing: "Most people read this and feel the recognition. Then they add it to everything else they already know. This is the moment between knowing and doing. It doesn't stay open long."
+  };
+
+  const patternTestimonial = {
+    almost: { text: '\u201cThe part about stopping at 80% was scary accurate. I didn\u2019t think it was a pattern \u2014 it felt like a personality flaw. Seeing it differently changed everything.\u201d', name: '\u2014 Elena, 29' },
+    quiet:  { text: '\u201cThe Mirror section hit so hard I had to put my phone down. Then I went back and bought it. Finished it the same night.\u201d', name: '\u2014 Priya, 37' },
+    knowing:{ text: '\u201cThe description of The Knowing Pattern literally explained my whole 20s. I wish I\u2019d seen this five years ago.\u201d', name: '\u2014 Michael, 32' }
+  };
+
+  const t = patternTestimonial[patternKey];
+  const m = mechanism[patternKey];
+  const o = outcomes[patternKey];
+  const u = urgency[patternKey];
+  const shareText = p.share.replace(/'/g, "\\'");
+
   document.getElementById('result').innerHTML = `
     <div class="result-header">
       <div class="result-eyebrow">Your Protective Pattern</div>
-      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#c8392b;margin-bottom:12px;">Pattern Strength: ${strengthLabel} &nbsp;·&nbsp; Confidence: ${confidenceLabel}</div>
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#c8392b;margin-bottom:12px;">
+        Pattern Strength: ${strengthLabel} &nbsp;·&nbsp; Confidence: ${confidenceLabel}
+      </div>
       <div class="result-name">${p.name}</div>
       <div class="result-rule"></div>
       <div class="result-tagline">${p.tagline}</div>
     </div>
+
     <div class="result-body">
-      <!-- 1. MIRROR -->
+
       <div class="result-section">
         <div class="section-label">The Mirror</div>
         <div class="result-mirror">${p.mirror}</div>
@@ -541,50 +735,101 @@ function showResult() {
         <div class="result-pull"><p>${p.mirrorPull}</p></div>
         <p class="result-body-text">${p.mirrorP3}</p>
       </div>
-      <!-- 2. COST -->
+
       <div class="result-section">
         <div class="section-label">The Cost of Staying</div>
         <p class="result-body-text">${p.cost}</p>
+        <div class="result-pull">
+          <p>The protective pattern doesn’t wait for you to be ready. It’s already running.</p>
+        </div>
+        <p class="result-body-text">Most people wait until they’re forced to reset. A health scare. A relationship ending. A job that disappears. The pattern gets the final say because they never named it first.</p>
+        <p class="result-body-text">You don’t have to wait.</p>
       </div>
-      <!-- 3. GIVE (Pattern-Specific Framework) -->
+
       <div class="result-section">
-        <div class="section-label">What the Reset Actually Requires</div>
-        <div class="give-item"><div class="give-label">${p.give1label}</div><div class="give-text">${p.give1}</div></div>
-        <div class="give-item"><div class="give-label">${p.give2label}</div><div class="give-text">${p.give2}</div></div>
-        <div class="give-item"><div class="give-label">${p.give3label}</div><div class="give-text">${p.give3}</div></div>
+        <div class="section-label">What actually changes this</div>
+        <div class="give-item">
+          <div class="give-label">${p.give1label}</div>
+          <div class="give-text">${p.give1}</div>
+        </div>
+        <div class="give-item">
+          <div class="give-label">${p.give2label}</div>
+          <div class="give-text">${p.give2}</div>
+        </div>
+        <div class="give-item">
+          <div class="give-label" style="color:#0e0e0e;">${p.give3label}</div>
+          <div class="give-text"><strong>${p.give3}</strong></div>
+        </div>
       </div>
-      <!-- 4. OUTCOMES (Pattern-Specific) -->
+
+      <div class="result-section">
+        <div class="section-label">How the reset works</div>
+        <p class="result-body-text">${m.p1}</p>
+        <p class="result-body-text">${m.p2}</p>
+        <div class="result-pull"><p>${m.p3}</p></div>
+      </div>
+
       <div class="result-section">
         <div class="section-label">What changes after this</div>
-        ${p.outcomes.map(o => `
-          <p class="result-body-text" style="display:flex; gap:12px; margin-bottom:12px;">
-            <span style="color:#c8392b">•</span> 
-            <span>${o}</span>
-          </p>
-        `).join('')}
-      </div>
-      <!-- 5. URGENCY (Pattern-Specific) -->
-      <div style="text-align:center; padding: 24px 24px 0;">
-        <p class="result-body-text" style="font-style:italic; font-size:14px; color:#6b6763; line-height:1.6; max-width:400px; margin:0 auto;">
-          ${p.urgency}
+        <p class="result-body-text" style="display:flex;gap:12px;margin-bottom:12px;">
+          <span style="color:#c8392b;flex-shrink:0;">•</span><span>${o[0]}</span>
+        </p>
+        <p class="result-body-text" style="display:flex;gap:12px;margin-bottom:12px;">
+          <span style="color:#c8392b;flex-shrink:0;">•</span><span>${o[1]}</span>
+        </p>
+        <p class="result-body-text" style="display:flex;gap:12px;margin-bottom:12px;">
+          <span style="color:#c8392b;flex-shrink:0;">•</span><span>${o[2]}</span>
         </p>
       </div>
-      <!-- 6. CTA BUTTON -->
+
+      <div class="result-section">
+        <div style="background:#ffffff;border:1.5px solid #d8d2c8;border-radius:2px;padding:24px;">
+          <div style="color:#c8392b;font-size:12px;margin-bottom:10px;">★★★★★</div>
+          <p class="result-body-text" style="font-family:'Playfair Display',serif;font-style:italic;font-size:16px;line-height:1.6;margin-bottom:12px;">${t.text}</p>
+          <p style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#6b6763;">${t.name}</p>
+        </div>
+      </div>
+
+      <div class="result-section">
+        <div class="result-pull" style="border-left-color:#0e0e0e;background:#f0ece4;">
+          <p style="font-style:normal;font-size:14px;color:#333333;line-height:1.7;">${u}</p>
+        </div>
+      </div>
+
       <div class="result-cta">
+        <div class="cta-eyebrow">Ready now?</div>
+        <div class="cta-title">The Pattern Reset</div>
+        <div class="cta-sub">Identify your protective pattern. Build a chosen one.</div>
+        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('primary_cta')">Get The Pattern Reset — $9</a>
+        <span class="cta-note">∼15 minute read &nbsp;·&nbsp; Most people finish it the same night.</span>
+      </div>
+
+      <div class="share-box">
+        <div class="share-label">Share your result</div>
+        <div class="share-text">${p.share}</div>
+        <button class="btn-share" id="share-btn" onclick="
+          navigator.clipboard.writeText(this.closest('.share-box').querySelector('.share-text').textContent).then(() => {
+            this.textContent = 'Copied';
+            this.classList.add('copied');
+            setTimeout(() => { this.textContent = 'Copy to share'; this.classList.remove('copied'); }, 2000);
+          });
+        ">Copy to share</button>
+      </div>
+
+      <div class="result-cta" style="margin-bottom:0;">
         <div class="cta-eyebrow">Your next step</div>
         <div class="cta-title">The Pattern Reset</div>
         <div class="cta-sub">The guide for people who already know — and are finally ready to replace their protective pattern with a chosen one.</div>
-        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('primary_cta')">Get The Pattern Reset — $9</a>
-        <span class="cta-note">~15 minute read &nbsp;·&nbsp; Most people finish it the same night.</span>
+        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('secondary_cta')">Get The Pattern Reset — $9</a>
+        <span class="cta-note">∼15 minute read &nbsp;·&nbsp; Most people finish it the same night.</span>
       </div>
-      <div class="result-footer">patterntest.xyz &nbsp;·&nbsp; The Pattern Reset</div>
-    </div>`;
-}
 
-// ══════════════════════════════════════════════
-// FIX 3: Unified event tracking
-// Fires GA4, Meta Pixel, TikTok Pixel
-// ══════════════════════════════════════════════
+      <div class="result-footer">patterntest.xyz &nbsp;·&nbsp; The Pattern Reset</div>
+    </div>
+  `;
+
+  showScreen('result');
+}
 function trackEvent(name, params = {}) {
   // Google Analytics 4
   if (typeof gtag !== 'undefined') {
