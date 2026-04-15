@@ -380,10 +380,12 @@ const patterns = {
     mirrorP2: 'You\'ve known for a while.',
     mirrorPull: 'The problem was never information. You\'ve read the articles, taken the quizzes, started the journal twice. You understand yourself better than most people ever will.',
     mirrorP3: 'But somewhere between the knowing and the doing, something keeps stopping you. That\'s not a willpower problem. That\'s your protective pattern doing exactly what it was built to do.',
-    cost: 'Every year you understand the pattern and don\'t replace it is a year spent maintaining a life built for who you used to be. The Knowing Pattern costs you in a way most people never see — not in failure, but in the gap between what you see clearly and what you actually change.',
+    lock: 'This isn\u2019t a phase. This is your pattern. And it\u2019s been making decisions for you longer than you think\u2014underneath all that self-awareness.',
+    cost: 'Every year you understand the pattern but don\u2019t replace it is a year spent with a life built for who you used to be. Not randomly. Consistently. The Knowing Pattern costs you in the gap between what you see clearly and what you actually change.',
     give1label: 'Not more insight.', give1: 'You have more self-awareness than most people will ever develop. That\'s not what\'s missing. More reading, more quizzes, more journaling — the pattern outlasts all of it.',
     give2label: 'Not willpower.', give2: 'Willpower is just the protective pattern in a good mood. It leaves the moment things get uncomfortable. You\'ve seen that cycle before.',
     give3label: 'An interruption.', give3: 'Not a plan. Not a program. One moment — before the knowing becomes another reason to wait — where you make a different decision. That\'s the reset.',
+    projection: 'If nothing changes, this doesn\'t break. It repeats. This time next year, you\'ll have even more insight, but the exact same situation. The pattern doesn\'t care if you understand it\u2014it only cares if you keep it.',
     share: 'I got The Knowing Protective Pattern.\npatterntest.xyz',
     anchor: 'If this felt accurate, you already know this isn\'t random.',
   },
@@ -397,10 +399,12 @@ const patterns = {
     mirrorP2: 'It wasn\'t random. It was the pattern.',
     mirrorPull: 'The Almost Protective Pattern doesn\'t stop you from starting. It stops you from finishing. And it\'s been doing it long enough that you\'ve started to wonder if the problem is you.',
     mirrorP3: 'It\'s not. The pattern isn\'t failure. It\'s protection — from what committing fully might cost you. From what it would mean if you actually got there and it still wasn\'t enough.',
-    cost: 'The Almost Pattern is the most expensive kind. Because you do the hard part. You start, you build, you invest. And then you stop just before the return comes in. That\'s not laziness. That\'s a protective pattern running a calculation that has nothing to do with the goal.',
+    lock: 'This isn\u2019t a streak of bad luck. This is your pattern. It\u2019s the mechanism that decides almost is safe enough, every single time.',
+    cost: 'The Almost Pattern is the most expensive one. You do the hard work, you build the momentum, and then you stop just before the return lands. Not once. Consistently. That\u2019s why things keep getting close\u2014and then stop.',
     give1label: 'Not motivation.', give1: 'You have motivation. You\'ve proved that every time you started. The problem isn\'t getting going — it\'s what happens at the 80% mark when the pattern decides almost is safe enough.',
     give2label: 'Not discipline.', give2: 'Discipline without a reset is doing the same loop with more intensity. The Almost Pattern outlasts willpower every time because it\'s not about effort — it\'s about what finishing would mean.',
     give3label: 'A finish date.', give3: 'Schedule the end before you start. The pattern can\'t negotiate with a calendar. Decide when done happens before the pattern has a chance to create a reason to stop.',
+    projection: 'If nothing changes, this doesn\'t break. It repeats. You\'ll start another thing, get close again, and then find another perfect reason to stay safe. A year from today will look very familiar.',
     share: 'I got The Almost Protective Pattern.\npatterntest.xyz',
     anchor: 'If this felt accurate, you\'ve felt this exact thing before — the stop just before the finish line.',
   },
@@ -414,10 +418,12 @@ const patterns = {
     mirrorP2: 'But somewhere along the way, the part of you that needed something — that had opinions, desires, things that were just yours — got quieter. And then quieter. Until being fine became the whole answer.',
     mirrorPull: 'The Quiet Protective Pattern doesn\'t announce itself. It doesn\'t feel like a breakdown or a crisis. It just feels like life — like this is what things are like now, and you\'ve adjusted.',
     mirrorP3: 'But you haven\'t adjusted. You\'ve disappeared. And the pattern that made it feel okay — the one that learned showing need creates risk — is still running. Still choosing quiet over visible. Still deciding that fine is safer than real.',
-    cost: 'The Quiet Pattern costs you connection — with other people and with yourself. Every year inside it is a year where the distance between who you are and who you\'re allowed to be grows a little wider. Not dramatically. Just quietly.',
+    lock: 'This isn\u2019t just your personality. This is your pattern. It\u2019s the silence that slowly becomes the only thing left\u2014choosing safe over real.',
+    cost: 'The Quiet Pattern costs you real connection. Every year inside it, the distance between who you are and who you show the world grows wider. Not dramatically. Quietly. Consistently.',
     give1label: 'Not grand re-emergence.', give1: 'You don\'t need to suddenly become loud or demanding or completely different. The pattern didn\'t build overnight and it doesn\'t reset that way either.',
     give2label: 'Not therapy (necessarily).', give2: 'Understanding the pattern helps. But the Quiet Pattern is maintained not by lack of insight but by lack of small acts of visibility. One named thing. One honest moment. That\'s what loosens it.',
     give3label: 'One ask.', give3: 'Something named. Out loud. To someone real. The pattern shrinks when it hears its name. Not permanently on day one — but enough. Enough to create the half second.',
+    projection: 'If nothing changes, this doesn\'t break. It repeats. The silence gets heavier, and "fine" becomes a permanent wall between you and the life you actually want. You don\'t want to be here a year from now.',
     share: 'I got The Quiet Protective Pattern.\npatterntest.xyz',
     anchor: 'If this felt accurate, part of you recognized it before you finished reading.',
   }
@@ -754,6 +760,14 @@ function showResult() {
       </div>
 
       <div class="result-section">
+        <div style="background:#0e0e0e; color:#f5f0e8; padding:32px; border-radius:2px; margin-bottom:36px;">
+          <p class="result-body-text" style="color:#ffffff; font-family:'Playfair Display',serif; font-style:italic; font-size:18px; line-height:1.6;">
+            "${p.lock}"
+          </p>
+        </div>
+      </div>
+
+      <div class="result-section">
         <div class="section-label">The Cost of Staying</div>
         <p class="result-body-text">${p.cost}</p>
         <div class="result-pull">
@@ -808,17 +822,19 @@ function showResult() {
       </div>
 
       <div class="result-section">
-        <div class="result-pull" style="border-left-color:#0e0e0e;background:#f0ece4;">
-          <p style="font-style:normal;font-size:14px;color:#333333;line-height:1.7;">${u}</p>
+        <div class="result-pull" style="border-left-color:#0e0e0e; background:#f0ece4; padding:32px;">
+          <p style="font-style:normal; font-size:16px; color:#333333; line-height:1.7;">
+            <strong>The Prognosis:</strong><br>${p.projection}
+          </p>
         </div>
       </div>
 
       <div class="result-cta">
-        <div class="cta-eyebrow">Ready now?</div>
+        <div class="cta-eyebrow">This is where the pattern breaks.</div>
         <div class="cta-title">The Pattern Reset</div>
         <div class="cta-sub">Identify your protective pattern. Build a chosen one.</div>
-        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('primary_cta')">Get The Pattern Reset — $9</a>
-        <span class="cta-note">∼15 minute read &nbsp;·&nbsp; Most people finish it the same night.</span>
+        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('primary_cta')">Start the Reset — $9</a>
+        <span class="cta-note">Not more awareness. A different response.</span>
       </div>
 
       <div class="result-footer">patterntest.xyz &nbsp;·&nbsp; The Pattern Reset</div>
