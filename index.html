@@ -384,7 +384,8 @@ const patterns = {
     cost: 'Every year you understand the pattern but don\u2019t replace it is a year spent with a life built for who you used to be. Not randomly. Consistently. The Knowing Pattern costs you in the gap between what you see clearly and what you actually change.',
     give1label: 'Not more insight.', give1: 'You have more self-awareness than most people will ever develop. That\'s not what\'s missing. More reading, more quizzes, more journaling — the pattern outlasts all of it.',
     give2label: 'Not willpower.', give2: 'Willpower is just the protective pattern in a good mood. It leaves the moment things get uncomfortable. You\'ve seen that cycle before.',
-    give3label: 'An interruption.', give3: 'Not a plan. Not a program. One moment — before the knowing becomes another reason to wait — where you make a different decision. That\'s the reset.',
+    give3label: 'A constraint.', give3: 'Something that exists before the pattern arrives. Something it cannot negotiate with. The exact structure matters. Because most people think they\u2019re doing this part right. They\u2019re not.',
+    ctaText: 'Make the decision you\u2019ve been delaying \u2014 $9',
     projection: 'If nothing changes, this doesn\'t break. It repeats. This time next year, you\'ll have even more insight, but the exact same situation. The pattern doesn\'t care if you understand it\u2014it only cares if you keep it. You won\'t notice it happening. You\'ll just end up there again.',
     confrontation: 'This is usually where you close the tab.',
     share: 'I got The Knowing Protective Pattern.\npatterntest.xyz',
@@ -404,7 +405,8 @@ const patterns = {
     cost: 'The Almost Pattern is the most expensive one. You do the hard work, you build the momentum, and then you stop just before the return lands. Not once. Consistently. That\u2019s why things keep getting close\u2014and then stop.',
     give1label: 'Not motivation.', give1: 'You have motivation. You\'ve proved that every time you started. The problem isn\'t getting going — it\'s what happens at the 80% mark when the pattern decides almost is safe enough.',
     give2label: 'Not discipline.', give2: 'Discipline without a reset is doing the same loop with more intensity. The Almost Pattern outlasts willpower every time because it\'s not about effort — it\'s about what finishing would mean.',
-    give3label: 'A finish date.', give3: 'Schedule the end before you start. The pattern can\'t negotiate with a calendar. Decide when done happens before the pattern has a chance to create a reason to stop.',
+    give3label: 'A constraint.', give3: 'Something that exists before the pattern arrives. Something it cannot negotiate with. The exact structure matters. Because most people think they\u2019re doing this part right. They\u2019re not.',
+    ctaText: 'Finish something for once \u2014 $9',
     projection: 'If nothing changes, this doesn\'t break. It repeats. You\'ll start another thing, get close again, and then find another perfect reason to stay safe. A year from today will look very familiar. You won\'t notice it happening. You\'ll just end up there again.',
     confrontation: 'You’ve felt this before. Right here. Right before you stop.',
     share: 'I got The Almost Protective Pattern.\npatterntest.xyz',
@@ -424,7 +426,8 @@ const patterns = {
     cost: 'The Quiet Pattern costs you real connection. Every year inside it, the distance between who you are and who you show the world grows wider. Not dramatically. Quietly. Consistently.',
     give1label: 'Not grand re-emergence.', give1: 'You don\'t need to suddenly become loud or demanding or completely different. The pattern didn\'t build overnight and it doesn\'t reset that way either.',
     give2label: 'Not therapy (necessarily).', give2: 'Understanding the pattern helps. But the Quiet Pattern is maintained not by lack of insight but by lack of small acts of visibility. One named thing. One honest moment. That\'s what loosens it.',
-    give3label: 'One ask.', give3: 'Something named. Out loud. To someone real. The pattern shrinks when it hears its name. Not permanently on day one — but enough. Enough to create the half second.',
+    give3label: 'A constraint.', give3: 'Something that exists before the pattern arrives. Something it cannot negotiate with. The exact structure matters. Because most people think they\u2019re doing this part right. They\u2019re not.',
+    ctaText: 'Say the thing you\u2019ve been holding \u2014 $9',
     projection: 'If nothing changes, this doesn\'t break. It repeats. The silence gets heavier, and "fine" becomes a permanent wall between you and the life you actually want. You don\'t want to be here a year from now. You won\'t notice it happening. You\'ll just end up there again.',
     confrontation: 'This is usually where you go quiet again.',
     share: 'I got The Quiet Protective Pattern.\npatterntest.xyz',
@@ -846,7 +849,8 @@ function showResult() {
         <div class="cta-title">The Pattern Reset</div>
         <div class="cta-sub">Identify your protective pattern. Build a chosen one.</div>
         <div style="font-size:15px; color:rgba(255,255,255,0.8); margin-bottom:20px; font-weight:400;">Or you can keep running it.</div>
-        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('primary_cta')">Start the Reset — $9</a>
+        <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-bottom:12px; font-weight:500; letter-spacing:0.05em;">This is the moment most people wait.</div>
+        <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('primary_cta')">${p.ctaText || 'Interrupt the Pattern \u2014 $9'}</a>
         <span class="cta-note">Not more awareness. A different response.</span>
       </div>
 
