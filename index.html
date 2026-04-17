@@ -663,7 +663,12 @@ function showLoader() {
     if (pct >= 100) {
       clearInterval(interval);
       clearInterval(testimonialInterval);
-      setTimeout(() => showResult(), 600);
+      
+      // FIX: The Diagnostic Breath (Authority Pause)
+      sub.textContent = 'Pattern identified.';
+      bar.style.backgroundColor = '#0e0e0e';
+      
+      setTimeout(() => showResult(), 800);
     }
   }, 100);
 }
@@ -848,10 +853,20 @@ function showResult() {
         <div class="cta-eyebrow">This is where the pattern breaks.</div>
         <div class="cta-title">The Pattern Reset</div>
         <div class="cta-sub">Identify your protective pattern. Build a chosen one.</div>
-        <div style="font-size:15px; color:rgba(255,255,255,0.8); margin-bottom:20px; font-weight:400;">Or you can keep running it.</div>
+        
+        <div style="font-size:15px; color:rgba(255,255,255,0.7); margin: 24px 0 12px; font-family:'Playfair Display',serif; font-style:italic; line-height:1.4;">
+          You already recognized it.<br>
+          That’s the part most people never reach.
+        </div>
+
+        <div style="font-size:13px; color:rgba(255,255,255,0.4); margin-bottom:20px; font-weight:400;">Or you can keep running it.</div>
+        
         <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-bottom:12px; font-weight:500; letter-spacing:0.05em;">This is the moment most people wait.</div>
         <a href="https://zystd.gumroad.com/l/patternreset" class="btn-buy" onclick="trackPurchaseClick('primary_cta')">${p.ctaText || 'Interrupt the Pattern \u2014 $9'}</a>
-        <span class="cta-note">Not more awareness. A different response.</span>
+        
+        <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:14px; letter-spacing:0.05em; text-transform:uppercase;">You won\u2019t see this version again.</div>
+        
+        <span class="cta-note" style="margin-top:20px;">Not more awareness. A different response.</span>
       </div>
 
       <div class="result-footer">patterntest.xyz &nbsp;·&nbsp; The Pattern Reset</div>
